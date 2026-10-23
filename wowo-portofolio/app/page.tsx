@@ -9,76 +9,120 @@ export default function Home() {
         minHeight: "100vh",
         backgroundColor: "#FFFFFF",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
-        padding: "100px 40px 40px 40px",
+        padding: "120px 40px 40px 40px",
         boxSizing: "border-box",
       }}
     >
-      {/* Posisi di bawah navbar, di sisi kiri */}
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "flex-start",
-          gap: "20px",
-          maxWidth: "1400px",
+          maxWidth: "1600px",
           margin: "0 auto",
         }}
       >
-        {/* Card melengkung putih berisi teks */}
+        {/* Angka 01 di kiri */}
         <div
           style={{
-            backgroundColor: "#FFFFFF",
-            border: "3px solid #0D3CFC",
-            borderRadius: "32px 8px 32px 32px",
-            padding: "40px 50px",
-            boxShadow: "0 12px 40px rgba(13, 60, 252, 0.18)",
-            display: "inline-block",
-            maxWidth: "100%",
+            fontSize: "200px",
+            fontWeight: 400,
+            color: "#0D3CFC",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            lineHeight: 0.85,
+            letterSpacing: "-0.05em",
+            paddingTop: "10px",
+            flexShrink: 0,
+            marginRight: "40px",
           }}
         >
-          <h1
+          01
+        </div>
+
+        {/* Card design seperti note */}
+        <div
+          style={{
+            backgroundColor: "#0D3CFC",
+            borderRadius: "28px",
+            padding: "24px 28px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "18px",
+            boxShadow: "0 8px 32px rgba(13,60,252,0.25)",
+            maxWidth: "1200px",
+            flex: 1,
+          }}
+        >
+          {/* Card putih baris 1 */}
+          <div
             style={{
-              fontSize: "150px",
-              lineHeight: 1.05,
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
-              margin: 0,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              color: "#0D3CFC",
+              padding: "18px 24px",
+              backgroundColor: "#FFFFFF",
+              border: "2px solid #FFFFFF",
+              borderRadius: "6px 28px 28px 28px",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
             }}
           >
-            {/* Baris 1 */}
             <span
               style={{
-                display: "block",
+                fontSize: "150px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                lineHeight: "1.1",
                 color: "#0D3CFC",
+                fontWeight: 400,
+                letterSpacing: "-0.04em",
+                display: "block",
+                wordBreak: "break-word",
               }}
             >
               Founder and Developer Brand
             </span>
+          </div>
 
-            {/* Baris 2 — Menuru dengan bg biru */}
+          {/* Card putih baris 2 dengan Menuru design note */}
+          <div
+            style={{
+              padding: "18px 24px",
+              backgroundColor: "#FFFFFF",
+              border: "2px solid #FFFFFF",
+              borderRadius: "28px 6px 28px 28px",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "12px",
+            }}
+          >
+            {/* Menuru design card seperti judul note */}
             <span
               style={{
-                display: "block",
-                marginTop: "10px",
+                padding: "8px 28px",
+                backgroundColor: "#0D3CFC",
+                color: "#FFFFFF",
+                borderRadius: "24px 4px 24px 24px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: "150px",
+                fontWeight: 400,
+                letterSpacing: "-0.04em",
+                lineHeight: "1.1",
+                display: "inline-block",
               }}
             >
-              <span
-                style={{
-                  backgroundColor: "#0D3CFC",
-                  color: "#FFFFFF",
-                  padding: "0 20px",
-                  borderRadius: "16px",
-                  display: "inline-block",
-                }}
-              >
-                Menuru
-              </span>
-              <span style={{ color: "#0D3CFC" }}> , Based IN INDONESIA.</span>
+              Menuru
             </span>
-          </h1>
+            <span
+              style={{
+                fontSize: "150px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                lineHeight: "1.1",
+                color: "#0D3CFC",
+                fontWeight: 400,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              , Based IN INDONESIA.
+            </span>
+          </div>
         </div>
       </div>
     </div>
