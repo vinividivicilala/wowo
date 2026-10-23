@@ -16,108 +16,71 @@ export default function Home() {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-start",
+          alignItems: "center",
           justifyContent: "flex-start",
+          flexWrap: "wrap",
+          gap: "12px",
           maxWidth: "1600px",
           margin: "0 auto",
         }}
       >
-        {/* Angka 01 di kiri */}
-        <div
+        {/* Baris teks 1 */}
+        <span
           style={{
-            fontSize: "200px",
-            fontWeight: 400,
-            color: "#0D3CFC",
+            fontSize: "150px",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
-            lineHeight: 0.85,
-            letterSpacing: "-0.05em",
-            paddingTop: "10px",
-            flexShrink: 0,
-            marginRight: "40px",
+            lineHeight: "1.1",
+            color: "#0D3CFC",
+            fontWeight: 400,
+            letterSpacing: "-0.04em",
+            whiteSpace: "nowrap",
           }}
         >
-          01
-        </div>
+          Founder and Developer Brand
+        </span>
 
-        {/* Konten teks 2 baris */}
-        <div
+        {/* Menuru: card melengkung hitam */}
+        <span
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "10px",
-            maxWidth: "1400px",
-            flex: 1,
+            backgroundColor: "#000000",
+            padding: "8px 28px",
+            borderRadius: "24px 4px 24px 24px",
+            display: "inline-block",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
           }}
         >
-          {/* Baris 1 — teks biasa */}
           <span
             style={{
               fontSize: "150px",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              lineHeight: "1.1",
-              color: "#0D3CFC",
               fontWeight: 400,
               letterSpacing: "-0.04em",
-              display: "block",
-              wordBreak: "break-word",
+              lineHeight: "1.1",
+              color: "#0D3CFC",
+              backgroundColor: "#FFFFFF",
+              padding: "0 16px",
+              borderRadius: "16px",
+              display: "inline-block",
             }}
           >
-            Founder and Developer Brand
+            Menuru
           </span>
+        </span>
 
-          {/* Baris 2 — hanya "Menuru" yang di-card melengkung, sisanya teks biasa */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "12px",
-            }}
-          >
-            {/* Menuru: bg biru + card melengkung + teks biru */}
-            <span
-              style={{
-                backgroundColor: "#0D3CFC",
-                padding: "8px 28px",
-                borderRadius: "24px 4px 24px 24px",
-                display: "inline-block",
-                boxShadow: "0 6px 20px rgba(13,60,252,0.25)",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "150px",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 400,
-                  letterSpacing: "-0.04em",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  backgroundColor: "#FFFFFF",
-                  padding: "0 16px",
-                  borderRadius: "16px",
-                  display: "inline-block",
-                }}
-              >
-                Menuru
-              </span>
-            </span>
-
-            {/* Sisa teks biasa */}
-            <span
-              style={{
-                fontSize: "150px",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                lineHeight: "1.1",
-                color: "#0D3CFC",
-                fontWeight: 400,
-                letterSpacing: "-0.04em",
-              }}
-            >
-              , Based IN INDONESIA.
-            </span>
-          </div>
-        </div>
+        {/* Sisa teks biasa */}
+        <span
+          style={{
+            fontSize: "150px",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            lineHeight: "1.1",
+            color: "#0D3CFC",
+            fontWeight: 400,
+            letterSpacing: "-0.04em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          , Based IN INDONESIA.
+        </span>
       </div>
     </div>
   );
