@@ -16,70 +16,78 @@ export default function Home() {
       <div
         style={{
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
+          alignItems: "flex-start",
           justifyContent: "flex-start",
-          flexWrap: "wrap",
-          gap: "12px",
+          gap: "16px",
           maxWidth: "1600px",
           margin: "0 auto",
         }}
       >
-        {/* Baris teks 1 */}
-        <span
+        {/* Baris 1 — Founder and Developer Brand + Menuru card hitam */}
+        <div
           style={{
-            fontSize: "150px",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            lineHeight: "1.1",
-            color: "#0D3CFC",
-            fontWeight: 400,
-            letterSpacing: "-0.04em",
-            whiteSpace: "nowrap",
-          }}
-        >
-          Founder and Developer Brand
-        </span>
-
-        {/* Menuru: card melengkung hitam */}
-        <span
-          style={{
-            backgroundColor: "#000000",
-            padding: "8px 28px",
-            borderRadius: "24px 4px 24px 24px",
-            display: "inline-block",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "12px",
           }}
         >
           <span
             style={{
-              fontSize: "150px",
+              fontSize: "50px",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontWeight: 400,
-              letterSpacing: "-0.04em",
               lineHeight: "1.1",
               color: "#0D3CFC",
-              backgroundColor: "#FFFFFF",
-              padding: "0 16px",
-              borderRadius: "16px",
-              display: "inline-block",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              whiteSpace: "nowrap",
+              textTransform: "capitalize",
             }}
           >
-            Menuru
+            Founder And Developer Brand
           </span>
-        </span>
 
-        {/* Sisa teks biasa */}
+          {/* Menuru: card hitam melengkung, teks biru, tanpa bg putih */}
+          <span
+            style={{
+              backgroundColor: "#000000",
+              padding: "8px 28px",
+              borderRadius: "24px 4px 24px 24px",
+              display: "inline-block",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "50px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 400,
+                letterSpacing: "-0.02em",
+                lineHeight: "1.1",
+                color: "#0D3CFC",
+                textTransform: "capitalize",
+              }}
+            >
+              Menuru
+            </span>
+          </span>
+        </div>
+
+        {/* Baris 2 — Based In Indonesia */}
         <span
           style={{
-            fontSize: "150px",
+            fontSize: "50px",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             lineHeight: "1.1",
             color: "#0D3CFC",
             fontWeight: 400,
-            letterSpacing: "-0.04em",
+            letterSpacing: "-0.02em",
             whiteSpace: "nowrap",
+            textTransform: "capitalize",
           }}
         >
-          , Based IN INDONESIA.
+          Based In Indonesia
         </span>
       </div>
     </div>
