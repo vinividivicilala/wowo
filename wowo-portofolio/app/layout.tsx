@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-// import "./globals.css"; // (abaikan jika tidak ada)
+import { Plus_Jakarta_Sans } from "next/font/google";
+// import "./globals.css"; // Hapus komentar ini jika Anda menggunakan Tailwind/CSS Global
+
+// Setup Google Font (Plus Jakarta Sans sebagai pengganti PP Formula)
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta",
+});
 
 export const metadata: Metadata = {
-  title: "WOWO Portfolio",
-  description: "Portofolio WOWO",
+  title: "Farid Ardiansyah Portfolio",
+  description: "Portofolio Farid Ardiansyah",
 };
 
 export default function RootLayout({
@@ -13,29 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        {/* TAMBAHKAN SCRIPT INI UNTUK MENGHAPUS BADGE NETLIFY */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              const removeNetlifyBadge = () => {
-                const badge = document.getElementById('netlify-badge-frame');
-                if (badge) {
-                  badge.style.display = 'none';
-                  badge.remove();
-                }
-              };
-              
-              // Jalankan saat halaman dimuat
-              document.addEventListener('DOMContentLoaded', removeNetlifyBadge);
-              
-              // Jalankan juga setelah beberapa saat untuk berjaga-jaga (karena iframe dimuat belakangan)
-              setTimeout(removeNetlifyBadge, 1000);
-              setTimeout(removeNetlifyBadge, 3000);
-            `,
-          }}
-        />
-        
+      {/* Terapkan class font ke body */}
+      <body className={`${plusJakarta.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
