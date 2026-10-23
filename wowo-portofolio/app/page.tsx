@@ -24,7 +24,7 @@ export default function Home() {
           margin: "0 auto",
         }}
       >
-        {/* Baris 1 — Founder and Developer Brand + Menuru card biru */}
+        {/* Baris 1 — Founder and Developer Brand + Menuru card biru melengkung */}
         <div
           style={{
             display: "flex",
@@ -48,12 +48,12 @@ export default function Home() {
             Founder And Developer Brand
           </span>
 
-          {/* Menuru: card biru melengkung, teks putih */}
+          {/* Menuru: card biru melengkung seperti design note (bukan capsule) */}
           <span
             style={{
               backgroundColor: "#0D3CFC",
               padding: "8px 32px",
-              borderRadius: "999px",
+              borderRadius: "24px 4px 24px 24px",
               display: "inline-block",
               boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
             }}
