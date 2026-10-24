@@ -40,27 +40,28 @@ export default function Home() {
     )
       // 2. Tahan sebentar
       .to({}, { duration: 0.8 })
-      // 3. Teks kiri keluar ke kiri & kanan keluar ke kanan bersamaan
+      // 3. Teks kiri keluar halus ke kiri & kanan keluar halus ke kanan
+      //    Menggunakan ease "power2.inOut" agar gerakan halus sampai akhir layar
       .to(leftText, {
-        xPercent: -150,
+        xPercent: -200,
         opacity: 0,
-        duration: 1,
-        ease: "power3.in",
+        duration: 1.6,
+        ease: "power2.inOut",
       })
       .to(
         rightText,
         {
-          xPercent: 150,
+          xPercent: 200,
           opacity: 0,
-          duration: 1,
-          ease: "power3.in",
+          duration: 1.6,
+          ease: "power2.inOut",
         },
         "<"
       )
       // 4. Preloader hilang
       .to(preloader, {
         opacity: 0,
-        duration: 0.5,
+        duration: 0.6,
         ease: "power2.out",
         onComplete: () => {
           if (preloader) preloader.style.display = "none";
