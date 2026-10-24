@@ -8,6 +8,14 @@ export default function Home() {
   const leftTextRef = useRef<HTMLSpanElement>(null);
   const rightTextRef = useRef<HTMLSpanElement>(null);
 
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuLabelRef = useRef<HTMLSpanElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const menuItemsRef = useRef<HTMLDivElement>(null);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // ===== PRELOADER =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -15,38 +23,24 @@ export default function Home() {
     const rightText = rightTextRef.current;
     if (!preloader || !leftText || !rightText) return;
 
-    // Posisi awal: teks kiri & kanan di luar layar
     gsap.set(leftText, { xPercent: -180, opacity: 0 });
     gsap.set(rightText, { xPercent: 180, opacity: 0 });
     gsap.set(preloader, { opacity: 1, display: "flex" });
 
     const tl = gsap.timeline();
 
-    // ===== 1. MASUK BERSAMAAN & SMOOTH DARI KIRI-KANAN KE TENGAH =====
     tl.to(
       [leftText, rightText],
-      {
-        xPercent: 0,
-        opacity: 1,
-        duration: 2.2,
-        ease: "power2.out",
-        stagger: 0,
-      },
+      { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 },
       0
     )
-      // ===== 2. TAHAN SEBENTAR =====
       .to({}, { duration: 1 })
-
-      // ===== 3. KELUAR BERSAMAAN & SMOOTH KE KIRI-KANAN SAMPAI AKHIR LAYAR =====
-      .to(
-        leftText,
-        {
-          xPercent: -220,
-          opacity: 0,
-          duration: 2.4,
-          ease: "power2.inOut",
-        }
-      )
+      .to(leftText, {
+        xPercent: -220,
+        opacity: 0,
+        duration: 2.4,
+        ease: "power2.inOut",
+      })
       .to(
         rightText,
         {
@@ -57,7 +51,6 @@ export default function Home() {
         },
         "<"
       )
-      // ===== 4. PRELOADER HILANG SMOOTH =====
       .to(preloader, {
         opacity: 0,
         duration: 0.8,
@@ -71,6 +64,90 @@ export default function Home() {
       tl.kill();
     };
   }, []);
+
+  // ===== MENU OPEN / CLOSE ANIMATION =====
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const overlay = overlayRef.current;
+    const label = menuLabelRef.current;
+    const items = menuItemsRef.current;
+    if (!overlay || !label || !items) return;
+
+    const itemEls = items.querySelectorAll(".menu-item");
+
+    if (menuOpen) {
+      // === OPEN MENU ===
+      gsap.set(overlay, { display: "flex" });
+
+      const tl = gsap.timeline();
+
+      // Overlay biru muncul dari kanan (clip-path reveal) dengan easing smooth
+      tl.fromTo(
+        overlay,
+        {
+          clipPath: "circle(0% at 100% 0%)",
+          opacity: 0,
+        },
+        {
+          clipPath: "circle(150% at 100% 0%)",
+          opacity: 1,
+          duration: 1.1,
+          ease: "power3.inOut",
+        }
+      )
+        // Menu item muncul stagger dari kanan
+        .fromTo(
+          itemEls,
+          { x: 120, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.12,
+          },
+          "-=0.4"
+        )
+        // Teks label tombol berubah jadi "Close" dengan fade+scale
+        .fromTo(
+          label,
+          { opacity: 0, y: 20, scale: 0.85 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+          "-=0.5"
+        );
+    } else {
+      // === CLOSE MENU ===
+      const tl = gsap.timeline();
+
+      tl.to(itemEls, {
+        x: 120,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.in",
+        stagger: 0.06,
+      })
+        .to(
+          overlay,
+          {
+            clipPath: "circle(0% at 100% 0%)",
+            opacity: 0,
+            duration: 0.9,
+            ease: "power3.inOut",
+            onComplete: () => {
+              if (overlay) overlay.style.display = "none";
+            },
+          },
+          "-=0.2"
+        )
+        // Label kembali ke "Menu"
+        .fromTo(
+          label,
+          { opacity: 0, y: 20, scale: 0.85 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+          "-=0.4"
+        );
+    }
+  }, [menuOpen]);
 
   return (
     <>
@@ -130,7 +207,7 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ===== BANNER #0000EE DI ATAS NAVBAR ===== */}
+      {/* ===== BANNER #0000EE ===== */}
       <div
         style={{
           position: "fixed",
@@ -150,6 +227,108 @@ export default function Home() {
         }}
       >
         Website Ini Sedang Di Kembangkan
+      </div>
+
+      {/* ===== TOMBOL MENU / CLOSE DI SISI KANAN ===== */}
+      <button
+        ref={menuButtonRef}
+        onClick={() => setMenuOpen((prev) => !prev)}
+        style={{
+          position: "fixed",
+          top: "60px",
+          right: "40px",
+          zIndex: 100000,
+          backgroundColor: "#0D3CFC",
+          color: "#FFFFFF",
+          border: "none",
+          borderRadius: "2px 24px 24px 2px",
+          padding: "14px 28px",
+          fontSize: "20px",
+          fontWeight: 400,
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          letterSpacing: "-0.02em",
+          cursor: "pointer",
+          boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: "140px",
+        }}
+      >
+        <span
+          ref={menuLabelRef}
+          style={{
+            display: "inline-block",
+            willChange: "transform, opacity",
+          }}
+        >
+          {menuOpen ? "Close" : "Menu"}
+        </span>
+      </button>
+
+      {/* ===== OVERLAY MENU BIRU FULL SCREEN ===== */}
+      <div
+        ref={overlayRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#0D3CFC",
+          zIndex: 99998,
+          display: "none",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          padding: "0 80px",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          clipPath: "circle(0% at 100% 0%)",
+        }}
+      >
+        <div
+          ref={menuItemsRef}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "24px",
+          }}
+        >
+          {[
+            "Home",
+            "Notes",
+            "About",
+            "Portfolio",
+            "Contact",
+            "Say Hey",
+          ].map((item) => (
+            <a
+              key={item}
+              href="#"
+              className="menu-item"
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+              }}
+              style={{
+                fontSize: "90px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                textDecoration: "none",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.1,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                display: "inline-block",
+                willChange: "transform, opacity",
+              }}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* ===== KONTEN UTAMA ===== */}
@@ -174,7 +353,7 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          {/* Baris 1 — Founder and Developer Brand + Menuru card biru melengkung tajam */}
+          {/* Baris 1 */}
           <div
             style={{
               display: "flex",
@@ -198,7 +377,6 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru: card biru melengkung tajam depan-belakang */}
             <span
               style={{
                 backgroundColor: "#0D3CFC",
@@ -224,7 +402,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Baris 2 — Based In Indonesia */}
+          {/* Baris 2 */}
           <span
             style={{
               fontSize: "50px",
