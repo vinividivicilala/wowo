@@ -85,7 +85,6 @@ export default function Home() {
     const itemEls = items.querySelectorAll(".menu-item");
 
     if (menuOpen) {
-      // === OPEN MENU: dari posisi teks Menu → full screen biru ===
       gsap.set(overlay, { display: "flex" });
 
       const btnRect = button.getBoundingClientRect();
@@ -126,7 +125,6 @@ export default function Home() {
           "-=0.5"
         );
     } else {
-      // === CLOSE MENU: dari full screen biru → posisi teks Menu ===
       const btnRect = button.getBoundingClientRect();
       const startX = btnRect.left + btnRect.width / 2;
       const startY = btnRect.top + btnRect.height / 2;
@@ -399,14 +397,15 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru card biru melengkung tajam depan-belakang (gaya design card note) */}
+            {/* Menuru card design sama seperti card bg putih hasil submit note */}
             <span
               style={{
-                backgroundColor: "#0D3CFC",
                 padding: "8px 32px",
-                borderRadius: "2px 28px 28px 2px",
+                backgroundColor: "#FFFFFF",
+                border: "2px solid #FFFFFF",
+                borderRadius: "6px 28px 28px 28px",
+                boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
                 display: "inline-block",
-                boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
               }}
             >
               <span
@@ -416,7 +415,7 @@ export default function Home() {
                   fontWeight: 400,
                   letterSpacing: "-0.02em",
                   lineHeight: "1.1",
-                  color: "#FFFFFF",
+                  color: "#0D3CFC",
                   textTransform: "capitalize",
                 }}
               >
