@@ -17,7 +17,7 @@ export default function Home() {
           color: "#FFFFFF",
           padding: "10px 20px",
           textAlign: "center",
-          fontSize: "14px",
+          fontSize: "70px",
           fontWeight: 600,
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           letterSpacing: "0.02em",
