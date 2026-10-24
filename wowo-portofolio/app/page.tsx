@@ -15,53 +15,52 @@ export default function Home() {
     const rightText = rightTextRef.current;
     if (!preloader || !leftText || !rightText) return;
 
-    // Posisi awal: teks kiri di luar kiri layar, teks kanan di luar kanan layar
-    gsap.set(leftText, { xPercent: -150, opacity: 0 });
-    gsap.set(rightText, { xPercent: 150, opacity: 0 });
+    // Posisi awal: teks kiri & kanan di luar layar
+    gsap.set(leftText, { xPercent: -180, opacity: 0 });
+    gsap.set(rightText, { xPercent: 180, opacity: 0 });
     gsap.set(preloader, { opacity: 1, display: "flex" });
 
     const tl = gsap.timeline();
 
-    // 1. Teks kiri & kanan masuk ke tengah bersamaan
-    tl.to(leftText, {
-      xPercent: 0,
-      opacity: 1,
-      duration: 1.2,
-      ease: "power3.out",
-    }).to(
-      rightText,
+    // ===== 1. MASUK BERSAMAAN & SMOOTH DARI KIRI-KANAN KE TENGAH =====
+    tl.to(
+      [leftText, rightText],
       {
         xPercent: 0,
         opacity: 1,
-        duration: 1.2,
-        ease: "power3.out",
+        duration: 2.2,
+        ease: "power2.out",
+        stagger: 0,
       },
-      "<"
+      0
     )
-      // 2. Tahan sebentar
-      .to({}, { duration: 0.8 })
-      // 3. Teks kiri keluar halus ke kiri & kanan keluar halus ke kanan
-      //    Menggunakan ease "power2.inOut" agar gerakan halus sampai akhir layar
-      .to(leftText, {
-        xPercent: -200,
-        opacity: 0,
-        duration: 1.6,
-        ease: "power2.inOut",
-      })
+      // ===== 2. TAHAN SEBENTAR =====
+      .to({}, { duration: 1 })
+
+      // ===== 3. KELUAR BERSAMAAN & SMOOTH KE KIRI-KANAN SAMPAI AKHIR LAYAR =====
+      .to(
+        leftText,
+        {
+          xPercent: -220,
+          opacity: 0,
+          duration: 2.4,
+          ease: "power2.inOut",
+        }
+      )
       .to(
         rightText,
         {
-          xPercent: 200,
+          xPercent: 220,
           opacity: 0,
-          duration: 1.6,
+          duration: 2.4,
           ease: "power2.inOut",
         },
         "<"
       )
-      // 4. Preloader hilang
+      // ===== 4. PRELOADER HILANG SMOOTH =====
       .to(preloader, {
         opacity: 0,
-        duration: 0.6,
+        duration: 0.8,
         ease: "power2.out",
         onComplete: () => {
           if (preloader) preloader.style.display = "none";
