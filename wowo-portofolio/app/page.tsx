@@ -57,14 +57,6 @@ export default function Home() {
         ease: "power2.out",
         onComplete: () => {
           if (preloader) preloader.style.display = "none";
-          // Setelah preloader selesai, tampilkan teks Menu
-          if (menuLabelRef.current) {
-            gsap.fromTo(
-              menuLabelRef.current,
-              { opacity: 0, y: -10 },
-              { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-            );
-          }
         },
       });
 
@@ -240,7 +232,7 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== TEKS MENU / CLOSE (TANPA BG TOMBOL) ===== */}
+      {/* ===== TEKS MENU / CLOSE (DI BAWAH BANNER, SELALU TERLIHAT) ===== */}
       <button
         ref={menuButtonRef}
         onClick={() => setMenuOpen((prev) => !prev)}
@@ -259,7 +251,6 @@ export default function Home() {
           letterSpacing: "-0.03em",
           cursor: "pointer",
           textTransform: "capitalize",
-          opacity: 0,
           lineHeight: 1,
         }}
       >
@@ -397,15 +388,14 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru card design sama seperti card bg putih hasil submit note */}
+            {/* Menuru card biru, ujung depan-belakang melengkung tajam (bukan kapsul) */}
             <span
               style={{
+                backgroundColor: "#0D3CFC",
                 padding: "8px 32px",
-                backgroundColor: "#FFFFFF",
-                border: "2px solid #FFFFFF",
-                borderRadius: "6px 28px 28px 28px",
-                boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                borderRadius: "4px 40px 40px 4px",
                 display: "inline-block",
+                boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
               }}
             >
               <span
@@ -415,7 +405,7 @@ export default function Home() {
                   fontWeight: 400,
                   letterSpacing: "-0.02em",
                   lineHeight: "1.1",
-                  color: "#0D3CFC",
+                  color: "#FFFFFF",
                   textTransform: "capitalize",
                 }}
               >
