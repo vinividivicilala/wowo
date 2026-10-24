@@ -78,21 +78,21 @@ export default function Home() {
 
     if (menuOpen) {
       gsap.set(overlay, { display: "flex" });
-
       const btnRect = button.getBoundingClientRect();
       const startX = btnRect.left + btnRect.width / 2;
       const startY = btnRect.top + btnRect.height / 2;
 
       const tl = gsap.timeline();
 
+      // Animasi awal dari ATAS ke BAWAH
       tl.fromTo(
         overlay,
         {
-          clipPath: `circle(0% at ${startX}px ${startY}px)`,
+          clipPath: `inset(0 0 100% 0)`,
           opacity: 0,
         },
         {
-          clipPath: `circle(150% at ${startX}px ${startY}px)`,
+          clipPath: `inset(0 0 0% 0)`,
           opacity: 1,
           duration: 1.2,
           ease: "power3.inOut",
@@ -100,13 +100,13 @@ export default function Home() {
       )
         .fromTo(
           itemEls,
-          { x: 120, opacity: 0 },
+          { y: -40, opacity: 0 },
           {
-            x: 0,
+            y: 0,
             opacity: 1,
             duration: 0.8,
             ease: "power3.out",
-            stagger: 0.12,
+            stagger: 0.1,
           },
           "-=0.4"
         )
@@ -123,8 +123,9 @@ export default function Home() {
 
       const tl = gsap.timeline();
 
+      // Animasi close dari BAWAH ke ATAS
       tl.to(itemEls, {
-        x: 120,
+        y: -40,
         opacity: 0,
         duration: 0.5,
         ease: "power3.in",
@@ -133,7 +134,7 @@ export default function Home() {
         .to(
           overlay,
           {
-            clipPath: `circle(0% at ${startX}px ${startY}px)`,
+            clipPath: `inset(0 0 100% 0)`,
             opacity: 0,
             duration: 1,
             ease: "power3.inOut",
@@ -232,7 +233,7 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== TEKS MENU / CLOSE (DI BAWAH BANNER, SELALU TERLIHAT) ===== */}
+      {/* ===== TEKS MENU / CLOSE ===== */}
       <button
         ref={menuButtonRef}
         onClick={() => setMenuOpen((prev) => !prev)}
@@ -242,7 +243,7 @@ export default function Home() {
           right: "40px",
           zIndex: 100000,
           backgroundColor: "transparent",
-          color: "#0D3CFC",
+          color: menuOpen ? "#FFFFFF" : "#0D3CFC",
           border: "none",
           padding: 0,
           fontSize: "70px",
@@ -252,6 +253,7 @@ export default function Home() {
           cursor: "pointer",
           textTransform: "capitalize",
           lineHeight: 1,
+          mixBlendMode: menuOpen ? "difference" : "normal",
         }}
       >
         <span
@@ -276,12 +278,12 @@ export default function Home() {
           display: "none",
           flexDirection: "column",
           alignItems: "flex-start",
-          justifyContent: "center",
-          padding: "0 80px",
+          justifyContent: "flex-start",
+          padding: "160px 80px 40px 80px",
           boxSizing: "border-box",
           overflow: "hidden",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          clipPath: "circle(0% at 100% 0%)",
+          clipPath: "inset(0 0 100% 0)",
         }}
       >
         <div
@@ -291,22 +293,26 @@ export default function Home() {
             flexDirection: "column",
             alignItems: "flex-start",
             gap: "20px",
+            width: "100%",
           }}
         >
-          {/* Farid Ardiansyah ukuran normal */}
+          {/* Farid Ardiansyah ukuran 70px di bagian navbar overlay */}
           <span
             className="menu-item"
             style={{
-              fontSize: "20px",
+              fontSize: "70px",
               fontWeight: 400,
               color: "#FFFFFF",
-              letterSpacing: "0.01em",
-              lineHeight: 1.4,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               display: "inline-block",
               willChange: "transform, opacity",
-              marginBottom: "30px",
+              marginBottom: "10px",
               textTransform: "capitalize",
+              borderBottom: "1px solid rgba(255,255,255,0.3)",
+              paddingBottom: "12px",
+              width: "100%",
             }}
           >
             Farid Ardiansyah
@@ -388,24 +394,29 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru card biru, ujung depan-belakang melengkung tajam (bukan kapsul) */}
+            {/* Card Menuru - design seperti hasil submit note */}
             <span
               style={{
                 backgroundColor: "#0D3CFC",
-                padding: "8px 32px",
-                borderRadius: "4px 40px 40px 4px",
+                padding: "10px 28px",
+                borderRadius: "6px 28px 28px 28px",
                 display: "inline-block",
-                boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
+                boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+                border: "2px solid #0D3CFC",
               }}
             >
               <span
                 style={{
+                  backgroundColor: "#FFFFFF",
+                  padding: "6px 22px",
+                  borderRadius: "24px 4px 24px 24px",
+                  display: "inline-block",
                   fontSize: "50px",
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
                   fontWeight: 400,
                   letterSpacing: "-0.02em",
                   lineHeight: "1.1",
-                  color: "#FFFFFF",
+                  color: "#0D3CFC",
                   textTransform: "capitalize",
                 }}
               >
