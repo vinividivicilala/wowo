@@ -12,7 +12,7 @@ export default function Home() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const expandPanelRef = useRef<HTMLDivElement>(null);
+  const expandCardRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -117,29 +117,22 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL ANIMATION (DARI BAWAH KE ATAS) =====
+  // ===== EXPAND CARD ANIMATION: TINGGI NAIK KE ATAS =====
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const panel = expandPanelRef.current;
+    const card = expandCardRef.current;
     const plusIcon = plusIconRef.current;
-    if (!panel) return;
+    if (!card) return;
 
     if (expandOpen) {
-      gsap.set(panel, { display: "block" });
-
-      // mulai dari tinggi 0, tumbuh ke atas
       gsap.fromTo(
-        panel,
+        card,
         {
-          height: 0,
-          opacity: 0,
-          scaleY: 0.4,
+          height: "64px",
           transformOrigin: "bottom center",
         },
         {
-          height: "auto",
-          opacity: 1,
-          scaleY: 1,
+          height: "260px",
           transformOrigin: "bottom center",
           duration: 0.7,
           ease: "power3.out",
@@ -147,16 +140,11 @@ export default function Home() {
       );
       if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
     } else {
-      gsap.to(panel, {
-        height: 0,
-        opacity: 0,
-        scaleY: 0.4,
+      gsap.to(card, {
+        height: "64px",
         transformOrigin: "bottom center",
         duration: 0.5,
         ease: "power3.inOut",
-        onComplete: () => {
-          if (panel) panel.style.display = "none";
-        },
       });
       if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
     }
@@ -327,83 +315,34 @@ export default function Home() {
           minHeight: "100vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          padding: "160px 40px 40px 40px",
+          padding: "160px 40px 80px 40px",
           boxSizing: "border-box",
           overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
+        {/* Konten atas */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            justifyContent: "flex-start",
             gap: "16px",
             maxWidth: "1600px",
             margin: "0 auto",
+            width: "100%",
           }}
         >
-          {/* Konten atas */}
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "16px",
-              width: "100%",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "12px",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "12px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "50px",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  fontWeight: 400,
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  textTransform: "capitalize",
-                }}
-              >
-                Founder And Developer Brand
-              </span>
-              <span
-                style={{
-                  backgroundColor: "#0D3CFC",
-                  padding: "10px 28px",
-                  borderRadius: "6px 28px 28px 28px",
-                  display: "inline-block",
-                  boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-                  border: "2px solid #0D3CFC",
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    padding: "6px 22px",
-                    borderRadius: "24px 4px 24px 24px",
-                    display: "inline-block",
-                    fontSize: "50px",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontWeight: 400,
-                    letterSpacing: "-0.02em",
-                    lineHeight: "1.1",
-                    color: "#0D3CFC",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  Menuru
-                </span>
-              </span>
-            </div>
             <span
               style={{
                 fontSize: "50px",
@@ -416,133 +355,179 @@ export default function Home() {
                 textTransform: "capitalize",
               }}
             >
-              Based In Indonesia
+              Founder And Developer Brand
             </span>
-          </div>
-
-          {/* ===== TOMBOL EXPAND DI BAWAH ===== */}
-          <div
-            style={{
-              width: "100%",
-              marginTop: "120px",
-              display: "flex",
-              justifyContent: "flex-start",
-            }}
-          >
-            <div style={{ width: "100%", maxWidth: "100%", position: "relative" }}>
-              {/* PANEL TERBUKA DARI BAWAH KE ATAS */}
-              <div
-                ref={expandPanelRef}
+            <span
+              style={{
+                backgroundColor: "#0D3CFC",
+                padding: "10px 28px",
+                borderRadius: "6px 28px 28px 28px",
+                display: "inline-block",
+                boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+                border: "2px solid #0D3CFC",
+              }}
+            >
+              <span
                 style={{
-                  display: "none",
-                  overflow: "hidden",
-                  backgroundColor: "#0D3CFC",
-                  borderRadius: "20px 20px 0 0",
-                  boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
-                  width: "100%",
-                  transformOrigin: "bottom center",
+                  backgroundColor: "#FFFFFF",
+                  padding: "6px 22px",
+                  borderRadius: "24px 4px 24px 24px",
+                  display: "inline-block",
+                  fontSize: "50px",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontWeight: 400,
+                  letterSpacing: "-0.02em",
+                  lineHeight: "1.1",
+                  color: "#0D3CFC",
+                  textTransform: "capitalize",
                 }}
               >
-                <div
-                  style={{
-                    padding: "24px 28px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                    color: "#FFFFFF",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  }}
-                >
-                  <div style={{ fontSize: "22px", fontWeight: 700, letterSpacing: "-0.02em" }}>
-                    Panel Baru
-                  </div>
-                  <p style={{ fontSize: "14px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                    Panel ini terbuka dari bawah ke atas saat tombol + diklik,
-                    dan menyatu dengan tombol utama di bawahnya.
-                  </p>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
-                    {["Home", "Notes", "About", "Portfolio"].map((it) => (
-                      <span
-                        key={it}
-                        style={{
-                          padding: "6px 14px",
-                          backgroundColor: "#FFFFFF",
-                          color: "#0D3CFC",
-                          borderRadius: "16px",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
-                        }}
-                      >
-                        {it}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                Menuru
+              </span>
+            </span>
+          </div>
+          <span
+            style={{
+              fontSize: "50px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              lineHeight: "1.1",
+              color: "#0D3CFC",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              whiteSpace: "nowrap",
+              textTransform: "capitalize",
+            }}
+          >
+            Based In Indonesia
+          </span>
+        </div>
 
-              {/* TOMBOL UTAMA: tinggi ringkas */}
-              <div
+        {/* ===== TOMBOL BG DI BAWAH, LEBAR NORMAL ===== */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "520px",
+            margin: "0 auto",
+            marginTop: "auto",
+            paddingTop: "120px",
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div
+            ref={expandCardRef}
+            style={{
+              width: "100%",
+              height: "64px",
+              backgroundColor: "#0D3CFC",
+              borderRadius: "20px",
+              boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
+              border: "2px solid #0D3CFC",
+              overflow: "hidden",
+              position: "relative",
+              transformOrigin: "bottom center",
+              transition: "border-radius 0.4s ease",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+            }}
+          >
+            {/* ISI PANEL (muncul saat tinggi naik) */}
+            <div
+              style={{
+                padding: "20px 24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                color: "#FFFFFF",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                opacity: expandOpen ? 1 : 0,
+                transition: "opacity 0.4s ease",
+              }}
+            >
+              <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                Panel Baru
+              </div>
+              <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
+                Konten panel yang muncul saat tombol + diklik. Tinggi card naik ke atas.
+              </p>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
+                {["Home", "Notes", "About", "Portfolio"].map((it) => (
+                  <span
+                    key={it}
+                    style={{
+                      padding: "5px 12px",
+                      backgroundColor: "#FFFFFF",
+                      color: "#0D3CFC",
+                      borderRadius: "14px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    {it}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* BARIS BAWAH: nama kiri + tombol + kanan */}
+            <div
+              style={{
+                height: "64px",
+                padding: "0 20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "12px",
+                flexShrink: 0,
+              }}
+            >
+              <span
                 style={{
-                  backgroundColor: "#0D3CFC",
-                  borderRadius: expandOpen ? "0 0 20px 20px" : "20px",
-                  padding: "12px 20px",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  letterSpacing: "-0.02em",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Farid Ardiansyah
+              </span>
+              <button
+                onClick={() => setExpandOpen((prev) => !prev)}
+                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  minWidth: "32px",
+                  borderRadius: "50%",
+                  backgroundColor: "#FFFFFF",
+                  border: "none",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
-                  border: "2px solid #0D3CFC",
-                  transition: "border-radius 0.4s ease",
-                  width: "100%",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  padding: 0,
                 }}
               >
                 <span
+                  ref={plusIconRef}
                   style={{
-                    fontSize: "18px",
-                    fontWeight: 700,
-                    color: "#FFFFFF",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    letterSpacing: "-0.02em",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    display: "inline-block",
+                    fontSize: "20px",
+                    fontWeight: 400,
+                    lineHeight: 1,
+                    color: "#0D3CFC",
+                    willChange: "transform",
                   }}
                 >
-                  Farid Ardiansyah
+                  +
                 </span>
-                <button
-                  onClick={() => setExpandOpen((prev) => !prev)}
-                  aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    minWidth: "32px",
-                    borderRadius: "50%",
-                    backgroundColor: "#FFFFFF",
-                    border: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    padding: 0,
-                  }}
-                >
-                  <span
-                    ref={plusIconRef}
-                    style={{
-                      display: "inline-block",
-                      fontSize: "22px",
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      color: "#0D3CFC",
-                      willChange: "transform",
-                    }}
-                  >
-                    +
-                  </span>
-                </button>
-              </div>
+              </button>
             </div>
           </div>
         </div>
