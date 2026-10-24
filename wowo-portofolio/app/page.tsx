@@ -15,34 +15,32 @@ export default function Home() {
     const rightText = rightTextRef.current;
     if (!preloader || !leftText || !rightText) return;
 
-    // Set posisi awal
+    // Posisi awal: teks kiri di luar kiri layar, teks kanan di luar kanan layar
     gsap.set(leftText, { xPercent: -150, opacity: 0 });
     gsap.set(rightText, { xPercent: 150, opacity: 0 });
     gsap.set(preloader, { opacity: 1, display: "flex" });
 
     const tl = gsap.timeline();
 
-    // 1. Teks kiri muncul dari sisi kiri ke tengah
-    // 2. Teks kanan muncul dari sisi kanan ke tengah
+    // 1. Teks kiri & kanan masuk ke tengah bersamaan
     tl.to(leftText, {
       xPercent: 0,
       opacity: 1,
       duration: 1.2,
       ease: "power3.out",
-    })
-      .to(
-        rightText,
-        {
-          xPercent: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-        },
-        "<"
-      )
-      // 3. Tahan sebentar
+    }).to(
+      rightText,
+      {
+        xPercent: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
+      },
+      "<"
+    )
+      // 2. Tahan sebentar
       .to({}, { duration: 0.8 })
-      // 4. Teks kiri keluar ke kiri layar & kanan keluar ke kanan layar bersamaan
+      // 3. Teks kiri keluar ke kiri & kanan keluar ke kanan bersamaan
       .to(leftText, {
         xPercent: -150,
         opacity: 0,
@@ -59,7 +57,7 @@ export default function Home() {
         },
         "<"
       )
-      // 5. Preloader hilang
+      // 4. Preloader hilang
       .to(preloader, {
         opacity: 0,
         duration: 0.5,
@@ -88,18 +86,20 @@ export default function Home() {
           backgroundColor: "#FFFFFF",
           zIndex: 99999,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "20px",
+          gap: "24px",
           overflow: "hidden",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
+          padding: "20px",
+          boxSizing: "border-box",
         }}
       >
         <span
           ref={leftTextRef}
           style={{
-            fontSize: "300px",
+            fontSize: "90px",
             fontWeight: 400,
             color: "#0D3CFC",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -107,6 +107,7 @@ export default function Home() {
             lineHeight: 1,
             display: "inline-block",
             willChange: "transform, opacity",
+            whiteSpace: "nowrap",
           }}
         >
           Farid
@@ -114,14 +115,15 @@ export default function Home() {
         <span
           ref={rightTextRef}
           style={{
-            fontSize: "200px",
+            fontSize: "90px",
             fontWeight: 400,
             color: "#0D3CFC",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
-            letterSpacing: "-0.03em",
+            letterSpacing: "-0.04em",
             lineHeight: 1,
             display: "inline-block",
             willChange: "transform, opacity",
+            whiteSpace: "nowrap",
           }}
         >
           By Founder And Developer Menuru
@@ -141,7 +143,7 @@ export default function Home() {
           padding: "10px 20px",
           textAlign: "center",
           fontSize: "14px",
-          fontWeight: 600,
+          fontWeight: 400,
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           letterSpacing: "0.02em",
           zIndex: 10000,
