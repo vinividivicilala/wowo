@@ -11,6 +11,7 @@ export default function Home() {
   const menuLabelRef = useRef<HTMLSpanElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuItemsRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -56,6 +57,14 @@ export default function Home() {
         ease: "power2.out",
         onComplete: () => {
           if (preloader) preloader.style.display = "none";
+          // Setelah preloader selesai, tampilkan teks Menu
+          if (menuLabelRef.current) {
+            gsap.fromTo(
+              menuLabelRef.current,
+              { opacity: 0, y: -10 },
+              { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+            );
+          }
         },
       });
 
@@ -70,23 +79,31 @@ export default function Home() {
     const overlay = overlayRef.current;
     const label = menuLabelRef.current;
     const items = menuItemsRef.current;
-    if (!overlay || !label || !items) return;
+    const button = menuButtonRef.current;
+    if (!overlay || !label || !items || !button) return;
 
     const itemEls = items.querySelectorAll(".menu-item");
 
     if (menuOpen) {
-      // === OPEN MENU ===
+      // === OPEN MENU: dari posisi teks Menu → full screen biru ===
       gsap.set(overlay, { display: "flex" });
+
+      const btnRect = button.getBoundingClientRect();
+      const startX = btnRect.left + btnRect.width / 2;
+      const startY = btnRect.top + btnRect.height / 2;
 
       const tl = gsap.timeline();
 
       tl.fromTo(
         overlay,
-        { clipPath: "circle(0% at 100% 0%)", opacity: 0 },
         {
-          clipPath: "circle(150% at 100% 0%)",
+          clipPath: `circle(0% at ${startX}px ${startY}px)`,
+          opacity: 0,
+        },
+        {
+          clipPath: `circle(150% at ${startX}px ${startY}px)`,
           opacity: 1,
-          duration: 1.1,
+          duration: 1.2,
           ease: "power3.inOut",
         }
       )
@@ -109,7 +126,11 @@ export default function Home() {
           "-=0.5"
         );
     } else {
-      // === CLOSE MENU ===
+      // === CLOSE MENU: dari full screen biru → posisi teks Menu ===
+      const btnRect = button.getBoundingClientRect();
+      const startX = btnRect.left + btnRect.width / 2;
+      const startY = btnRect.top + btnRect.height / 2;
+
       const tl = gsap.timeline();
 
       tl.to(itemEls, {
@@ -122,9 +143,9 @@ export default function Home() {
         .to(
           overlay,
           {
-            clipPath: "circle(0% at 100% 0%)",
+            clipPath: `circle(0% at ${startX}px ${startY}px)`,
             opacity: 0,
-            duration: 0.9,
+            duration: 1,
             ease: "power3.inOut",
             onComplete: () => {
               if (overlay) overlay.style.display = "none";
@@ -223,6 +244,7 @@ export default function Home() {
 
       {/* ===== TEKS MENU / CLOSE (TANPA BG TOMBOL) ===== */}
       <button
+        ref={menuButtonRef}
         onClick={() => setMenuOpen((prev) => !prev)}
         style={{
           position: "fixed",
@@ -233,12 +255,14 @@ export default function Home() {
           color: "#0D3CFC",
           border: "none",
           padding: 0,
-          fontSize: "28px",
+          fontSize: "70px",
           fontWeight: 400,
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          letterSpacing: "-0.02em",
+          letterSpacing: "-0.03em",
           cursor: "pointer",
           textTransform: "capitalize",
+          opacity: 0,
+          lineHeight: 1,
         }}
       >
         <span
@@ -277,22 +301,23 @@ export default function Home() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "24px",
+            gap: "20px",
           }}
         >
-          {/* Farid Ardiansyah di atas menu */}
+          {/* Farid Ardiansyah ukuran normal */}
           <span
             className="menu-item"
             style={{
-              fontSize: "90px",
+              fontSize: "20px",
               fontWeight: 400,
               color: "#FFFFFF",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.1,
+              letterSpacing: "0.01em",
+              lineHeight: 1.4,
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               display: "inline-block",
               willChange: "transform, opacity",
-              marginBottom: "24px",
+              marginBottom: "30px",
+              textTransform: "capitalize",
             }}
           >
             Farid Ardiansyah
@@ -309,15 +334,16 @@ export default function Home() {
                   setMenuOpen(false);
                 }}
                 style={{
-                  fontSize: "90px",
+                  fontSize: "70px",
                   fontWeight: 400,
                   color: "#FFFFFF",
                   textDecoration: "none",
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.03em",
                   lineHeight: 1.1,
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
                   display: "inline-block",
                   willChange: "transform, opacity",
+                  textTransform: "capitalize",
                 }}
               >
                 {item}
