@@ -8,7 +8,6 @@ export default function Home() {
   const leftTextRef = useRef<HTMLSpanElement>(null);
   const rightTextRef = useRef<HTMLSpanElement>(null);
 
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuLabelRef = useRef<HTMLSpanElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuItemsRef = useRef<HTMLDivElement>(null);
@@ -81,13 +80,9 @@ export default function Home() {
 
       const tl = gsap.timeline();
 
-      // Overlay biru muncul dari kanan (clip-path reveal) dengan easing smooth
       tl.fromTo(
         overlay,
-        {
-          clipPath: "circle(0% at 100% 0%)",
-          opacity: 0,
-        },
+        { clipPath: "circle(0% at 100% 0%)", opacity: 0 },
         {
           clipPath: "circle(150% at 100% 0%)",
           opacity: 1,
@@ -95,7 +90,6 @@ export default function Home() {
           ease: "power3.inOut",
         }
       )
-        // Menu item muncul stagger dari kanan
         .fromTo(
           itemEls,
           { x: 120, opacity: 0 },
@@ -108,7 +102,6 @@ export default function Home() {
           },
           "-=0.4"
         )
-        // Teks label tombol berubah jadi "Close" dengan fade+scale
         .fromTo(
           label,
           { opacity: 0, y: 20, scale: 0.85 },
@@ -139,7 +132,6 @@ export default function Home() {
           },
           "-=0.2"
         )
-        // Label kembali ke "Menu"
         .fromTo(
           label,
           { opacity: 0, y: 20, scale: 0.85 },
@@ -229,38 +221,29 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== TOMBOL MENU / CLOSE DI SISI KANAN ===== */}
+      {/* ===== TEKS MENU / CLOSE (TANPA BG TOMBOL) ===== */}
       <button
-        ref={menuButtonRef}
         onClick={() => setMenuOpen((prev) => !prev)}
         style={{
           position: "fixed",
           top: "60px",
           right: "40px",
           zIndex: 100000,
-          backgroundColor: "#0D3CFC",
-          color: "#FFFFFF",
+          backgroundColor: "transparent",
+          color: "#0D3CFC",
           border: "none",
-          borderRadius: "2px 24px 24px 2px",
-          padding: "14px 28px",
-          fontSize: "20px",
+          padding: 0,
+          fontSize: "28px",
           fontWeight: 400,
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           letterSpacing: "-0.02em",
           cursor: "pointer",
-          boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minWidth: "140px",
+          textTransform: "capitalize",
         }}
       >
         <span
           ref={menuLabelRef}
-          style={{
-            display: "inline-block",
-            willChange: "transform, opacity",
-          }}
+          style={{ display: "inline-block", willChange: "transform, opacity" }}
         >
           {menuOpen ? "Close" : "Menu"}
         </span>
@@ -297,37 +280,50 @@ export default function Home() {
             gap: "24px",
           }}
         >
-          {[
-            "Home",
-            "Notes",
-            "About",
-            "Portfolio",
-            "Contact",
-            "Say Hey",
-          ].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="menu-item"
-              onClick={(e) => {
-                e.preventDefault();
-                setMenuOpen(false);
-              }}
-              style={{
-                fontSize: "90px",
-                fontWeight: 400,
-                color: "#FFFFFF",
-                textDecoration: "none",
-                letterSpacing: "-0.04em",
-                lineHeight: 1.1,
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                display: "inline-block",
-                willChange: "transform, opacity",
-              }}
-            >
-              {item}
-            </a>
-          ))}
+          {/* Farid Ardiansyah di atas menu */}
+          <span
+            className="menu-item"
+            style={{
+              fontSize: "90px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              letterSpacing: "-0.04em",
+              lineHeight: 1.1,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              display: "inline-block",
+              willChange: "transform, opacity",
+              marginBottom: "24px",
+            }}
+          >
+            Farid Ardiansyah
+          </span>
+
+          {["Home", "Notes", "About", "Portfolio", "Contact", "Say Hey"].map(
+            (item) => (
+              <a
+                key={item}
+                href="#"
+                className="menu-item"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMenuOpen(false);
+                }}
+                style={{
+                  fontSize: "90px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                  letterSpacing: "-0.04em",
+                  lineHeight: 1.1,
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  display: "inline-block",
+                  willChange: "transform, opacity",
+                }}
+              >
+                {item}
+              </a>
+            )
+          )}
         </div>
       </div>
 
@@ -377,6 +373,7 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
+            {/* Menuru card biru melengkung tajam depan-belakang (gaya design card note) */}
             <span
               style={{
                 backgroundColor: "#0D3CFC",
