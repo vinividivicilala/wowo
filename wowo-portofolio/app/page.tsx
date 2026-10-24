@@ -228,7 +228,7 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== JUDUL WEB (KIRI NAVBAR) - hanya muncul setelah preloader selesai ===== */}
+      {/* ===== JUDUL WEB "Farid Ardiansyah" DI KIRI NAVBAR ATAS ===== */}
       {preloaderDone && (
         <div
           style={{
@@ -238,22 +238,23 @@ export default function Home() {
             zIndex: 100000,
             display: "flex",
             alignItems: "center",
-            gap: "10px",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             pointerEvents: "none",
+            color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+            mixBlendMode: menuOpen ? "difference" : "normal",
+            transition: "color 0.3s ease",
           }}
         >
           <span
             style={{
               fontSize: "70px",
               fontWeight: 400,
-              color: "#0D3CFC",
               letterSpacing: "-0.03em",
               lineHeight: 1,
               textTransform: "capitalize",
             }}
           >
-            Menuru
+            Farid Ardiansyah
           </span>
         </div>
       )}
@@ -323,25 +324,6 @@ export default function Home() {
             width: "100%",
           }}
         >
-          {/* Farid Ardiansyah ukuran 70px - tanpa garis bawah */}
-          <span
-            className="menu-item"
-            style={{
-              fontSize: "70px",
-              fontWeight: 400,
-              color: "#FFFFFF",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              display: "inline-block",
-              willChange: "transform, opacity",
-              marginBottom: "10px",
-              textTransform: "capitalize",
-            }}
-          >
-            Farid Ardiansyah
-          </span>
-
           {["Home", "Notes", "About", "Portfolio", "Contact", "Say Hey"].map(
             (item) => (
               <a
