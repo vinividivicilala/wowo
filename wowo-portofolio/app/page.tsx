@@ -1,10 +1,133 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
 
 export default function Home() {
+  const preloaderRef = useRef<HTMLDivElement>(null);
+  const leftTextRef = useRef<HTMLSpanElement>(null);
+  const rightTextRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const preloader = preloaderRef.current;
+    const leftText = leftTextRef.current;
+    const rightText = rightTextRef.current;
+    if (!preloader || !leftText || !rightText) return;
+
+    // Set posisi awal
+    gsap.set(leftText, { xPercent: -150, opacity: 0 });
+    gsap.set(rightText, { xPercent: 150, opacity: 0 });
+    gsap.set(preloader, { opacity: 1, display: "flex" });
+
+    const tl = gsap.timeline();
+
+    // 1. Teks kiri muncul dari sisi kiri ke tengah
+    // 2. Teks kanan muncul dari sisi kanan ke tengah
+    tl.to(leftText, {
+      xPercent: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: "power3.out",
+    })
+      .to(
+        rightText,
+        {
+          xPercent: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+        },
+        "<"
+      )
+      // 3. Tahan sebentar
+      .to({}, { duration: 0.8 })
+      // 4. Teks kiri keluar ke kiri layar & kanan keluar ke kanan layar bersamaan
+      .to(leftText, {
+        xPercent: -150,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.in",
+      })
+      .to(
+        rightText,
+        {
+          xPercent: 150,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.in",
+        },
+        "<"
+      )
+      // 5. Preloader hilang
+      .to(preloader, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        onComplete: () => {
+          if (preloader) preloader.style.display = "none";
+        },
+      });
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
   return (
     <>
+      {/* ===== PRELOADER ===== */}
+      <div
+        ref={preloaderRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#FFFFFF",
+          zIndex: 99999,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "20px",
+          overflow: "hidden",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+        }}
+      >
+        <span
+          ref={leftTextRef}
+          style={{
+            fontSize: "300px",
+            fontWeight: 400,
+            color: "#0D3CFC",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            letterSpacing: "-0.04em",
+            lineHeight: 1,
+            display: "inline-block",
+            willChange: "transform, opacity",
+          }}
+        >
+          Farid
+        </span>
+        <span
+          ref={rightTextRef}
+          style={{
+            fontSize: "200px",
+            fontWeight: 400,
+            color: "#0D3CFC",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            letterSpacing: "-0.03em",
+            lineHeight: 1,
+            display: "inline-block",
+            willChange: "transform, opacity",
+          }}
+        >
+          By Founder And Developer Menuru
+        </span>
+      </div>
+
       {/* ===== BANNER #0000EE DI ATAS NAVBAR ===== */}
       <div
         style={{
@@ -73,7 +196,7 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru: card biru melengkung tajam depan-belakang (bukan capsule) */}
+            {/* Menuru: card biru melengkung tajam depan-belakang */}
             <span
               style={{
                 backgroundColor: "#0D3CFC",
