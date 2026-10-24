@@ -12,7 +12,6 @@ export default function Home() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const cardRef = useRef<HTMLDivElement>(null);
   const expandPanelRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
@@ -83,7 +82,6 @@ export default function Home() {
       gsap.set(overlay, { display: "flex" });
       const tl = gsap.timeline();
 
-      // Animasi overlay dari ATAS ke BAWAH
       tl.fromTo(
         overlay,
         { clipPath: `inset(0 0 100% 0)`, opacity: 0 },
@@ -119,7 +117,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL ANIMATION (BUKA DARI ATAS TOMBOL) =====
+  // ===== EXPAND PANEL ANIMATION (DARI BAWAH KE ATAS) =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panel = expandPanelRef.current;
@@ -128,21 +126,21 @@ export default function Home() {
 
     if (expandOpen) {
       gsap.set(panel, { display: "block" });
+
+      // mulai dari tinggi 0, tumbuh ke atas
       gsap.fromTo(
         panel,
         {
           height: 0,
           opacity: 0,
-          y: 0,
-          borderTopLeftRadius: "24px",
-          borderTopRightRadius: "24px",
+          scaleY: 0.4,
+          transformOrigin: "bottom center",
         },
         {
           height: "auto",
           opacity: 1,
-          y: 0,
-          borderTopLeftRadius: "24px",
-          borderTopRightRadius: "24px",
+          scaleY: 1,
+          transformOrigin: "bottom center",
           duration: 0.7,
           ease: "power3.out",
         }
@@ -152,6 +150,8 @@ export default function Home() {
       gsap.to(panel, {
         height: 0,
         opacity: 0,
+        scaleY: 0.4,
+        transformOrigin: "bottom center",
         duration: 0.5,
         ease: "power3.inOut",
         onComplete: () => {
@@ -305,7 +305,7 @@ export default function Home() {
         </button>
       )}
 
-      {/* ===== OVERLAY MENU BIRU (HANYA BACKGROUND) ===== */}
+      {/* ===== OVERLAY MENU BIRU ===== */}
       <div
         ref={overlayRef}
         style={{
@@ -336,9 +336,9 @@ export default function Home() {
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "flex-start",
-            gap: "40px",
+            gap: "16px",
             maxWidth: "1600px",
             margin: "0 auto",
           }}
@@ -420,127 +420,129 @@ export default function Home() {
             </span>
           </div>
 
-          {/* ===== TOMBOL EXPAND (TENGAH BAWAH) ===== */}
+          {/* ===== TOMBOL EXPAND DI BAWAH ===== */}
           <div
-            ref={cardRef}
             style={{
               width: "100%",
-              maxWidth: "900px",
-              position: "relative",
-              marginTop: "40px",
+              marginTop: "120px",
+              display: "flex",
+              justifyContent: "flex-start",
             }}
           >
-            {/* PANEL YANG TERBUKA DARI ATAS TOMBOL (bg baru) */}
-            <div
-              ref={expandPanelRef}
-              style={{
-                display: "none",
-                overflow: "hidden",
-                backgroundColor: "#0D3CFC",
-                borderRadius: "24px 24px 0 0",
-                boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
-                position: "relative",
-                width: "100%",
-              }}
-            >
+            <div style={{ width: "100%", maxWidth: "100%", position: "relative" }}>
+              {/* PANEL TERBUKA DARI BAWAH KE ATAS */}
               <div
+                ref={expandPanelRef}
                 style={{
-                  padding: "32px 36px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                  color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  display: "none",
+                  overflow: "hidden",
+                  backgroundColor: "#0D3CFC",
+                  borderRadius: "20px 20px 0 0",
+                  boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+                  width: "100%",
+                  transformOrigin: "bottom center",
                 }}
               >
-                <div style={{ fontSize: "28px", fontWeight: 700, letterSpacing: "-0.02em" }}>
-                  Panel Baru
-                </div>
-                <p style={{ fontSize: "16px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                  Ini adalah panel yang terbuka dari sisi atas tombol dan menyatu
-                  dengan tombol di bawahnya. Dibuat dengan animasi GSAP.
-                </p>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
-                  {["Home", "Notes", "About", "Portfolio"].map((it) => (
-                    <span
-                      key={it}
-                      style={{
-                        padding: "8px 18px",
-                        backgroundColor: "#FFFFFF",
-                        color: "#0D3CFC",
-                        borderRadius: "20px",
-                        fontSize: "14px",
-                        fontWeight: 700,
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                      }}
-                    >
-                      {it}
-                    </span>
-                  ))}
+                <div
+                  style={{
+                    padding: "24px 28px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                    color: "#FFFFFF",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}
+                >
+                  <div style={{ fontSize: "22px", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                    Panel Baru
+                  </div>
+                  <p style={{ fontSize: "14px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
+                    Panel ini terbuka dari bawah ke atas saat tombol + diklik,
+                    dan menyatu dengan tombol utama di bawahnya.
+                  </p>
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
+                    {["Home", "Notes", "About", "Portfolio"].map((it) => (
+                      <span
+                        key={it}
+                        style={{
+                          padding: "6px 14px",
+                          backgroundColor: "#FFFFFF",
+                          color: "#0D3CFC",
+                          borderRadius: "16px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        }}
+                      >
+                        {it}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* TOMBOL UTAMA: nama kiri + tombol + kanan */}
-            <div
-              style={{
-                backgroundColor: "#0D3CFC",
-                borderRadius: expandOpen ? "0 0 24px 24px" : "24px",
-                padding: "20px 28px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "16px",
-                boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
-                border: "2px solid #0D3CFC",
-                transition: "border-radius 0.4s ease",
-              }}
-            >
-              <span
+              {/* TOMBOL UTAMA: tinggi ringkas */}
+              <div
                 style={{
-                  fontSize: "26px",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                Farid Ardiansyah
-              </span>
-              <button
-                onClick={() => setExpandOpen((prev) => !prev)}
-                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  minWidth: "48px",
-                  borderRadius: "50%",
-                  backgroundColor: "#FFFFFF",
-                  border: "none",
+                  backgroundColor: "#0D3CFC",
+                  borderRadius: expandOpen ? "0 0 20px 20px" : "20px",
+                  padding: "12px 20px",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
+                  justifyContent: "space-between",
+                  gap: "12px",
+                  boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
+                  border: "2px solid #0D3CFC",
+                  transition: "border-radius 0.4s ease",
+                  width: "100%",
                 }}
               >
                 <span
-                  ref={plusIconRef}
                   style={{
-                    display: "inline-block",
-                    fontSize: "32px",
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    color: "#0D3CFC",
-                    willChange: "transform",
+                    fontSize: "18px",
+                    fontWeight: 700,
+                    color: "#FFFFFF",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    letterSpacing: "-0.02em",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
-                  +
+                  Farid Ardiansyah
                 </span>
-              </button>
+                <button
+                  onClick={() => setExpandOpen((prev) => !prev)}
+                  aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    minWidth: "32px",
+                    borderRadius: "50%",
+                    backgroundColor: "#FFFFFF",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                >
+                  <span
+                    ref={plusIconRef}
+                    style={{
+                      display: "inline-block",
+                      fontSize: "22px",
+                      fontWeight: 400,
+                      lineHeight: 1,
+                      color: "#0D3CFC",
+                      willChange: "transform",
+                    }}
+                  >
+                    +
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
