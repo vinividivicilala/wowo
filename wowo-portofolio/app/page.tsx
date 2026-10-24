@@ -235,13 +235,12 @@ export default function Home() {
             position: "fixed",
             top: "60px",
             left: "40px",
-            zIndex: 100000,
+            zIndex: 100001,
             display: "flex",
             alignItems: "center",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             pointerEvents: "none",
             color: menuOpen ? "#FFFFFF" : "#0D3CFC",
-            mixBlendMode: menuOpen ? "difference" : "normal",
             transition: "color 0.3s ease",
           }}
         >
@@ -268,7 +267,7 @@ export default function Home() {
             position: "fixed",
             top: "60px",
             right: "40px",
-            zIndex: 100000,
+            zIndex: 100001,
             backgroundColor: "transparent",
             color: menuOpen ? "#FFFFFF" : "#0D3CFC",
             border: "none",
@@ -280,7 +279,7 @@ export default function Home() {
             cursor: "pointer",
             textTransform: "capitalize",
             lineHeight: 1,
-            mixBlendMode: menuOpen ? "difference" : "normal",
+            transition: "color 0.3s ease",
           }}
         >
           <span
