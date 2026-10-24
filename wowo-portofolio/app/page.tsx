@@ -10,11 +10,15 @@ export default function Home() {
 
   const menuLabelRef = useRef<HTMLSpanElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const menuItemsRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const expandPanelRef = useRef<HTMLDivElement>(null);
+  const plusIconRef = useRef<HTMLSpanElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [preloaderDone, setPreloaderDone] = useState(false);
+  const [expandOpen, setExpandOpen] = useState(false);
 
   // ===== PRELOADER =====
   useEffect(() => {
@@ -72,21 +76,14 @@ export default function Home() {
     if (typeof window === "undefined") return;
     const overlay = overlayRef.current;
     const label = menuLabelRef.current;
-    const items = menuItemsRef.current;
     const button = menuButtonRef.current;
-    if (!overlay || !label || !items || !button) return;
-
-    const itemEls = items.querySelectorAll(".menu-item");
+    if (!overlay || !label || !button) return;
 
     if (menuOpen) {
       gsap.set(overlay, { display: "flex" });
-      const btnRect = button.getBoundingClientRect();
-      const startX = btnRect.left + btnRect.width / 2;
-      const startY = btnRect.top + btnRect.height / 2;
-
       const tl = gsap.timeline();
 
-      // Animasi awal dari ATAS ke BAWAH
+      // Animasi overlay dari ATAS ke BAWAH
       tl.fromTo(
         overlay,
         { clipPath: `inset(0 0 100% 0)`, opacity: 0 },
@@ -96,57 +93,74 @@ export default function Home() {
           duration: 1.2,
           ease: "power3.inOut",
         }
-      )
-        .fromTo(
-          itemEls,
-          { y: -40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power3.out",
-            stagger: 0.1,
-          },
-          "-=0.4"
-        )
-        .fromTo(
-          label,
-          { opacity: 0, y: 20, scale: 0.85 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
-          "-=0.5"
-        );
+      ).fromTo(
+        label,
+        { opacity: 0, y: 20, scale: 0.85 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+        "-=0.5"
+      );
     } else {
       const tl = gsap.timeline();
 
-      // Animasi close dari BAWAH ke ATAS
-      tl.to(itemEls, {
-        y: -40,
+      tl.to(overlay, {
+        clipPath: `inset(0 0 100% 0)`,
         opacity: 0,
-        duration: 0.5,
-        ease: "power3.in",
-        stagger: 0.06,
-      })
-        .to(
-          overlay,
-          {
-            clipPath: `inset(0 0 100% 0)`,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.inOut",
-            onComplete: () => {
-              if (overlay) overlay.style.display = "none";
-            },
-          },
-          "-=0.2"
-        )
-        .fromTo(
-          label,
-          { opacity: 0, y: 20, scale: 0.85 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
-          "-=0.4"
-        );
+        duration: 1,
+        ease: "power3.inOut",
+        onComplete: () => {
+          if (overlay) overlay.style.display = "none";
+        },
+      }).fromTo(
+        label,
+        { opacity: 0, y: 20, scale: 0.85 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        "-=0.4"
+      );
     }
   }, [menuOpen]);
+
+  // ===== EXPAND PANEL ANIMATION (BUKA DARI ATAS TOMBOL) =====
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const panel = expandPanelRef.current;
+    const plusIcon = plusIconRef.current;
+    if (!panel) return;
+
+    if (expandOpen) {
+      gsap.set(panel, { display: "block" });
+      gsap.fromTo(
+        panel,
+        {
+          height: 0,
+          opacity: 0,
+          y: 0,
+          borderTopLeftRadius: "24px",
+          borderTopRightRadius: "24px",
+        },
+        {
+          height: "auto",
+          opacity: 1,
+          y: 0,
+          borderTopLeftRadius: "24px",
+          borderTopRightRadius: "24px",
+          duration: 0.7,
+          ease: "power3.out",
+        }
+      );
+      if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
+    } else {
+      gsap.to(panel, {
+        height: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.inOut",
+        onComplete: () => {
+          if (panel) panel.style.display = "none";
+        },
+      });
+      if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
+    }
+  }, [expandOpen]);
 
   return (
     <>
@@ -206,7 +220,7 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ===== BANNER #0000EE ===== */}
+      {/* ===== BANNER ===== */}
       <div
         style={{
           position: "fixed",
@@ -228,7 +242,7 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== JUDUL WEB "Farid Ardiansyah" DI KIRI NAVBAR ATAS ===== */}
+      {/* ===== JUDUL WEB DI KIRI NAVBAR ===== */}
       {preloaderDone && (
         <div
           style={{
@@ -258,7 +272,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ===== TEKS MENU / CLOSE - hanya muncul setelah preloader selesai ===== */}
+      {/* ===== TEKS MENU / CLOSE ===== */}
       {preloaderDone && (
         <button
           ref={menuButtonRef}
@@ -291,7 +305,7 @@ export default function Home() {
         </button>
       )}
 
-      {/* ===== OVERLAY MENU BIRU FULL SCREEN ===== */}
+      {/* ===== OVERLAY MENU BIRU (HANYA BACKGROUND) ===== */}
       <div
         ref={overlayRef}
         style={{
@@ -303,55 +317,9 @@ export default function Home() {
           backgroundColor: "#0D3CFC",
           zIndex: 99998,
           display: "none",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          padding: "160px 80px 40px 80px",
-          boxSizing: "border-box",
-          overflow: "hidden",
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
           clipPath: "inset(0 0 100% 0)",
         }}
-      >
-        <div
-          ref={menuItemsRef}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "20px",
-            width: "100%",
-          }}
-        >
-          {["Home", "Notes", "About", "Portfolio", "Contact", "Say Hey"].map(
-            (item) => (
-              <a
-                key={item}
-                href="#"
-                className="menu-item"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMenuOpen(false);
-                }}
-                style={{
-                  fontSize: "70px",
-                  fontWeight: 400,
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  display: "inline-block",
-                  willChange: "transform, opacity",
-                  textTransform: "capitalize",
-                }}
-              >
-                {item}
-              </a>
-            )
-          )}
-        </div>
-      </div>
+      />
 
       {/* ===== KONTEN UTAMA ===== */}
       <div
@@ -368,22 +336,74 @@ export default function Home() {
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
+            alignItems: "center",
             justifyContent: "flex-start",
-            gap: "16px",
+            gap: "40px",
             maxWidth: "1600px",
             margin: "0 auto",
           }}
         >
-          {/* Baris 1 */}
+          {/* Konten atas */}
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "12px",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "16px",
+              width: "100%",
             }}
           >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: "12px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  lineHeight: "1.1",
+                  color: "#0D3CFC",
+                  fontWeight: 400,
+                  letterSpacing: "-0.02em",
+                  whiteSpace: "nowrap",
+                  textTransform: "capitalize",
+                }}
+              >
+                Founder And Developer Brand
+              </span>
+              <span
+                style={{
+                  backgroundColor: "#0D3CFC",
+                  padding: "10px 28px",
+                  borderRadius: "6px 28px 28px 28px",
+                  display: "inline-block",
+                  boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+                  border: "2px solid #0D3CFC",
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    padding: "6px 22px",
+                    borderRadius: "24px 4px 24px 24px",
+                    display: "inline-block",
+                    fontSize: "50px",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontWeight: 400,
+                    letterSpacing: "-0.02em",
+                    lineHeight: "1.1",
+                    color: "#0D3CFC",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Menuru
+                </span>
+              </span>
+            </div>
             <span
               style={{
                 fontSize: "50px",
@@ -396,55 +416,133 @@ export default function Home() {
                 textTransform: "capitalize",
               }}
             >
-              Founder And Developer Brand
+              Based In Indonesia
             </span>
+          </div>
 
-            {/* Card Menuru - design seperti hasil submit note */}
-            <span
+          {/* ===== TOMBOL EXPAND (TENGAH BAWAH) ===== */}
+          <div
+            ref={cardRef}
+            style={{
+              width: "100%",
+              maxWidth: "900px",
+              position: "relative",
+              marginTop: "40px",
+            }}
+          >
+            {/* PANEL YANG TERBUKA DARI ATAS TOMBOL (bg baru) */}
+            <div
+              ref={expandPanelRef}
+              style={{
+                display: "none",
+                overflow: "hidden",
+                backgroundColor: "#0D3CFC",
+                borderRadius: "24px 24px 0 0",
+                boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  padding: "32px 36px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                  color: "#FFFFFF",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                }}
+              >
+                <div style={{ fontSize: "28px", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                  Panel Baru
+                </div>
+                <p style={{ fontSize: "16px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
+                  Ini adalah panel yang terbuka dari sisi atas tombol dan menyatu
+                  dengan tombol di bawahnya. Dibuat dengan animasi GSAP.
+                </p>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
+                  {["Home", "Notes", "About", "Portfolio"].map((it) => (
+                    <span
+                      key={it}
+                      style={{
+                        padding: "8px 18px",
+                        backgroundColor: "#FFFFFF",
+                        color: "#0D3CFC",
+                        borderRadius: "20px",
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      }}
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* TOMBOL UTAMA: nama kiri + tombol + kanan */}
+            <div
               style={{
                 backgroundColor: "#0D3CFC",
-                padding: "10px 28px",
-                borderRadius: "6px 28px 28px 28px",
-                display: "inline-block",
-                boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+                borderRadius: expandOpen ? "0 0 24px 24px" : "24px",
+                padding: "20px 28px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "16px",
+                boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
                 border: "2px solid #0D3CFC",
+                transition: "border-radius 0.4s ease",
               }}
             >
               <span
                 style={{
-                  backgroundColor: "#FFFFFF",
-                  padding: "6px 22px",
-                  borderRadius: "24px 4px 24px 24px",
-                  display: "inline-block",
-                  fontSize: "50px",
+                  fontSize: "26px",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 400,
                   letterSpacing: "-0.02em",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  textTransform: "capitalize",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                Menuru
+                Farid Ardiansyah
               </span>
-            </span>
+              <button
+                onClick={() => setExpandOpen((prev) => !prev)}
+                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  minWidth: "48px",
+                  borderRadius: "50%",
+                  backgroundColor: "#FFFFFF",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <span
+                  ref={plusIconRef}
+                  style={{
+                    display: "inline-block",
+                    fontSize: "32px",
+                    fontWeight: 400,
+                    lineHeight: 1,
+                    color: "#0D3CFC",
+                    willChange: "transform",
+                  }}
+                >
+                  +
+                </span>
+              </button>
+            </div>
           </div>
-
-          {/* Baris 2 */}
-          <span
-            style={{
-              fontSize: "50px",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              lineHeight: "1.1",
-              color: "#0D3CFC",
-              fontWeight: 400,
-              letterSpacing: "-0.02em",
-              whiteSpace: "nowrap",
-              textTransform: "capitalize",
-            }}
-          >
-            Based In Indonesia
-          </span>
         </div>
       </div>
 
