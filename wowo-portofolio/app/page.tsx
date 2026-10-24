@@ -14,6 +14,7 @@ export default function Home() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(false);
 
   // ===== PRELOADER =====
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function Home() {
         ease: "power2.out",
         onComplete: () => {
           if (preloader) preloader.style.display = "none";
+          setPreloaderDone(true);
         },
       });
 
@@ -87,10 +89,7 @@ export default function Home() {
       // Animasi awal dari ATAS ke BAWAH
       tl.fromTo(
         overlay,
-        {
-          clipPath: `inset(0 0 100% 0)`,
-          opacity: 0,
-        },
+        { clipPath: `inset(0 0 100% 0)`, opacity: 0 },
         {
           clipPath: `inset(0 0 0% 0)`,
           opacity: 1,
@@ -117,10 +116,6 @@ export default function Home() {
           "-=0.5"
         );
     } else {
-      const btnRect = button.getBoundingClientRect();
-      const startX = btnRect.left + btnRect.width / 2;
-      const startY = btnRect.top + btnRect.height / 2;
-
       const tl = gsap.timeline();
 
       // Animasi close dari BAWAH ke ATAS
@@ -233,36 +228,68 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== TEKS MENU / CLOSE ===== */}
-      <button
-        ref={menuButtonRef}
-        onClick={() => setMenuOpen((prev) => !prev)}
-        style={{
-          position: "fixed",
-          top: "60px",
-          right: "40px",
-          zIndex: 100000,
-          backgroundColor: "transparent",
-          color: menuOpen ? "#FFFFFF" : "#0D3CFC",
-          border: "none",
-          padding: 0,
-          fontSize: "70px",
-          fontWeight: 400,
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
-          letterSpacing: "-0.03em",
-          cursor: "pointer",
-          textTransform: "capitalize",
-          lineHeight: 1,
-          mixBlendMode: menuOpen ? "difference" : "normal",
-        }}
-      >
-        <span
-          ref={menuLabelRef}
-          style={{ display: "inline-block", willChange: "transform, opacity" }}
+      {/* ===== JUDUL WEB (KIRI NAVBAR) - hanya muncul setelah preloader selesai ===== */}
+      {preloaderDone && (
+        <div
+          style={{
+            position: "fixed",
+            top: "60px",
+            left: "40px",
+            zIndex: 100000,
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            pointerEvents: "none",
+          }}
         >
-          {menuOpen ? "Close" : "Menu"}
-        </span>
-      </button>
+          <span
+            style={{
+              fontSize: "70px",
+              fontWeight: 400,
+              color: "#0D3CFC",
+              letterSpacing: "-0.03em",
+              lineHeight: 1,
+              textTransform: "capitalize",
+            }}
+          >
+            Menuru
+          </span>
+        </div>
+      )}
+
+      {/* ===== TEKS MENU / CLOSE - hanya muncul setelah preloader selesai ===== */}
+      {preloaderDone && (
+        <button
+          ref={menuButtonRef}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          style={{
+            position: "fixed",
+            top: "60px",
+            right: "40px",
+            zIndex: 100000,
+            backgroundColor: "transparent",
+            color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+            border: "none",
+            padding: 0,
+            fontSize: "70px",
+            fontWeight: 400,
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            letterSpacing: "-0.03em",
+            cursor: "pointer",
+            textTransform: "capitalize",
+            lineHeight: 1,
+            mixBlendMode: menuOpen ? "difference" : "normal",
+          }}
+        >
+          <span
+            ref={menuLabelRef}
+            style={{ display: "inline-block", willChange: "transform, opacity" }}
+          >
+            {menuOpen ? "Close" : "Menu"}
+          </span>
+        </button>
+      )}
 
       {/* ===== OVERLAY MENU BIRU FULL SCREEN ===== */}
       <div
@@ -296,7 +323,7 @@ export default function Home() {
             width: "100%",
           }}
         >
-          {/* Farid Ardiansyah ukuran 70px di bagian navbar overlay */}
+          {/* Farid Ardiansyah ukuran 70px - tanpa garis bawah */}
           <span
             className="menu-item"
             style={{
@@ -310,9 +337,6 @@ export default function Home() {
               willChange: "transform, opacity",
               marginBottom: "10px",
               textTransform: "capitalize",
-              borderBottom: "1px solid rgba(255,255,255,0.3)",
-              paddingBottom: "12px",
-              width: "100%",
             }}
           >
             Farid Ardiansyah
