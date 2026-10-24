@@ -41,19 +41,18 @@ export default function Home() {
               color: "#0D3CFC",
               fontWeight: 400,
               letterSpacing: "-0.02em",
-              whiteSpace: "nowrap",
               textTransform: "capitalize",
             }}
           >
             Founder And Developer Brand
           </span>
 
-          {/* Menuru: card biru melengkung seperti design note (bukan capsule) */}
+          {/* Menuru: card biru melengkung penuh (depan & belakang) */}
           <span
             style={{
               backgroundColor: "#0D3CFC",
-              padding: "8px 32px",
-              borderRadius: "24px 4px 24px 24px",
+              padding: "8px 24px",
+              borderRadius: "24px",
               display: "inline-block",
               boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
             }}
@@ -83,12 +82,38 @@ export default function Home() {
             color: "#0D3CFC",
             fontWeight: 400,
             letterSpacing: "-0.02em",
-            whiteSpace: "nowrap",
             textTransform: "capitalize",
           }}
         >
           Based In Indonesia
         </span>
+
+        {/* Banner #0000EE */}
+        <div
+          style={{
+            marginTop: "24px",
+            backgroundColor: "#0000EE",
+            borderRadius: "20px",
+            padding: "16px 28px",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "12px",
+            boxShadow: "0 6px 20px rgba(0,0,238,0.35)",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "28px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              color: "#FFFFFF",
+              fontWeight: 500,
+              letterSpacing: "-0.01em",
+              textTransform: "capitalize",
+            }}
+          >
+            Website Ini Sedang Di Kembangkan
+          </span>
+        </div>
       </div>
     </div>
   );
