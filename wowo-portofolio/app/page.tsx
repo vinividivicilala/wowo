@@ -17,7 +17,7 @@ export default function Home() {
           color: "#FFFFFF",
           padding: "10px 20px",
           textAlign: "center",
-          fontSize: "70px",
+          fontSize: "14px",
           fontWeight: 600,
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           letterSpacing: "0.02em",
@@ -49,7 +49,7 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          {/* Baris 1 — Founder and Developer Brand + Menuru card biru melengkung */}
+          {/* Baris 1 — Founder and Developer Brand + Menuru card biru melengkung tajam */}
           <div
             style={{
               display: "flex",
@@ -73,12 +73,12 @@ export default function Home() {
               Founder And Developer Brand
             </span>
 
-            {/* Menuru: card biru melengkung seperti design note */}
+            {/* Menuru: card biru melengkung tajam depan-belakang (bukan capsule) */}
             <span
               style={{
                 backgroundColor: "#0D3CFC",
                 padding: "8px 32px",
-                borderRadius: "24px 24px 24px 24px",
+                borderRadius: "2px 28px 28px 2px",
                 display: "inline-block",
                 boxShadow: "0 6px 20px rgba(13,60,252,0.35)",
               }}
