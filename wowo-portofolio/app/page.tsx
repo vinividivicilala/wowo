@@ -13,6 +13,7 @@ export default function Home() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const expandCardRef = useRef<HTMLDivElement>(null);
+  const panelInnerRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -117,39 +118,42 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND CARD: NAIK SAMPAI ATAS LAYAR =====
+  // ===== EXPAND CARD: PANEL NAIK KE ATAS, TOMBOL DIAM =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const card = expandCardRef.current;
+    const panelInner = panelInnerRef.current;
     const plusIcon = plusIconRef.current;
-    if (!card) return;
+    if (!card || !panelInner) return;
 
     if (expandOpen) {
-      // Hitung tinggi sampai menyentuh atas layar (viewport)
+      // Hitung tinggi sampai menyentuh atas layar
       const rect = card.getBoundingClientRect();
-      const targetHeight = rect.bottom + window.scrollY; // dari atas dokumen ke bawah card
-      // Lebih aman pakai: tinggi sampai top viewport
-      const currentTop = rect.top; // posisi card relatif ke viewport
-      const desiredHeight = rect.height + currentTop; // tambah jarak ke atas layar
-      const finalHeight = Math.max(desiredHeight - 20, 300);
+      const desiredHeight = rect.height + rect.top - 20;
+      const finalHeight = Math.max(desiredHeight, 300);
 
-      gsap.fromTo(
-        card,
-        { height: "64px", transformOrigin: "bottom center" },
-        {
-          height: `${finalHeight}px`,
-          transformOrigin: "bottom center",
-          duration: 0.9,
-          ease: "power3.out",
-        }
-      );
+      gsap.to(card, {
+        height: `${finalHeight}px`,
+        duration: 0.9,
+        ease: "power3.out",
+      });
+      gsap.to(panelInner, {
+        opacity: 1,
+        duration: 0.5,
+        delay: 0.2,
+        ease: "power2.out",
+      });
       if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
     } else {
       gsap.to(card, {
         height: "64px",
-        transformOrigin: "bottom center",
         duration: 0.6,
         ease: "power3.inOut",
+      });
+      gsap.to(panelInner, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
       });
       if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
     }
@@ -431,15 +435,15 @@ export default function Home() {
               border: "2px solid #0D3CFC",
               overflow: "hidden",
               position: "relative",
-              transformOrigin: "bottom center",
               transition: "border-radius 0.4s ease",
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-end",
             }}
           >
-            {/* ISI PANEL (muncul saat tinggi naik sampai atas) */}
+            {/* ISI PANEL (opacity diatur GSAP) */}
             <div
+              ref={panelInnerRef}
               style={{
                 padding: "20px 24px",
                 display: "flex",
@@ -447,18 +451,18 @@ export default function Home() {
                 gap: "10px",
                 color: "#FFFFFF",
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                opacity: expandOpen ? 1 : 0,
-                transition: "opacity 0.4s ease",
+                opacity: 0,
                 height: "100%",
                 overflowY: "auto",
+                boxSizing: "border-box",
               }}
             >
               <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 Panel Baru
               </div>
               <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Konten panel yang muncul saat tombol + diklik. Tinggi card naik ke atas
-                sampai menyentuh layar atas.
+                Konten panel yang muncul saat tombol + diklik. Card naik ke atas
+                sampai menyentuh layar, tombol bawah tetap di posisi.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                 {["Home", "Notes", "About", "Portfolio"].map((it) => (
@@ -480,10 +484,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* BARIS BAWAH: nama kiri + tombol + kanan */}
+            {/* BARIS BAWAH: nama kiri + tombol + kanan (TETAP DIAM) */}
             <div
               style={{
                 height: "64px",
+                minHeight: "64px",
                 padding: "0 20px",
                 display: "flex",
                 alignItems: "center",
@@ -510,11 +515,7 @@ export default function Home() {
                 onClick={() => setExpandOpen((prev) => !prev)}
                 aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
                 style={{
-                  width: "32px",
-                  height: "32px",
-                  minWidth: "32px",
-                  borderRadius: "50%",
-                  backgroundColor: "#FFFFFF",
+                  background: "transparent",
                   border: "none",
                   display: "flex",
                   alignItems: "center",
@@ -527,10 +528,10 @@ export default function Home() {
                   ref={plusIconRef}
                   style={{
                     display: "inline-block",
-                    fontSize: "20px",
-                    fontWeight: 400,
+                    fontSize: "36px",
+                    fontWeight: 300,
                     lineHeight: 1,
-                    color: "#0D3CFC",
+                    color: "#FFFFFF",
                     willChange: "transform",
                   }}
                 >
