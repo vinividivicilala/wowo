@@ -70,7 +70,7 @@ export default function Home() {
     };
   }, []);
 
-  // ===== MENU OPEN / CLOSE ANIMATION =====
+  // ===== MENU OPEN / CLOSE =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const overlay = overlayRef.current;
@@ -116,7 +116,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND BG PANEL: NAIK KE ATAS, TOMBOL DIAM =====
+  // ===== EXPAND BG PANEL: NAIK SAMPAI BAWAH BANNER =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panel = bgPanelRef.current;
@@ -124,17 +124,22 @@ export default function Home() {
     if (!panel) return;
 
     if (expandOpen) {
-      // Hitung tinggi target sampai atas layar
-      const cardRect = panel.parentElement?.getBoundingClientRect();
-      const targetHeight = cardRect ? cardRect.top - 20 : 400;
+      // Ambil posisi card + tinggi banner (banner fixed di top: 0, tinggi ±40px)
+      const card = panel.parentElement;
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+
+      // Banner berada di atas: padding 10px atas-bawah + font 14px line-height ~20px → sekitar 40px
+      const BANNER_HEIGHT = 40;
+      const BANNER_MARGIN = 12;
+
+      // Tinggi panel = dari atas card ke bawah banner
+      const targetHeight = Math.max(cardRect.top - BANNER_HEIGHT - BANNER_MARGIN, 200);
 
       gsap.set(panel, { display: "block" });
       gsap.fromTo(
         panel,
-        {
-          height: 0,
-          opacity: 0,
-        },
+        { height: 0, opacity: 0 },
         {
           height: `${targetHeight}px`,
           opacity: 1,
@@ -423,7 +428,7 @@ export default function Home() {
             position: "relative",
           }}
         >
-          {/* PANEL BG YANG NAIK KE ATAS (position absolute, tidak menggeser tombol) */}
+          {/* PANEL BG YANG NYATU DENGAN TOMBOL (absolute di atas tombol) */}
           <div
             ref={bgPanelRef}
             style={{
@@ -439,6 +444,7 @@ export default function Home() {
               borderRadius: "20px 20px 0 0",
               boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
               zIndex: 1,
+              marginBottom: 0,
             }}
           >
             <div
@@ -456,7 +462,7 @@ export default function Home() {
                 Panel Baru
               </div>
               <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Panel BG naik ke atas sampai menyentuh layar. Tombol di bawah tetap diam di posisinya.
+                Panel BG naik ke atas dari tombol sampai bawah banner. Tombol tetap diam, panel menyatu dengan tombol.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                 {["Home", "Notes", "About", "Portfolio"].map((it) => (
