@@ -12,6 +12,7 @@ export default function Home() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const buttonBgRef = useRef<HTMLDivElement>(null);
   const panelBgRef = useRef<HTMLDivElement>(null);
   const panelInnerRef = useRef<HTMLDivElement>(null);
@@ -118,7 +119,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL: NAIK KE ATAS, TOMBOL DIAM, MENYATU =====
+  // ===== EXPAND PANEL: MENYATU, TOMBOL DIAM =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panelBg = panelBgRef.current;
@@ -130,15 +131,18 @@ export default function Home() {
     if (expandOpen) {
       // Hitung tinggi panel sampai bawah banner
       const buttonRect = buttonBg.getBoundingClientRect();
-      const BANNER_HEIGHT = 40; // tinggi banner (padding + font)
-      const BANNER_MARGIN = 12; // jarak aman dari banner
+      const BANNER_HEIGHT = 40; // tinggi banner
+      const BANNER_MARGIN = 12; // jarak aman
 
+      // Target tinggi dari bawah banner sampai atas tombol
       const targetHeight = Math.max(
         buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
         200
       );
 
       gsap.set(panelBg, { display: "block" });
+
+      // Animasi tinggi panel, dari 0 ke targetHeight
       gsap.fromTo(
         panelBg,
         { height: 0, opacity: 0 },
@@ -449,128 +453,140 @@ export default function Home() {
             position: "relative",
           }}
         >
-          {/* TOMBOL BG UTAMA — tetap diam, tinggi fixed */}
+          {/* WRAPPER: menyatukan panel & tombol dalam 1 container */}
           <div
-            ref={buttonBgRef}
+            ref={wrapperRef}
             style={{
               width: "100%",
-              height: "64px",
-              backgroundColor: "#0D3CFC",
-              borderRadius: "20px",
-              boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
-              border: "2px solid #0D3CFC",
               position: "relative",
-              zIndex: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "12px",
-              padding: "0 20px",
-              boxSizing: "border-box",
             }}
           >
-            <span
+            {/* PANEL BG — menempel tepat di atas tombol */}
+            <div
+              ref={panelBgRef}
               style={{
-                fontSize: "16px",
-                fontWeight: 700,
-                color: "#FFFFFF",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
+                position: "absolute",
+                bottom: "100%", // nempel persis di atas tombol
+                left: 0,
+                right: 0,
+                width: "100%",
+                height: 0,
+                display: "none",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                backgroundColor: "#0D3CFC",
+                borderRadius: "20px 20px 0 0", // bawah datar biar nyatu
+                boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+                zIndex: 1,
+                boxSizing: "border-box",
+                margin: 0, // pastikan tidak ada jarak
               }}
             >
-              Farid Ardiansyah
-            </span>
-            <button
-              onClick={() => setExpandOpen((prev) => !prev)}
-              aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+              <div
+                ref={panelInnerRef}
+                style={{
+                  padding: "24px 24px 20px 24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  color: "#FFFFFF",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  opacity: 0,
+                  boxSizing: "border-box",
+                  height: "100%",
+                  overflowY: "auto",
+                }}
+              >
+                <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                  Panel Baru
+                </div>
+                <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
+                  Panel ini menyatu sempurna dengan tombol BG di bawahnya.
+                  Tidak ada jarak, tidak terpisah.
+                </p>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
+                  {["Home", "Notes", "About", "Portfolio"].map((it) => (
+                    <span
+                      key={it}
+                      style={{
+                        padding: "5px 12px",
+                        backgroundColor: "#FFFFFF",
+                        color: "#0D3CFC",
+                        borderRadius: "14px",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      }}
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* TOMBOL BG UTAMA — DIAM */}
+            <div
+              ref={buttonBgRef}
               style={{
-                background: "transparent",
-                border: "none",
+                width: "100%",
+                height: "64px",
+                backgroundColor: "#0D3CFC",
+                // radius: kalau buka -> bawah melengkung, atas datar biar nyatu
+                borderRadius: expandOpen ? "0px 0px 20px 20px" : "20px",
+                boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
+                border: "2px solid #0D3CFC",
+                position: "relative",
+                zIndex: 2,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                padding: 0,
+                justifyContent: "space-between",
+                gap: "12px",
+                padding: "0 20px",
+                boxSizing: "border-box",
+                transition: "border-radius 0.4s ease",
               }}
             >
               <span
-                ref={plusIconRef}
                 style={{
-                  display: "inline-block",
-                  fontSize: "36px",
-                  fontWeight: 300,
-                  lineHeight: 1,
+                  fontSize: "16px",
+                  fontWeight: 700,
                   color: "#FFFFFF",
-                  willChange: "transform",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  letterSpacing: "-0.02em",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                +
+                Farid Ardiansyah
               </span>
-            </button>
-          </div>
-
-          {/* PANEL BG — bagian dari tombol, muncul dari bawah ke atas, menyatu */}
-          <div
-            ref={panelBgRef}
-            style={{
-              position: "absolute",
-              bottom: "100%",
-              left: 0,
-              right: 0,
-              width: "100%",
-              height: 0,
-              display: "none",
-              overflow: "hidden",
-              backgroundColor: "#0D3CFC",
-              borderRadius: "20px 20px 0 0",
-              boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
-              zIndex: 1,
-              boxSizing: "border-box",
-            }}
-          >
-            <div
-              ref={panelInnerRef}
-              style={{
-                padding: "24px 24px 20px 24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                color: "#FFFFFF",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                opacity: 0,
-                boxSizing: "border-box",
-                height: "100%",
-                overflowY: "auto",
-              }}
-            >
-              <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
-                Panel Baru
-              </div>
-              <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Panel BG naik ke atas dari tombol sampai bawah banner. Tombol
-                tetap diam, panel menyatu sempurna dengan tombol BG.
-              </p>
-              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
-                {["Home", "Notes", "About", "Portfolio"].map((it) => (
-                  <span
-                    key={it}
-                    style={{
-                      padding: "5px 12px",
-                      backgroundColor: "#FFFFFF",
-                      color: "#0D3CFC",
-                      borderRadius: "14px",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    }}
-                  >
-                    {it}
-                  </span>
-                ))}
-              </div>
+              <button
+                onClick={() => setExpandOpen((prev) => !prev)}
+                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <span
+                  ref={plusIconRef}
+                  style={{
+                    display: "inline-block",
+                    fontSize: "36px",
+                    fontWeight: 300,
+                    lineHeight: 1,
+                    color: "#FFFFFF",
+                    willChange: "transform",
+                  }}
+                >
+                  +
+                </span>
+              </button>
             </div>
           </div>
         </div>
