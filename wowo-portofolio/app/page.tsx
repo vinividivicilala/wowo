@@ -13,33 +13,52 @@ if (typeof window !== "undefined") {
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 const BLUE = "#0D3CFC";
 const WHITE = "#FFFFFF";
-const BLACK = "#000000";
 const RED = "#DC2626";
 
-// ===== SIMPLE ICONS =====
-const MicrosoftStoreIcon = ({ size = 32 }: { size?: number }) => (
+// ===== MICROSOFT STORE ICON — MINIMALIST SVG =====
+const MicrosoftStoreIcon = ({
+  size = 32,
+  color = "#ffffff",
+}: {
+  size?: number;
+  color?: string;
+}) => (
   <svg
     width={size}
     height={size}
     viewBox="0 0 24 24"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     style={{ display: "inline-block" }}
   >
     <path
-      d="M9 3.5C9 2.67157 9.67157 2 10.5 2H13.5C14.3284 2 15 2.67157 15 3.5V5H9V3.5Z"
-      fill="#0078D4"
+      d="M3 7.5L10.5 5.5V11.5H3V7.5Z"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinejoin="round"
     />
     <path
-      d="M4 5H20C20.5523 5 21 5.44772 21 6V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V6C3 5.44772 3.44772 5 4 5Z"
-      fill="#0078D4"
+      d="M12.5 5.5L21 3.5V11.5H12.5V5.5Z"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinejoin="round"
     />
-    <rect x="6" y="8" width="5" height="5" fill="#F25022" />
-    <rect x="13" y="8" width="5" height="5" fill="#7FBA00" />
-    <rect x="6" y="14" width="5" height="5" fill="#00A4EF" />
-    <rect x="13" y="14" width="5" height="5" fill="#FFB900" />
+    <path
+      d="M3 12.5H10.5V19.5L3 17.5V12.5Z"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.5 12.5H21V20.5L12.5 18.5V12.5Z"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
+// ===== WINDOWS ICON =====
 const WindowsIcon = ({
   size = 20,
   color = "#ffffff",
@@ -129,17 +148,18 @@ const FooterSection = () => {
       ref={containerRef}
       style={{
         width: "calc(100% - 40px)",
-        margin: "100px auto 0 auto",
+        margin: "100px auto 20px auto",
         backgroundColor: RED,
-        borderRadius: "32px 32px 0 0",
-        padding: "60px 40px 140px 40px",
+        // 4 sisi melengkung — atas lebih besar (seperti bentuk teks Menuru)
+        borderRadius: "60px 60px 32px 32px",
+        padding: "60px 40px 40px 40px",
         position: "relative",
         overflow: "hidden",
         boxSizing: "border-box",
         fontFamily: FONT_FAMILY,
       }}
     >
-      {/* Konten footer: hanya tombol download + store, tanpa kolom link */}
+      {/* Tombol Download for Windows */}
       <div
         style={{
           maxWidth: "1400px",
@@ -215,7 +235,7 @@ const FooterSection = () => {
         </p>
       </div>
 
-      {/* Tombol Unduh Menuru — biru */}
+      {/* Tombol Unduh Menuru — biru, icon minimalist */}
       <div
         style={{
           marginTop: "40px",
@@ -242,7 +262,7 @@ const FooterSection = () => {
             pointerEvents: "auto",
           }}
         >
-          <MicrosoftStoreIcon size={36} />
+          <MicrosoftStoreIcon size={36} color={WHITE} />
           <span
             style={{
               fontFamily: FONT_FAMILY,
@@ -762,175 +782,177 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== TOMBOL BG FIXED — SELALU TERLIHAT DI BAWAH ===== */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "24px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "100%",
-          maxWidth: "520px",
-          zIndex: 100002,
-          padding: "0 20px",
-          boxSizing: "border-box",
-        }}
-      >
+      {/* ===== TOMBOL BG FIXED — MUNCUL SETELAH PRELOADER ===== */}
+      {preloaderDone && (
         <div
-          ref={wrapperRef}
           style={{
+            position: "fixed",
+            bottom: "24px",
+            left: "50%",
+            transform: "translateX(-50%)",
             width: "100%",
-            position: "relative",
+            maxWidth: "520px",
+            zIndex: 100002,
+            padding: "0 20px",
+            boxSizing: "border-box",
           }}
         >
-          {/* PANEL BG — muncul di atas tombol */}
           <div
-            ref={panelBgRef}
+            ref={wrapperRef}
             style={{
-              position: "absolute",
-              bottom: "100%",
-              left: 0,
-              right: 0,
               width: "100%",
-              height: 0,
-              display: "none",
-              overflow: "hidden",
-              backgroundColor: "#0D3CFC",
-              borderRadius: "20px 20px 0 0",
-              boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
-              zIndex: 1,
-              boxSizing: "border-box",
-              margin: 0,
+              position: "relative",
             }}
           >
+            {/* PANEL BG — muncul di atas tombol */}
             <div
-              ref={panelInnerRef}
+              ref={panelBgRef}
               style={{
-                padding: "24px 24px 20px 24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                color: "#FFFFFF",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                opacity: 0,
+                position: "absolute",
+                bottom: "100%",
+                left: 0,
+                right: 0,
+                width: "100%",
+                height: 0,
+                display: "none",
+                overflow: "hidden",
+                backgroundColor: "#0D3CFC",
+                borderRadius: "20px 20px 0 0",
+                boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+                zIndex: 1,
                 boxSizing: "border-box",
-                height: "100%",
-                overflowY: "auto",
+                margin: 0,
               }}
             >
               <div
+                ref={panelInnerRef}
                 style={{
-                  fontSize: "20px",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Panel Baru
-              </div>
-              <p
-                style={{
-                  fontSize: "13px",
-                  lineHeight: 1.6,
-                  opacity: 0.9,
-                  margin: 0,
-                }}
-              >
-                Panel ini menyatu sempurna dengan tombol BG di bawahnya.
-                Tidak ada jarak, tidak terpisah.
-              </p>
-              <div
-                style={{
+                  padding: "24px 24px 20px 24px",
                   display: "flex",
-                  gap: "8px",
-                  flexWrap: "wrap",
-                  marginTop: "6px",
+                  flexDirection: "column",
+                  gap: "10px",
+                  color: "#FFFFFF",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  opacity: 0,
+                  boxSizing: "border-box",
+                  height: "100%",
+                  overflowY: "auto",
                 }}
               >
-                {["Home", "Notes", "About", "Portfolio"].map((it) => (
-                  <span
-                    key={it}
-                    style={{
-                      padding: "5px 12px",
-                      backgroundColor: "#FFFFFF",
-                      color: "#0D3CFC",
-                      borderRadius: "14px",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    }}
-                  >
-                    {it}
-                  </span>
-                ))}
+                <div
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: 700,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Panel Baru
+                </div>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    lineHeight: 1.6,
+                    opacity: 0.9,
+                    margin: 0,
+                  }}
+                >
+                  Panel ini menyatu sempurna dengan tombol BG di bawahnya.
+                  Tidak ada jarak, tidak terpisah.
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    flexWrap: "wrap",
+                    marginTop: "6px",
+                  }}
+                >
+                  {["Home", "Notes", "About", "Portfolio"].map((it) => (
+                    <span
+                      key={it}
+                      style={{
+                        padding: "5px 12px",
+                        backgroundColor: "#FFFFFF",
+                        color: "#0D3CFC",
+                        borderRadius: "14px",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      }}
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* TOMBOL BG UTAMA */}
-          <div
-            ref={buttonBgRef}
-            style={{
-              width: "100%",
-              height: "64px",
-              backgroundColor: "#0D3CFC",
-              borderRadius: expandOpen ? "0px 0px 20px 20px" : "20px",
-              boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
-              border: "2px solid #0D3CFC",
-              position: "relative",
-              zIndex: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "12px",
-              padding: "0 20px",
-              boxSizing: "border-box",
-              transition: "border-radius 0.4s ease",
-            }}
-          >
-            <span
+            {/* TOMBOL BG UTAMA */}
+            <div
+              ref={buttonBgRef}
               style={{
-                fontSize: "16px",
-                fontWeight: 700,
-                color: "#FFFFFF",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              Farid Ardiansyah
-            </span>
-            <button
-              onClick={() => setExpandOpen((prev) => !prev)}
-              aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-              style={{
-                background: "transparent",
-                border: "none",
+                width: "100%",
+                height: "64px",
+                backgroundColor: "#0D3CFC",
+                borderRadius: expandOpen ? "0px 0px 20px 20px" : "20px",
+                boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
+                border: "2px solid #0D3CFC",
+                position: "relative",
+                zIndex: 2,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                padding: 0,
+                justifyContent: "space-between",
+                gap: "12px",
+                padding: "0 20px",
+                boxSizing: "border-box",
+                transition: "border-radius 0.4s ease",
               }}
             >
               <span
-                ref={plusIconRef}
                 style={{
-                  display: "inline-block",
-                  fontSize: "36px",
-                  fontWeight: 300,
-                  lineHeight: 1,
+                  fontSize: "16px",
+                  fontWeight: 700,
                   color: "#FFFFFF",
-                  willChange: "transform",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  letterSpacing: "-0.02em",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                +
+                Farid Ardiansyah
               </span>
-            </button>
+              <button
+                onClick={() => setExpandOpen((prev) => !prev)}
+                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <span
+                  ref={plusIconRef}
+                  style={{
+                    display: "inline-block",
+                    fontSize: "36px",
+                    fontWeight: 300,
+                    lineHeight: 1,
+                    color: "#FFFFFF",
+                    willChange: "transform",
+                  }}
+                >
+                  +
+                </span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ===== HAPUS SCROLLBAR ===== */}
       <style jsx global>{`
