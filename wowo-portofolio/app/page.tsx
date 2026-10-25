@@ -12,8 +12,7 @@ export default function Home() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const expandCardRef = useRef<HTMLDivElement>(null);
-  const panelInnerRef = useRef<HTMLDivElement>(null);
+  const bgPanelRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,8 +75,7 @@ export default function Home() {
     if (typeof window === "undefined") return;
     const overlay = overlayRef.current;
     const label = menuLabelRef.current;
-    const button = menuButtonRef.current;
-    if (!overlay || !label || !button) return;
+    if (!overlay || !label) return;
 
     if (menuOpen) {
       gsap.set(overlay, { display: "flex" });
@@ -118,42 +116,42 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND CARD: PANEL NAIK KE ATAS, TOMBOL DIAM =====
+  // ===== EXPAND BG PANEL: NAIK KE ATAS, TOMBOL DIAM =====
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const card = expandCardRef.current;
-    const panelInner = panelInnerRef.current;
+    const panel = bgPanelRef.current;
     const plusIcon = plusIconRef.current;
-    if (!card || !panelInner) return;
+    if (!panel) return;
 
     if (expandOpen) {
-      // Hitung tinggi sampai menyentuh atas layar
-      const rect = card.getBoundingClientRect();
-      const desiredHeight = rect.height + rect.top - 20;
-      const finalHeight = Math.max(desiredHeight, 300);
+      // Hitung tinggi target sampai atas layar
+      const cardRect = panel.parentElement?.getBoundingClientRect();
+      const targetHeight = cardRect ? cardRect.top - 20 : 400;
 
-      gsap.to(card, {
-        height: `${finalHeight}px`,
-        duration: 0.9,
-        ease: "power3.out",
-      });
-      gsap.to(panelInner, {
-        opacity: 1,
-        duration: 0.5,
-        delay: 0.2,
-        ease: "power2.out",
-      });
+      gsap.set(panel, { display: "block" });
+      gsap.fromTo(
+        panel,
+        {
+          height: 0,
+          opacity: 0,
+        },
+        {
+          height: `${targetHeight}px`,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+        }
+      );
       if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
     } else {
-      gsap.to(card, {
-        height: "64px",
+      gsap.to(panel, {
+        height: 0,
+        opacity: 0,
         duration: 0.6,
         ease: "power3.inOut",
-      });
-      gsap.to(panelInner, {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power2.in",
+        onComplete: () => {
+          if (panel) panel.style.display = "none";
+        },
       });
       if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
     }
@@ -239,7 +237,7 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== JUDUL WEB DI KIRI NAVBAR ===== */}
+      {/* ===== JUDUL WEB ===== */}
       {preloaderDone && (
         <div
           style={{
@@ -412,7 +410,7 @@ export default function Home() {
           </span>
         </div>
 
-        {/* ===== TOMBOL BG DI PALING BAWAH, LEBAR NORMAL ===== */}
+        {/* ===== TOMBOL BG DI PALING BAWAH ===== */}
         <div
           style={{
             width: "100%",
@@ -422,38 +420,35 @@ export default function Home() {
             paddingTop: "160px",
             display: "flex",
             justifyContent: "flex-start",
+            position: "relative",
           }}
         >
+          {/* PANEL BG YANG NAIK KE ATAS (position absolute, tidak menggeser tombol) */}
           <div
-            ref={expandCardRef}
+            ref={bgPanelRef}
             style={{
+              position: "absolute",
+              bottom: "100%",
+              left: 0,
+              right: 0,
               width: "100%",
-              height: "64px",
-              backgroundColor: "#0D3CFC",
-              borderRadius: "20px",
-              boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
-              border: "2px solid #0D3CFC",
+              height: 0,
+              display: "none",
               overflow: "hidden",
-              position: "relative",
-              transition: "border-radius 0.4s ease",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
+              backgroundColor: "#0D3CFC",
+              borderRadius: "20px 20px 0 0",
+              boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+              zIndex: 1,
             }}
           >
-            {/* ISI PANEL (opacity diatur GSAP) */}
             <div
-              ref={panelInnerRef}
               style={{
-                padding: "20px 24px",
+                padding: "24px 24px 20px 24px",
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
                 color: "#FFFFFF",
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                opacity: 0,
-                height: "100%",
-                overflowY: "auto",
                 boxSizing: "border-box",
               }}
             >
@@ -461,8 +456,7 @@ export default function Home() {
                 Panel Baru
               </div>
               <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Konten panel yang muncul saat tombol + diklik. Card naik ke atas
-                sampai menyentuh layar, tombol bawah tetap di posisi.
+                Panel BG naik ke atas sampai menyentuh layar. Tombol di bawah tetap diam di posisinya.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                 {["Home", "Notes", "About", "Portfolio"].map((it) => (
@@ -483,62 +477,69 @@ export default function Home() {
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* BARIS BAWAH: nama kiri + tombol + kanan (TETAP DIAM) */}
-            <div
+          {/* TOMBOL UTAMA - DIAM */}
+          <div
+            style={{
+              width: "100%",
+              height: "64px",
+              backgroundColor: "#0D3CFC",
+              borderRadius: expandOpen ? "0 0 20px 20px" : "20px",
+              boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
+              border: "2px solid #0D3CFC",
+              padding: "0 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "12px",
+              position: "relative",
+              zIndex: 2,
+              transition: "border-radius 0.4s ease",
+              boxSizing: "border-box",
+            }}
+          >
+            <span
               style={{
-                height: "64px",
-                minHeight: "64px",
-                padding: "0 20px",
+                fontSize: "16px",
+                fontWeight: 700,
+                color: "#FFFFFF",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                letterSpacing: "-0.02em",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              Farid Ardiansyah
+            </span>
+            <button
+              onClick={() => setExpandOpen((prev) => !prev)}
+              aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+              style={{
+                background: "transparent",
+                border: "none",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px",
-                flexShrink: 0,
+                justifyContent: "center",
+                cursor: "pointer",
+                padding: 0,
               }}
             >
               <span
+                ref={plusIconRef}
                 style={{
-                  fontSize: "16px",
-                  fontWeight: 700,
+                  display: "inline-block",
+                  fontSize: "36px",
+                  fontWeight: 300,
+                  lineHeight: 1,
                   color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  willChange: "transform",
                 }}
               >
-                Farid Ardiansyah
+                +
               </span>
-              <button
-                onClick={() => setExpandOpen((prev) => !prev)}
-                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
-              >
-                <span
-                  ref={plusIconRef}
-                  style={{
-                    display: "inline-block",
-                    fontSize: "36px",
-                    fontWeight: 300,
-                    lineHeight: 1,
-                    color: "#FFFFFF",
-                    willChange: "transform",
-                  }}
-                >
-                  +
-                </span>
-              </button>
-            </div>
+            </button>
           </div>
         </div>
       </div>
