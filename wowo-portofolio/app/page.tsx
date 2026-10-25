@@ -13,6 +13,7 @@ export default function Home() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const buttonBgRef = useRef<HTMLDivElement>(null);
+  const panelBgRef = useRef<HTMLDivElement>(null);
   const panelInnerRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
@@ -117,27 +118,37 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND BG TOMBOL (BUKAN PANEL TERPISAH) =====
+  // ===== EXPAND PANEL: NAIK KE ATAS, TOMBOL DIAM, MENYATU =====
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const btnBg = buttonBgRef.current;
+    const panelBg = panelBgRef.current;
     const panelInner = panelInnerRef.current;
+    const buttonBg = buttonBgRef.current;
     const plusIcon = plusIconRef.current;
-    if (!btnBg) return;
+    if (!panelBg || !buttonBg) return;
 
     if (expandOpen) {
-      // Hitung tinggi sampai bawah banner
-      const rect = btnBg.getBoundingClientRect();
-      const BANNER_HEIGHT = 40;
-      const BANNER_MARGIN = 12;
-      const targetHeight = Math.max(rect.top - BANNER_HEIGHT - BANNER_MARGIN, 200);
+      // Hitung tinggi panel sampai bawah banner
+      const buttonRect = buttonBg.getBoundingClientRect();
+      const BANNER_HEIGHT = 40; // tinggi banner (padding + font)
+      const BANNER_MARGIN = 12; // jarak aman dari banner
 
-      // Animasi tinggi tombol BG itu sendiri (menyatu, bukan panel di atas)
-      gsap.to(btnBg, {
-        height: `${targetHeight}px`,
-        duration: 0.9,
-        ease: "power3.out",
-      });
+      const targetHeight = Math.max(
+        buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
+        200
+      );
+
+      gsap.set(panelBg, { display: "block" });
+      gsap.fromTo(
+        panelBg,
+        { height: 0, opacity: 0 },
+        {
+          height: `${targetHeight}px`,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+        }
+      );
       if (panelInner) {
         gsap.to(panelInner, {
           opacity: 1,
@@ -146,12 +157,18 @@ export default function Home() {
           ease: "power2.out",
         });
       }
-      if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
+      if (plusIcon) {
+        gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
+      }
     } else {
-      gsap.to(btnBg, {
-        height: "64px",
+      gsap.to(panelBg, {
+        height: 0,
+        opacity: 0,
         duration: 0.6,
         ease: "power3.inOut",
+        onComplete: () => {
+          if (panelBg) panelBg.style.display = "none";
+        },
       });
       if (panelInner) {
         gsap.to(panelInner, {
@@ -160,7 +177,9 @@ export default function Home() {
           ease: "power2.in",
         });
       }
-      if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
+      if (plusIcon) {
+        gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
+      }
     }
   }, [expandOpen]);
 
@@ -427,13 +446,10 @@ export default function Home() {
             paddingTop: "160px",
             display: "flex",
             justifyContent: "flex-start",
-            alignItems: "flex-end",
             position: "relative",
-            height: expandOpen ? "auto" : "64px",
-            transition: "height 0.4s ease",
           }}
         >
-          {/* TOMBOL BG UTAMA — yang memanjang ke atas saat + diklik */}
+          {/* TOMBOL BG UTAMA — tetap diam, tinggi fixed */}
           <div
             ref={buttonBgRef}
             style={{
@@ -443,15 +459,78 @@ export default function Home() {
               borderRadius: "20px",
               boxShadow: "0 8px 32px rgba(13,60,252,0.35)",
               border: "2px solid #0D3CFC",
-              overflow: "hidden",
               position: "relative",
+              zIndex: 2,
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "12px",
+              padding: "0 20px",
               boxSizing: "border-box",
             }}
           >
-            {/* ISI PANEL (muncul saat tinggi naik) */}
+            <span
+              style={{
+                fontSize: "16px",
+                fontWeight: 700,
+                color: "#FFFFFF",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                letterSpacing: "-0.02em",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              Farid Ardiansyah
+            </span>
+            <button
+              onClick={() => setExpandOpen((prev) => !prev)}
+              aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+              style={{
+                background: "transparent",
+                border: "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              <span
+                ref={plusIconRef}
+                style={{
+                  display: "inline-block",
+                  fontSize: "36px",
+                  fontWeight: 300,
+                  lineHeight: 1,
+                  color: "#FFFFFF",
+                  willChange: "transform",
+                }}
+              >
+                +
+              </span>
+            </button>
+          </div>
+
+          {/* PANEL BG — bagian dari tombol, muncul dari bawah ke atas, menyatu */}
+          <div
+            ref={panelBgRef}
+            style={{
+              position: "absolute",
+              bottom: "100%",
+              left: 0,
+              right: 0,
+              width: "100%",
+              height: 0,
+              display: "none",
+              overflow: "hidden",
+              backgroundColor: "#0D3CFC",
+              borderRadius: "20px 20px 0 0",
+              boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
+              zIndex: 1,
+              boxSizing: "border-box",
+            }}
+          >
             <div
               ref={panelInnerRef}
               style={{
@@ -462,17 +541,17 @@ export default function Home() {
                 color: "#FFFFFF",
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 opacity: 0,
+                boxSizing: "border-box",
                 height: "100%",
                 overflowY: "auto",
-                boxSizing: "border-box",
               }}
             >
               <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 Panel Baru
               </div>
               <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Panel ini menyatu dengan BG tombol. Tinggi BG tombol naik ke atas
-                sampai bawah banner, tombol tetap diam di posisinya.
+                Panel BG naik ke atas dari tombol sampai bawah banner. Tombol
+                tetap diam, panel menyatu sempurna dengan tombol BG.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                 {["Home", "Notes", "About", "Portfolio"].map((it) => (
@@ -492,63 +571,6 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-            </div>
-
-            {/* BARIS BAWAH: nama kiri + tombol + kanan (SELALU DI BAWAH) */}
-            <div
-              style={{
-                height: "64px",
-                minHeight: "64px",
-                padding: "0 20px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px",
-                flexShrink: 0,
-                boxSizing: "border-box",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                Farid Ardiansyah
-              </span>
-              <button
-                onClick={() => setExpandOpen((prev) => !prev)}
-                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
-              >
-                <span
-                  ref={plusIconRef}
-                  style={{
-                    display: "inline-block",
-                    fontSize: "36px",
-                    fontWeight: 300,
-                    lineHeight: 1,
-                    color: "#FFFFFF",
-                    willChange: "transform",
-                  }}
-                >
-                  +
-                </span>
-              </button>
             </div>
           </div>
         </div>
