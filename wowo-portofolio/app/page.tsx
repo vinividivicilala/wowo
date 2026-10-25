@@ -117,7 +117,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND CARD ANIMATION: TINGGI NAIK KE ATAS =====
+  // ===== EXPAND CARD: NAIK SAMPAI ATAS LAYAR =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const card = expandCardRef.current;
@@ -125,16 +125,21 @@ export default function Home() {
     if (!card) return;
 
     if (expandOpen) {
+      // Hitung tinggi sampai menyentuh atas layar (viewport)
+      const rect = card.getBoundingClientRect();
+      const targetHeight = rect.bottom + window.scrollY; // dari atas dokumen ke bawah card
+      // Lebih aman pakai: tinggi sampai top viewport
+      const currentTop = rect.top; // posisi card relatif ke viewport
+      const desiredHeight = rect.height + currentTop; // tambah jarak ke atas layar
+      const finalHeight = Math.max(desiredHeight - 20, 300);
+
       gsap.fromTo(
         card,
+        { height: "64px", transformOrigin: "bottom center" },
         {
-          height: "64px",
+          height: `${finalHeight}px`,
           transformOrigin: "bottom center",
-        },
-        {
-          height: "260px",
-          transformOrigin: "bottom center",
-          duration: 0.7,
+          duration: 0.9,
           ease: "power3.out",
         }
       );
@@ -143,7 +148,7 @@ export default function Home() {
       gsap.to(card, {
         height: "64px",
         transformOrigin: "bottom center",
-        duration: 0.5,
+        duration: 0.6,
         ease: "power3.inOut",
       });
       if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
@@ -315,12 +320,13 @@ export default function Home() {
           minHeight: "100vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          padding: "160px 40px 80px 40px",
+          padding: "160px 40px 20px 40px",
           boxSizing: "border-box",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          position: "relative",
         }}
       >
         {/* Konten atas */}
@@ -402,14 +408,14 @@ export default function Home() {
           </span>
         </div>
 
-        {/* ===== TOMBOL BG DI BAWAH, LEBAR NORMAL ===== */}
+        {/* ===== TOMBOL BG DI PALING BAWAH, LEBAR NORMAL ===== */}
         <div
           style={{
             width: "100%",
             maxWidth: "520px",
             margin: "0 auto",
             marginTop: "auto",
-            paddingTop: "120px",
+            paddingTop: "160px",
             display: "flex",
             justifyContent: "flex-start",
           }}
@@ -432,7 +438,7 @@ export default function Home() {
               justifyContent: "flex-end",
             }}
           >
-            {/* ISI PANEL (muncul saat tinggi naik) */}
+            {/* ISI PANEL (muncul saat tinggi naik sampai atas) */}
             <div
               style={{
                 padding: "20px 24px",
@@ -443,13 +449,16 @@ export default function Home() {
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 opacity: expandOpen ? 1 : 0,
                 transition: "opacity 0.4s ease",
+                height: "100%",
+                overflowY: "auto",
               }}
             >
               <div style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 Panel Baru
               </div>
               <p style={{ fontSize: "13px", lineHeight: 1.6, opacity: 0.9, margin: 0 }}>
-                Konten panel yang muncul saat tombol + diklik. Tinggi card naik ke atas.
+                Konten panel yang muncul saat tombol + diklik. Tinggi card naik ke atas
+                sampai menyentuh layar atas.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                 {["Home", "Notes", "About", "Portfolio"].map((it) => (
