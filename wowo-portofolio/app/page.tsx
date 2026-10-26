@@ -624,7 +624,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Teks tengah: Work, About, Contact */}
+          {/* Teks tengah: Work, About, Contact, Post */}
           <div
             style={{
               position: "fixed",
@@ -685,6 +685,21 @@ export default function Home() {
               }}
             >
               Contact
+            </a>
+            <a
+              href="#"
+              style={{
+                fontSize: navFontSize,
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+                color: "inherit",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              Post
             </a>
           </div>
 
@@ -769,7 +784,7 @@ export default function Home() {
       {/* ===== KONTEN UTAMA ===== */}
       <div
         style={{
-          minHeight: "100vh",
+          minHeight: "200vh", // <-- tinggi halaman ditambah
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           padding: "200px 0 0 0",
