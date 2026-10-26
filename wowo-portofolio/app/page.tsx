@@ -147,16 +147,21 @@ const FooterSection = () => {
     <div
       ref={containerRef}
       style={{
-        width: "calc(100% - 40px)",
-        margin: "100px auto 20px auto",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: "100%",
         backgroundColor: RED,
         // 4 sisi melengkung — atas lebih besar (seperti bentuk teks Menuru)
         borderRadius: "60px 60px 32px 32px",
-        padding: "60px 40px 40px 40px",
-        position: "relative",
-        overflow: "hidden",
+        padding: "40px 40px 40px 40px",
         boxSizing: "border-box",
         fontFamily: FONT_FAMILY,
+        zIndex: 100000,
+        overflow: "hidden",
+        maxHeight: "60vh",
+        overflowY: "auto",
       }}
     >
       {/* Tombol Download for Windows */}
@@ -169,7 +174,7 @@ const FooterSection = () => {
           alignItems: "flex-start",
           position: "relative",
           zIndex: 1,
-          marginBottom: "40px",
+          marginBottom: "20px",
         }}
       >
         <a
@@ -182,7 +187,7 @@ const FooterSection = () => {
             gap: "10px",
             textDecoration: "none",
             cursor: "pointer",
-            padding: "14px 22px",
+            padding: "12px 20px",
             backgroundColor: WHITE,
             borderRadius: "12px",
             boxShadow: "0 6px 24px rgba(255,255,255,0.25)",
@@ -190,11 +195,11 @@ const FooterSection = () => {
             pointerEvents: "auto",
           }}
         >
-          <WindowsIcon size={24} color={RED} />
+          <WindowsIcon size={22} color={RED} />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "18px",
+              fontSize: "16px",
               fontWeight: 700,
               color: RED,
               letterSpacing: "-0.01em",
@@ -207,39 +212,11 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Terms */}
-      <div
-        style={{
-          maxWidth: "1400px",
-          margin: "0 auto",
-          paddingTop: "20px",
-          borderTop: `1px solid ${WHITE}40`,
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <p
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: "14px",
-            fontWeight: 400,
-            color: WHITE,
-            margin: 0,
-            textAlign: "center",
-            letterSpacing: "0.01em",
-            opacity: 0.9,
-          }}
-        >
-          Terms and conditions apply. By using this website, you agree to our
-          Terms of Use and Privacy Policy.
-        </p>
-      </div>
-
       {/* Tombol Unduh Menuru — biru, icon minimalist */}
       <div
         style={{
-          marginTop: "40px",
-          marginBottom: "24px",
+          marginTop: "16px",
+          marginBottom: "16px",
           position: "relative",
           zIndex: 1,
         }}
@@ -254,7 +231,7 @@ const FooterSection = () => {
             gap: "12px",
             textDecoration: "none",
             cursor: "pointer",
-            padding: "14px 22px",
+            padding: "12px 20px",
             backgroundColor: BLUE,
             borderRadius: "14px",
             boxShadow: "0 6px 24px rgba(13,60,252,0.35)",
@@ -262,11 +239,11 @@ const FooterSection = () => {
             pointerEvents: "auto",
           }}
         >
-          <MicrosoftStoreIcon size={36} color={WHITE} />
+          <MicrosoftStoreIcon size={30} color={WHITE} />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "24px",
+              fontSize: "20px",
               fontWeight: 700,
               color: WHITE,
               letterSpacing: "-0.02em",
@@ -284,7 +261,7 @@ const FooterSection = () => {
           ref={titleRef}
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: "600px",
+            fontSize: "320px",
             fontWeight: 400,
             color: WHITE,
             letterSpacing: "-0.05em",
@@ -297,7 +274,7 @@ const FooterSection = () => {
             whiteSpace: "nowrap",
             margin: 0,
             padding: 0,
-            overflow: "visible",
+            overflow: "hidden",
             position: "relative",
             pointerEvents: "none",
           }}
@@ -309,13 +286,13 @@ const FooterSection = () => {
             width: "100%",
             display: "flex",
             justifyContent: "flex-start",
-            marginTop: "10px",
+            marginTop: "6px",
           }}
         >
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "16px",
+              fontSize: "14px",
               fontWeight: 400,
               color: WHITE,
               letterSpacing: "0.01em",
@@ -523,7 +500,7 @@ export default function Home() {
           width: "100%",
           height: "100%",
           backgroundColor: "#FFFFFF",
-          zIndex: 99999,
+          zIndex: 999999,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -591,67 +568,117 @@ export default function Home() {
         Website Ini Sedang Di Kembangkan
       </div>
 
-      {/* ===== JUDUL WEB ===== */}
+      {/* ===== NAVBAR ===== */}
       {preloaderDone && (
-        <div
-          style={{
-            position: "fixed",
-            top: "60px",
-            left: "40px",
-            zIndex: 100001,
-            display: "flex",
-            alignItems: "center",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            pointerEvents: "none",
-            color: menuOpen ? "#FFFFFF" : "#0D3CFC",
-            transition: "color 0.3s ease",
-          }}
-        >
-          <span
+        <>
+          {/* Judul kiri */}
+          <div
             style={{
-              fontSize: "70px",
-              fontWeight: 400,
-              letterSpacing: "-0.03em",
-              lineHeight: 1,
-              textTransform: "capitalize",
+              position: "fixed",
+              top: "60px",
+              left: "40px",
+              zIndex: 100001,
+              display: "flex",
+              alignItems: "center",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              pointerEvents: "none",
+              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+              transition: "color 0.3s ease",
             }}
           >
-            Farid Ardiansyah
-          </span>
-        </div>
-      )}
+            <span
+              style={{
+                fontSize: "70px",
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+              }}
+            >
+              Farid Ardiansyah
+            </span>
+          </div>
 
-      {/* ===== TEKS MENU / CLOSE ===== */}
-      {preloaderDone && (
-        <button
-          ref={menuButtonRef}
-          onClick={() => setMenuOpen((prev) => !prev)}
-          style={{
-            position: "fixed",
-            top: "60px",
-            right: "40px",
-            zIndex: 100001,
-            backgroundColor: "transparent",
-            color: menuOpen ? "#FFFFFF" : "#0D3CFC",
-            border: "none",
-            padding: 0,
-            fontSize: "70px",
-            fontWeight: 400,
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            letterSpacing: "-0.03em",
-            cursor: "pointer",
-            textTransform: "capitalize",
-            lineHeight: 1,
-            transition: "color 0.3s ease",
-          }}
-        >
-          <span
-            ref={menuLabelRef}
-            style={{ display: "inline-block", willChange: "transform, opacity" }}
+          {/* Teks tengah: Work & About */}
+          <div
+            style={{
+              position: "fixed",
+              top: "60px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 100001,
+              display: "flex",
+              alignItems: "center",
+              gap: "48px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              pointerEvents: "auto",
+              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+              transition: "color 0.3s ease",
+            }}
           >
-            {menuOpen ? "Close" : "Menu"}
-          </span>
-        </button>
+            <a
+              href="#"
+              style={{
+                fontSize: "70px",
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+                color: "inherit",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              Work
+            </a>
+            <a
+              href="#"
+              style={{
+                fontSize: "70px",
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+                color: "inherit",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              About
+            </a>
+          </div>
+
+          {/* Menu kanan */}
+          <button
+            ref={menuButtonRef}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            style={{
+              position: "fixed",
+              top: "60px",
+              right: "40px",
+              zIndex: 100001,
+              backgroundColor: "transparent",
+              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+              border: "none",
+              padding: 0,
+              fontSize: "70px",
+              fontWeight: 400,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              letterSpacing: "-0.03em",
+              cursor: "pointer",
+              textTransform: "capitalize",
+              lineHeight: 1,
+              transition: "color 0.3s ease",
+            }}
+          >
+            <span
+              ref={menuLabelRef}
+              style={{ display: "inline-block", willChange: "transform, opacity" }}
+            >
+              {menuOpen ? "Close" : "Menu"}
+            </span>
+          </button>
+        </>
       )}
 
       {/* ===== OVERLAY MENU BIRU ===== */}
@@ -676,88 +703,34 @@ export default function Home() {
           minHeight: "100vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          padding: "160px 0 0 0",
+          padding: "200px 40px 0 40px",
           boxSizing: "border-box",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           position: "relative",
         }}
       >
-        {/* Konten atas */}
         <div
           style={{
-            padding: "0 40px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            flex: 1,
-            minHeight: "calc(100vh - 160px)",
+            alignItems: "flex-start",
+            gap: "16px",
+            maxWidth: "1600px",
+            margin: "0 auto",
+            width: "100%",
           }}
         >
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "16px",
-              maxWidth: "1600px",
-              margin: "0 auto",
-              width: "100%",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "12px",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "12px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "50px",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  fontWeight: 400,
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  textTransform: "capitalize",
-                }}
-              >
-                Founder And Developer Brand
-              </span>
-              <span
-                style={{
-                  backgroundColor: "#0D3CFC",
-                  padding: "10px 28px",
-                  borderRadius: "6px 28px 28px 28px",
-                  display: "inline-block",
-                  boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-                  border: "2px solid #0D3CFC",
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    padding: "6px 22px",
-                    borderRadius: "24px 4px 24px 24px",
-                    display: "inline-block",
-                    fontSize: "50px",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontWeight: 400,
-                    letterSpacing: "-0.02em",
-                    lineHeight: "1.1",
-                    color: "#0D3CFC",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  Menuru
-                </span>
-              </span>
-            </div>
             <span
               style={{
                 fontSize: "50px",
@@ -770,24 +743,66 @@ export default function Home() {
                 textTransform: "capitalize",
               }}
             >
-              Based In Indonesia
+              Founder And Developer Brand
+            </span>
+            <span
+              style={{
+                backgroundColor: "#0D3CFC",
+                padding: "10px 28px",
+                borderRadius: "6px 28px 28px 28px",
+                display: "inline-block",
+                boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+                border: "2px solid #0D3CFC",
+              }}
+            >
+              <span
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  padding: "6px 22px",
+                  borderRadius: "24px 4px 24px 24px",
+                  display: "inline-block",
+                  fontSize: "50px",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontWeight: 400,
+                  letterSpacing: "-0.02em",
+                  lineHeight: "1.1",
+                  color: "#0D3CFC",
+                  textTransform: "capitalize",
+                }}
+              >
+                Menuru
+              </span>
             </span>
           </div>
-
-          {/* Spacer untuk memberi ruang tombol fixed di bawah */}
-          <div style={{ height: "140px" }} />
+          <span
+            style={{
+              fontSize: "50px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              lineHeight: "1.1",
+              color: "#0D3CFC",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              whiteSpace: "nowrap",
+              textTransform: "capitalize",
+            }}
+          >
+            Based In Indonesia
+          </span>
         </div>
 
-        {/* ===== FOOTER ===== */}
-        <FooterSection />
+        {/* Spacer untuk memberi ruang footer fixed & tombol fixed */}
+        <div style={{ height: "500px" }} />
       </div>
+
+      {/* ===== FOOTER FIXED ===== */}
+      {preloaderDone && <FooterSection />}
 
       {/* ===== TOMBOL BG FIXED — MUNCUL SETELAH PRELOADER ===== */}
       {preloaderDone && (
         <div
           style={{
             position: "fixed",
-            bottom: "24px",
+            bottom: "calc(100% - 80vh + 24px)", // di atas footer fixed
             left: "50%",
             transform: "translateX(-50%)",
             width: "100%",
