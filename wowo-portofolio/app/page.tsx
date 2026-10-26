@@ -147,21 +147,15 @@ const FooterSection = () => {
     <div
       ref={containerRef}
       style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: "100%",
+        width: "calc(100% - 40px)",
+        margin: "100px auto 20px auto",
         backgroundColor: RED,
-        // 4 sisi melengkung — atas lebih besar (seperti bentuk teks Menuru)
         borderRadius: "60px 60px 32px 32px",
-        padding: "40px 40px 40px 40px",
+        padding: "60px 40px 40px 40px",
+        position: "relative",
+        overflow: "hidden",
         boxSizing: "border-box",
         fontFamily: FONT_FAMILY,
-        zIndex: 100000,
-        overflow: "hidden",
-        maxHeight: "60vh",
-        overflowY: "auto",
       }}
     >
       {/* Tombol Download for Windows */}
@@ -174,7 +168,7 @@ const FooterSection = () => {
           alignItems: "flex-start",
           position: "relative",
           zIndex: 1,
-          marginBottom: "20px",
+          marginBottom: "40px",
         }}
       >
         <a
@@ -187,7 +181,7 @@ const FooterSection = () => {
             gap: "10px",
             textDecoration: "none",
             cursor: "pointer",
-            padding: "12px 20px",
+            padding: "14px 22px",
             backgroundColor: WHITE,
             borderRadius: "12px",
             boxShadow: "0 6px 24px rgba(255,255,255,0.25)",
@@ -195,11 +189,11 @@ const FooterSection = () => {
             pointerEvents: "auto",
           }}
         >
-          <WindowsIcon size={22} color={RED} />
+          <WindowsIcon size={24} color={RED} />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "16px",
+              fontSize: "18px",
               fontWeight: 700,
               color: RED,
               letterSpacing: "-0.01em",
@@ -212,11 +206,39 @@ const FooterSection = () => {
         </a>
       </div>
 
+      {/* Terms */}
+      <div
+        style={{
+          maxWidth: "1400px",
+          margin: "0 auto",
+          paddingTop: "20px",
+          borderTop: `1px solid ${WHITE}40`,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <p
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: "14px",
+            fontWeight: 400,
+            color: WHITE,
+            margin: 0,
+            textAlign: "center",
+            letterSpacing: "0.01em",
+            opacity: 0.9,
+          }}
+        >
+          Terms and conditions apply. By using this website, you agree to our
+          Terms of Use and Privacy Policy.
+        </p>
+      </div>
+
       {/* Tombol Unduh Menuru — biru, icon minimalist */}
       <div
         style={{
-          marginTop: "16px",
-          marginBottom: "16px",
+          marginTop: "40px",
+          marginBottom: "24px",
           position: "relative",
           zIndex: 1,
         }}
@@ -231,7 +253,7 @@ const FooterSection = () => {
             gap: "12px",
             textDecoration: "none",
             cursor: "pointer",
-            padding: "12px 20px",
+            padding: "14px 22px",
             backgroundColor: BLUE,
             borderRadius: "14px",
             boxShadow: "0 6px 24px rgba(13,60,252,0.35)",
@@ -239,11 +261,11 @@ const FooterSection = () => {
             pointerEvents: "auto",
           }}
         >
-          <MicrosoftStoreIcon size={30} color={WHITE} />
+          <MicrosoftStoreIcon size={36} color={WHITE} />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "20px",
+              fontSize: "24px",
               fontWeight: 700,
               color: WHITE,
               letterSpacing: "-0.02em",
@@ -261,7 +283,7 @@ const FooterSection = () => {
           ref={titleRef}
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: "320px",
+            fontSize: "600px",
             fontWeight: 400,
             color: WHITE,
             letterSpacing: "-0.05em",
@@ -274,7 +296,7 @@ const FooterSection = () => {
             whiteSpace: "nowrap",
             margin: 0,
             padding: 0,
-            overflow: "hidden",
+            overflow: "visible",
             position: "relative",
             pointerEvents: "none",
           }}
@@ -286,13 +308,13 @@ const FooterSection = () => {
             width: "100%",
             display: "flex",
             justifyContent: "flex-start",
-            marginTop: "6px",
+            marginTop: "10px",
           }}
         >
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: "14px",
+              fontSize: "16px",
               fontWeight: 400,
               color: WHITE,
               letterSpacing: "0.01em",
@@ -703,7 +725,7 @@ export default function Home() {
           minHeight: "100vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          padding: "200px 40px 0 40px",
+          padding: "200px 0 0 0",
           boxSizing: "border-box",
           overflow: "hidden",
           display: "flex",
@@ -712,8 +734,10 @@ export default function Home() {
           position: "relative",
         }}
       >
+        {/* Konten atas */}
         <div
           style={{
+            padding: "0 40px",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -790,19 +814,16 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Spacer untuk memberi ruang footer fixed & tombol fixed */}
-        <div style={{ height: "500px" }} />
+        {/* ===== FOOTER CARD — DI PALING BAWAH HALAMAN ===== */}
+        <FooterSection />
       </div>
-
-      {/* ===== FOOTER FIXED ===== */}
-      {preloaderDone && <FooterSection />}
 
       {/* ===== TOMBOL BG FIXED — MUNCUL SETELAH PRELOADER ===== */}
       {preloaderDone && (
         <div
           style={{
             position: "fixed",
-            bottom: "calc(100% - 80vh + 24px)", // di atas footer fixed
+            bottom: "24px",
             left: "50%",
             transform: "translateX(-50%)",
             width: "100%",
