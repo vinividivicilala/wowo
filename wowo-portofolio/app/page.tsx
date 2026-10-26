@@ -510,6 +510,9 @@ export default function Home() {
     }
   }, [expandOpen]);
 
+  // ===== NAVBAR FONT SIZE =====
+  const navFontSize = "50px";
+
   return (
     <>
       {/* ===== PRELOADER ===== */}
@@ -610,7 +613,7 @@ export default function Home() {
           >
             <span
               style={{
-                fontSize: "70px",
+                fontSize: navFontSize,
                 fontWeight: 400,
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
@@ -621,7 +624,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Teks tengah: Work & About */}
+          {/* Teks tengah: Work, About, Contact */}
           <div
             style={{
               position: "fixed",
@@ -631,7 +634,7 @@ export default function Home() {
               zIndex: 100001,
               display: "flex",
               alignItems: "center",
-              gap: "48px",
+              gap: "40px",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               pointerEvents: "auto",
               color: menuOpen ? "#FFFFFF" : "#0D3CFC",
@@ -641,7 +644,7 @@ export default function Home() {
             <a
               href="#"
               style={{
-                fontSize: "70px",
+                fontSize: navFontSize,
                 fontWeight: 400,
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
@@ -656,7 +659,7 @@ export default function Home() {
             <a
               href="#"
               style={{
-                fontSize: "70px",
+                fontSize: navFontSize,
                 fontWeight: 400,
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
@@ -668,38 +671,82 @@ export default function Home() {
             >
               About
             </a>
+            <a
+              href="#"
+              style={{
+                fontSize: navFontSize,
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+                color: "inherit",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              Contact
+            </a>
           </div>
 
-          {/* Menu kanan */}
-          <button
-            ref={menuButtonRef}
-            onClick={() => setMenuOpen((prev) => !prev)}
+          {/* Kanan: Messages + Menu */}
+          <div
             style={{
               position: "fixed",
               top: "60px",
               right: "40px",
               zIndex: 100001,
-              backgroundColor: "transparent",
-              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
-              border: "none",
-              padding: 0,
-              fontSize: "70px",
-              fontWeight: 400,
+              display: "flex",
+              alignItems: "center",
+              gap: "40px",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              letterSpacing: "-0.03em",
-              cursor: "pointer",
-              textTransform: "capitalize",
-              lineHeight: 1,
+              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
               transition: "color 0.3s ease",
             }}
           >
-            <span
-              ref={menuLabelRef}
-              style={{ display: "inline-block", willChange: "transform, opacity" }}
+            <a
+              href="#"
+              style={{
+                fontSize: navFontSize,
+                fontWeight: 400,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                textTransform: "capitalize",
+                color: "inherit",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
             >
-              {menuOpen ? "Close" : "Menu"}
-            </span>
-          </button>
+              Messages
+            </a>
+            <button
+              ref={menuButtonRef}
+              onClick={() => setMenuOpen((prev) => !prev)}
+              style={{
+                backgroundColor: "transparent",
+                color: "inherit",
+                border: "none",
+                padding: 0,
+                fontSize: navFontSize,
+                fontWeight: 400,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                letterSpacing: "-0.03em",
+                cursor: "pointer",
+                textTransform: "capitalize",
+                lineHeight: 1,
+                transition: "color 0.3s ease",
+              }}
+            >
+              <span
+                ref={menuLabelRef}
+                style={{
+                  display: "inline-block",
+                  willChange: "transform, opacity",
+                }}
+              >
+                {menuOpen ? "Close" : "Menu"}
+              </span>
+            </button>
+          </div>
         </>
       )}
 
