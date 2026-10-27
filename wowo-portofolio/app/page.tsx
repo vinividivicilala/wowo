@@ -99,6 +99,57 @@ const WindowsIcon = ({
   </svg>
 );
 
+// ===== GRAFITI BUBBLE "A" (THICK MINIMALIST) =====
+const GrafitiBubbleA = ({ size = 600 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size * 1.15}
+    viewBox="0 0 200 230"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ display: "inline-block", verticalAlign: "middle" }}
+  >
+    {/* Outer bubble outline - tebal */}
+    <path
+      d="M100 15
+         C 130 15, 155 45, 165 85
+         C 175 125, 185 165, 185 195
+         C 185 210, 175 220, 160 220
+         C 145 220, 138 210, 135 195
+         L 130 170
+         L 70 170
+         L 65 195
+         C 62 210, 55 220, 40 220
+         C 25 220, 15 210, 15 195
+         C 15 165, 25 125, 35 85
+         C 45 45, 70 15, 100 15 Z"
+      fill="#FFFFFF"
+      stroke="#FFFFFF"
+      strokeWidth="8"
+      strokeLinejoin="round"
+    />
+    {/* Inner cutout */}
+    <path
+      d="M100 70
+         C 110 70, 118 82, 122 100
+         L 130 145
+         L 70 145
+         L 78 100
+         C 82 82, 90 70, 100 70 Z"
+      fill="#DC2626"
+    />
+    {/* Highlight - garis tebal di kiri atas */}
+    <path
+      d="M60 60 C 75 45, 90 40, 100 40"
+      stroke="#DC2626"
+      strokeWidth="6"
+      strokeLinecap="round"
+      fill="none"
+      opacity="0.6"
+    />
+  </svg>
+);
+
 // ===== FOOTER SECTION =====
 const FooterSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -259,7 +310,7 @@ const FooterSection = () => {
         </p>
       </div>
 
-      {/* Tombol Unduh Menuru — biru, icon minimalist */}
+      {/* Tombol Unduh Menuru */}
       <div
         style={{
           marginTop: "40px",
@@ -302,8 +353,17 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid */}
-      <div style={{ position: "relative", zIndex: 1 }}>
+      {/* ===== TEKS BESAR: Farid + A (GRAFITI BUBBLE) ===== */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          alignItems: "flex-end",
+          gap: "20px",
+          flexWrap: "wrap",
+        }}
+      >
         <span
           ref={titleRef}
           style={{
@@ -328,27 +388,38 @@ const FooterSection = () => {
         >
           Farid
         </span>
+
+        {/* Grafiti Bubble A */}
         <div
           style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-start",
-            marginTop: "10px",
+            lineHeight: 0,
+            marginBottom: "40px",
           }}
         >
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: "16px",
-              fontWeight: 400,
-              color: WHITE,
-              letterSpacing: "0.01em",
-              opacity: 0.9,
-            }}
-          >
-            2024 - 2026 Menuru. All rights reserved.
-          </span>
+          <GrafitiBubbleA size={520} />
         </div>
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "flex-start",
+          marginTop: "10px",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: "16px",
+            fontWeight: 400,
+            color: WHITE,
+            letterSpacing: "0.01em",
+            opacity: 0.9,
+          }}
+        >
+          2024 - 2026 Menuru. All rights reserved.
+        </span>
       </div>
     </div>
   );
@@ -667,7 +738,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Teks tengah: Work, About, Contact, Post */}
+          {/* Teks tengah: Menus */}
           <div
             style={{
               position: "fixed",
@@ -697,56 +768,11 @@ export default function Home() {
                 cursor: "pointer",
               }}
             >
-              Work
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Contact
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Post
+              Menus
             </a>
           </div>
 
-          {/* Kanan: Messages + Menu */}
+          {/* Kanan: Menus (tombol toggle, tidak berubah jadi Close) */}
           <div
             style={{
               position: "fixed",
@@ -761,21 +787,6 @@ export default function Home() {
               transition: "color 0.3s ease",
             }}
           >
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Messages
-            </a>
             <button
               ref={menuButtonRef}
               onClick={() => setMenuOpen((prev) => !prev)}
@@ -801,7 +812,7 @@ export default function Home() {
                   willChange: "transform, opacity",
                 }}
               >
-                {menuOpen ? "Close" : "Menu"}
+                Menus
               </span>
             </button>
           </div>
@@ -923,7 +934,7 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== TOMBOL BG FIXED — MUNCUL SETELAH PRELOADER ===== */}
+      {/* ===== TOMBOL BG KOSONG — MUNCUL SETELAH PRELOADER ===== */}
       {preloaderDone && (
         <div
           style={{
@@ -1028,7 +1039,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* TOMBOL BG UTAMA */}
+            {/* TOMBOL BG KOSONG */}
             <div
               ref={buttonBgRef}
               style={{
@@ -1042,54 +1053,15 @@ export default function Home() {
                 zIndex: 2,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px",
+                justifyContent: "center",
                 padding: "0 20px",
                 boxSizing: "border-box",
                 transition: "border-radius 0.4s ease",
+                cursor: "pointer",
               }}
+              onClick={() => setExpandOpen((prev) => !prev)}
             >
-              <span
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                Farid Ardiansyah
-              </span>
-              <button
-                onClick={() => setExpandOpen((prev) => !prev)}
-                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
-              >
-                <span
-                  ref={plusIconRef}
-                  style={{
-                    display: "inline-block",
-                    fontSize: "36px",
-                    fontWeight: 300,
-                    lineHeight: 1,
-                    color: "#FFFFFF",
-                    willChange: "transform",
-                  }}
-                >
-                  +
-                </span>
-              </button>
+              {/* Tombol BG kosong — tanpa teks, tanpa tombol + */}
             </div>
           </div>
         </div>
