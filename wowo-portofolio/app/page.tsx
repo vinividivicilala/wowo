@@ -109,14 +109,26 @@ const FooterSection = () => {
     if (typeof window === "undefined") return;
     if (!titleRef.current || !containerRef.current) return;
     const title = titleRef.current;
+    const aEl = aRef.current;
     let split: any = null;
+    let splitA: any = null;
     let ctx: any = null;
 
     const setup = () => {
+      // Split "Farid" per karakter
       split = new SplitText(title, {
         type: "chars",
         charsClass: "footer-farid-char",
       });
+
+      // Split "A" per karakter (hanya 1 huruf, tapi tetap pakai SplitText untuk konsistensi)
+      if (aEl) {
+        splitA = new SplitText(aEl, {
+          type: "chars",
+          charsClass: "footer-a-char",
+        });
+      }
+
       ctx = gsap.context(() => {
         // Animasi "Farid" — split text
         gsap.set(split.chars, {
@@ -143,22 +155,22 @@ const FooterSection = () => {
           },
         });
 
-        // Animasi "A" brutalisme — tegas, keras, tanpa bounce
-        if (aRef.current) {
-          gsap.set(aRef.current, {
-            yPercent: 120,
+        // Animasi "A" brutal ala GSAP — clip, scale, rotate tegas
+        if (splitA && splitA.chars.length > 0) {
+          gsap.set(splitA.chars, {
+            yPercent: 100,
             opacity: 0,
-            scaleX: 1.4,
-            scaleY: 0.6,
+            scale: 2.2,
+            rotate: -12,
             transformOrigin: "50% 100%",
             force3D: true,
           });
-          gsap.to(aRef.current, {
+          gsap.to(splitA.chars, {
             yPercent: 0,
             opacity: 1,
-            scaleX: 1,
-            scaleY: 1,
-            duration: 0.9,
+            scale: 1,
+            rotate: 0,
+            duration: 1.1,
             ease: "expo.out",
             scrollTrigger: {
               trigger: containerRef.current,
@@ -182,6 +194,7 @@ const FooterSection = () => {
     return () => {
       if (ctx) ctx.revert();
       if (split && split.revert) split.revert();
+      if (splitA && splitA.revert) splitA.revert();
     };
   }, []);
 
@@ -289,7 +302,7 @@ const FooterSection = () => {
         </p>
       </div>
 
-      {/* Tombol Unduh Menuru — biru, icon minimalist */}
+      {/* Tombol Unduh Menuru */}
       <div
         style={{
           marginTop: "40px",
@@ -332,7 +345,7 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid + A brutalisme */}
+      {/* Teks besar Farid + A brutal ala GSAP */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
@@ -340,6 +353,7 @@ const FooterSection = () => {
             alignItems: "flex-end",
             gap: "12px",
             flexWrap: "nowrap",
+            overflow: "hidden",
           }}
         >
           <span
@@ -367,24 +381,33 @@ const FooterSection = () => {
             Farid
           </span>
 
-          {/* A brutalisme — tebal penuh putih, font brutalist, tanpa dekorasi */}
+          {/* A brutal ala web GSAP — font Arial Black/Impact, tebal putih, animasi expo.out */}
           <span
-            ref={aRef}
             style={{
-              fontFamily: "'Arial Black', 'Helvetica Black', Impact, sans-serif",
-              fontSize: "600px",
-              fontWeight: 900,
-              color: WHITE,
-              lineHeight: "0.85",
               display: "inline-block",
-              letterSpacing: "-0.12em",
-              textTransform: "uppercase",
-              willChange: "transform, opacity",
-              pointerEvents: "none",
-              marginLeft: "8px",
+              overflow: "hidden",
+              lineHeight: "0.85",
             }}
           >
-            A
+            <span
+              ref={aRef}
+              style={{
+                fontFamily:
+                  "'Arial Black', 'Helvetica Black', Impact, sans-serif",
+                fontSize: "600px",
+                fontWeight: 900,
+                color: WHITE,
+                lineHeight: "0.85",
+                display: "inline-block",
+                letterSpacing: "-0.14em",
+                textTransform: "uppercase",
+                willChange: "transform, opacity",
+                pointerEvents: "none",
+                marginLeft: "4px",
+              }}
+            >
+              A
+            </span>
           </span>
         </div>
 
@@ -530,7 +553,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL =====
+  // ===== EXPAND PANEL — tinggi sampai DI BAWAH BANNER =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panelBg = panelBgRef.current;
@@ -541,9 +564,10 @@ export default function Home() {
 
     if (expandOpen) {
       const buttonRect = buttonBg.getBoundingClientRect();
-      const BANNER_HEIGHT = 40;
-      const BANNER_MARGIN = 12;
+      const BANNER_HEIGHT = 40; // tinggi banner atas
+      const BANNER_MARGIN = 12; // jarak aman dari banner
 
+      // Tinggi panel = jarak dari atas tombol sampai bawah banner
       const targetHeight = Math.max(
         buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
         200
@@ -696,10 +720,9 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ===== JUDUL KIRI + MENU KANAN (selalu di atas overlay) ===== */}
+      {/* ===== JUDUL KIRI + MENU KANAN ===== */}
       {preloaderDone && (
         <>
-          {/* Judul kiri */}
           <div
             style={{
               position: "fixed",
@@ -727,7 +750,6 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Menu kanan (Close/Menu) */}
           <button
             ref={menuButtonRef}
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -779,10 +801,9 @@ export default function Home() {
         }}
       />
 
-      {/* ===== NAVBAR TENGAH & KANAN (Work → Messages) — di bawah overlay ===== */}
+      {/* ===== NAVBAR TENGAH & KANAN (di bawah overlay) ===== */}
       {preloaderDone && (
         <>
-          {/* Teks tengah */}
           <div
             style={{
               position: "fixed",
@@ -819,7 +840,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Kanan: Messages — di bawah overlay */}
           <div
             style={{
               position: "fixed",
@@ -868,7 +888,6 @@ export default function Home() {
           position: "relative",
         }}
       >
-        {/* Konten atas */}
         <div
           style={{
             padding: "0 40px",
@@ -948,7 +967,7 @@ export default function Home() {
           </span>
         </div>
 
-        {/* ===== FOOTER CARD — MENTOK PALING BAWAH ===== */}
+        {/* ===== FOOTER CARD ===== */}
         <FooterSection />
       </div>
 
@@ -974,7 +993,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* PANEL BG — kosong, transparan */}
+            {/* PANEL BG — desain tetap (biru, radius, shadow), tinggi sampai bawah banner */}
             <div
               ref={panelBgRef}
               style={{
@@ -986,13 +1005,15 @@ export default function Home() {
                 height: 0,
                 display: "none",
                 overflow: "hidden",
-                backgroundColor: "transparent",
+                backgroundColor: "#0D3CFC",
                 borderRadius: "20px 20px 0 0",
+                boxShadow: "0 -8px 32px rgba(13,60,252,0.35)",
                 zIndex: 1,
                 boxSizing: "border-box",
                 margin: 0,
               }}
             >
+              {/* Isi panel dikosongkan — hanya wrapper transparan */}
               <div
                 ref={panelInnerRef}
                 style={{
@@ -1089,6 +1110,12 @@ export default function Home() {
           height: 0 !important;
         }
         .footer-farid-char {
+          display: inline-block;
+          will-change: transform, opacity;
+          color: #ffffff !important;
+          transform-origin: 50% 100%;
+        }
+        .footer-a-char {
           display: inline-block;
           will-change: transform, opacity;
           color: #ffffff !important;
