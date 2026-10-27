@@ -118,6 +118,7 @@ const FooterSection = () => {
         charsClass: "footer-farid-char",
       });
       ctx = gsap.context(() => {
+        // Animasi "Farid" — split text
         gsap.set(split.chars, {
           yPercent: 120,
           opacity: 0,
@@ -142,21 +143,23 @@ const FooterSection = () => {
           },
         });
 
-        // Animasi untuk huruf "A" brutal minimalist
+        // Animasi "A" brutalisme — tegas, keras, tanpa bounce
         if (aRef.current) {
           gsap.set(aRef.current, {
             yPercent: 120,
             opacity: 0,
-            rotationX: -90,
+            scaleX: 1.4,
+            scaleY: 0.6,
             transformOrigin: "50% 100%",
             force3D: true,
           });
           gsap.to(aRef.current, {
             yPercent: 0,
             opacity: 1,
-            rotationX: 0,
-            duration: 1,
-            ease: "back.out(1.7)",
+            scaleX: 1,
+            scaleY: 1,
+            duration: 0.9,
+            ease: "expo.out",
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top 90%",
@@ -329,7 +332,7 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid + A brutal minimalist */}
+      {/* Teks besar Farid + A brutalisme */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
@@ -364,18 +367,18 @@ const FooterSection = () => {
             Farid
           </span>
 
-          {/* A brutal minimalist — tebal penuh putih, tanpa dekorasi */}
+          {/* A brutalisme — tebal penuh putih, font brutalist, tanpa dekorasi */}
           <span
             ref={aRef}
             style={{
-              fontFamily:
-                "'Arial Black', 'Helvetica Black', Impact, sans-serif",
+              fontFamily: "'Arial Black', 'Helvetica Black', Impact, sans-serif",
               fontSize: "600px",
               fontWeight: 900,
               color: WHITE,
               lineHeight: "0.85",
               display: "inline-block",
-              letterSpacing: "-0.1em",
+              letterSpacing: "-0.12em",
+              textTransform: "uppercase",
               willChange: "transform, opacity",
               pointerEvents: "none",
               marginLeft: "8px",
@@ -760,7 +763,7 @@ export default function Home() {
         </>
       )}
 
-      {/* ===== OVERLAY MENU BIRU (menutupi teks tengah & Messages) ===== */}
+      {/* ===== OVERLAY MENU BIRU ===== */}
       <div
         ref={overlayRef}
         style={{
@@ -779,7 +782,7 @@ export default function Home() {
       {/* ===== NAVBAR TENGAH & KANAN (Work → Messages) — di bawah overlay ===== */}
       {preloaderDone && (
         <>
-          {/* Teks tengah: Work, About, Contact, Post */}
+          {/* Teks tengah */}
           <div
             style={{
               position: "fixed",
@@ -796,66 +799,24 @@ export default function Home() {
               transition: "color 0.3s ease",
             }}
           >
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Work
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Contact
-            </a>
-            <a
-              href="#"
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              Post
-            </a>
+            {["Work", "About", "Contact", "Post"].map((txt) => (
+              <a
+                key={txt}
+                href="#"
+                style={{
+                  fontSize: navFontSize,
+                  fontWeight: 400,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
+                  textTransform: "capitalize",
+                  color: "inherit",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {txt}
+              </a>
+            ))}
           </div>
 
           {/* Kanan: Messages — di bawah overlay */}
@@ -903,7 +864,7 @@ export default function Home() {
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           position: "relative",
         }}
       >
@@ -991,8 +952,8 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== TOMBOL BG FIXED (di atas overlay, di luar menu) ===== */}
-      {preloaderDone && (
+      {/* ===== TOMBOL BG FIXED — TIDAK TAMPIL SAAT MENU TERBUKA ===== */}
+      {preloaderDone && !menuOpen && (
         <div
           style={{
             position: "fixed",
