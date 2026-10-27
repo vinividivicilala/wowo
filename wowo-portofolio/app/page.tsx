@@ -142,20 +142,21 @@ const FooterSection = () => {
           },
         });
 
-        // Animasi untuk huruf "A" graffiti
+        // Animasi untuk huruf "A" brutal minimalist
         if (aRef.current) {
           gsap.set(aRef.current, {
-            scale: 0.2,
+            yPercent: 120,
             opacity: 0,
-            rotation: -45,
-            transformOrigin: "50% 50%",
+            rotationX: -90,
+            transformOrigin: "50% 100%",
+            force3D: true,
           });
           gsap.to(aRef.current, {
-            scale: 1,
+            yPercent: 0,
             opacity: 1,
-            rotation: 0,
-            duration: 1.2,
-            ease: "elastic.out(1, 0.5)",
+            rotationX: 0,
+            duration: 1,
+            ease: "back.out(1.7)",
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top 90%",
@@ -328,14 +329,14 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid + A graffiti */}
+      {/* Teks besar Farid + A brutal minimalist */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "flex",
             alignItems: "flex-end",
-            gap: "20px",
-            flexWrap: "wrap",
+            gap: "12px",
+            flexWrap: "nowrap",
           }}
         >
           <span
@@ -363,7 +364,7 @@ const FooterSection = () => {
             Farid
           </span>
 
-          {/* A graffiti bubble tebal minimalist */}
+          {/* A brutal minimalist — tebal penuh putih, tanpa dekorasi */}
           <span
             ref={aRef}
             style={{
@@ -374,21 +375,10 @@ const FooterSection = () => {
               color: WHITE,
               lineHeight: "0.85",
               display: "inline-block",
-              letterSpacing: "-0.08em",
-              WebkitTextStroke: `12px ${WHITE}`,
-              WebkitTextFillColor: RED,
-              paintOrder: "stroke fill",
-              textShadow: `
-                8px 8px 0 ${WHITE},
-                -8px -8px 0 ${WHITE},
-                8px -8px 0 ${WHITE},
-                -8px 8px 0 ${WHITE},
-                0 16px 32px rgba(0,0,0,0.25)
-              `,
+              letterSpacing: "-0.1em",
               willChange: "transform, opacity",
               pointerEvents: "none",
-              transform: "rotate(-8deg)",
-              marginLeft: "20px",
+              marginLeft: "8px",
             }}
           >
             A
@@ -703,7 +693,7 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ===== NAVBAR (selalu di atas overlay) ===== */}
+      {/* ===== JUDUL KIRI + MENU KANAN (selalu di atas overlay) ===== */}
       {preloaderDone && (
         <>
           {/* Judul kiri */}
@@ -734,6 +724,61 @@ export default function Home() {
             </span>
           </div>
 
+          {/* Menu kanan (Close/Menu) */}
+          <button
+            ref={menuButtonRef}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            style={{
+              position: "fixed",
+              top: "60px",
+              right: "40px",
+              zIndex: 100001,
+              backgroundColor: "transparent",
+              color: menuOpen ? "#FFFFFF" : "#0D3CFC",
+              border: "none",
+              padding: 0,
+              fontSize: navFontSize,
+              fontWeight: 400,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              letterSpacing: "-0.03em",
+              cursor: "pointer",
+              textTransform: "capitalize",
+              lineHeight: 1,
+              transition: "color 0.3s ease",
+            }}
+          >
+            <span
+              ref={menuLabelRef}
+              style={{
+                display: "inline-block",
+                willChange: "transform, opacity",
+              }}
+            >
+              {menuOpen ? "Close" : "Menu"}
+            </span>
+          </button>
+        </>
+      )}
+
+      {/* ===== OVERLAY MENU BIRU (menutupi teks tengah & Messages) ===== */}
+      <div
+        ref={overlayRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#0D3CFC",
+          zIndex: 100000,
+          display: "none",
+          clipPath: "inset(0 0 100% 0)",
+        }}
+      />
+
+      {/* ===== NAVBAR TENGAH & KANAN (Work → Messages) — di bawah overlay ===== */}
+      {preloaderDone && (
+        <>
           {/* Teks tengah: Work, About, Contact, Post */}
           <div
             style={{
@@ -741,7 +786,7 @@ export default function Home() {
               top: "60px",
               left: "50%",
               transform: "translateX(-50%)",
-              zIndex: 100001,
+              zIndex: 99999,
               display: "flex",
               alignItems: "center",
               gap: "40px",
@@ -813,13 +858,13 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Kanan: Messages + Menu */}
+          {/* Kanan: Messages — di bawah overlay */}
           <div
             style={{
               position: "fixed",
               top: "60px",
-              right: "40px",
-              zIndex: 100001,
+              right: "180px",
+              zIndex: 99999,
               display: "flex",
               alignItems: "center",
               gap: "40px",
@@ -843,53 +888,9 @@ export default function Home() {
             >
               Messages
             </a>
-            <button
-              ref={menuButtonRef}
-              onClick={() => setMenuOpen((prev) => !prev)}
-              style={{
-                backgroundColor: "transparent",
-                color: "inherit",
-                border: "none",
-                padding: 0,
-                fontSize: navFontSize,
-                fontWeight: 400,
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                letterSpacing: "-0.03em",
-                cursor: "pointer",
-                textTransform: "capitalize",
-                lineHeight: 1,
-                transition: "color 0.3s ease",
-              }}
-            >
-              <span
-                ref={menuLabelRef}
-                style={{
-                  display: "inline-block",
-                  willChange: "transform, opacity",
-                }}
-              >
-                {menuOpen ? "Close" : "Menu"}
-              </span>
-            </button>
           </div>
         </>
       )}
-
-      {/* ===== OVERLAY MENU BIRU (di bawah navbar & tombol BG) ===== */}
-      <div
-        ref={overlayRef}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "#0D3CFC",
-          zIndex: 99990,
-          display: "none",
-          clipPath: "inset(0 0 100% 0)",
-        }}
-      />
 
       {/* ===== KONTEN UTAMA ===== */}
       <div
@@ -1012,7 +1013,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* PANEL BG — kosong, hanya transparan */}
+            {/* PANEL BG — kosong, transparan */}
             <div
               ref={panelBgRef}
               style={{
@@ -1034,12 +1035,9 @@ export default function Home() {
               <div
                 ref={panelInnerRef}
                 style={{
-                  padding: "24px 24px 20px 24px",
+                  padding: 0,
                   display: "flex",
                   flexDirection: "column",
-                  gap: "10px",
-                  color: "#FFFFFF",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                   opacity: 0,
                   boxSizing: "border-box",
                   height: "100%",
