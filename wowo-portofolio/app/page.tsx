@@ -102,6 +102,111 @@ const WindowsIcon = ({
   </svg>
 );
 
+// ===== PRODUCT DESIGN ICON =====
+const ProductDesignIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="3"
+      y="3"
+      width="18"
+      height="18"
+      rx="3"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <path d="M3 9H21" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M9 9V21" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <circle cx="6" cy="6" r="1" fill={color} />
+    <circle cx="9" cy="6" r="1" fill={color} />
+  </svg>
+);
+
+// ===== DESIGN SYSTEM ICON =====
+const DesignSystemIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="3"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="3"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+  </svg>
+);
+
+// ===== RESEARCH ICON =====
+const ResearchIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle
+      cx="10.5"
+      cy="10.5"
+      r="6.5"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <path
+      d="M15.5 15.5L21 21"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 10.5L10 12.5L13.5 8.5"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 // ===== FOOTER SECTION =====
 const FooterSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -695,7 +800,6 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
-          {/* KIRI: Bersponsor — hitam, tidak tebal, kapital di awal */}
           <span
             style={{
               color: BLACK,
@@ -707,8 +811,6 @@ export default function Home() {
           >
             Bersponsor
           </span>
-
-          {/* KANAN: Kunjungi website Menuru */}
           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
             Kunjungi website{" "}
             <a
@@ -907,6 +1009,7 @@ export default function Home() {
             width: "100%",
           }}
         >
+          {/* ===== Founder And Developer Brand ===== */}
           <div
             style={{
               display: "flex",
@@ -958,6 +1061,8 @@ export default function Home() {
               </span>
             </span>
           </div>
+
+          {/* ===== Based In Indonesia ===== */}
           <span
             style={{
               fontSize: "50px",
@@ -972,6 +1077,143 @@ export default function Home() {
           >
             Based In Indonesia
           </span>
+
+          {/* ===== SECTION 3 KOLOM: Product Design / Design System / Research ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: "60px",
+              flexWrap: "wrap",
+              marginTop: "40px",
+              width: "100%",
+            }}
+          >
+            {/* === Kolom 1: Product Design === */}
+            <div
+              style={{
+                flex: "1 1 300px",
+                minWidth: "260px",
+                maxWidth: "380px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "16px",
+              }}
+            >
+              <ProductDesignIcon size={56} color={BLUE} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 700,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                }}
+              >
+                Product Design
+              </span>
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLACK,
+                  lineHeight: 1.6,
+                  margin: 0,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Merancang pengalaman produk yang intuitif, fungsional, dan
+                berpusat pada pengguna — dari konsep hingga prototipe akhir.
+              </p>
+            </div>
+
+            {/* === Kolom 2: Design System === */}
+            <div
+              style={{
+                flex: "1 1 300px",
+                minWidth: "260px",
+                maxWidth: "380px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "16px",
+              }}
+            >
+              <DesignSystemIcon size={56} color={BLUE} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 700,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                }}
+              >
+                Design System
+              </span>
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLACK,
+                  lineHeight: 1.6,
+                  margin: 0,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Membangun sistem desain yang konsisten, skalabel, dan mudah
+                digunakan untuk seluruh tim produk.
+              </p>
+            </div>
+
+            {/* === Kolom 3: Research that changes decisions === */}
+            <div
+              style={{
+                flex: "1 1 300px",
+                minWidth: "260px",
+                maxWidth: "380px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "16px",
+              }}
+            >
+              <ResearchIcon size={56} color={BLUE} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 700,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                }}
+              >
+                Research that changes decisions
+              </span>
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLACK,
+                  lineHeight: 1.6,
+                  margin: 0,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Melakukan riset mendalam yang menghasilkan insight nyata untuk
+                mengubah arah keputusan produk menjadi lebih baik.
+              </p>
+            </div>
+          </div>
         </div>
 
         <FooterSection />
