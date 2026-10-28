@@ -1743,7 +1743,7 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            /* ==== VIEW INDEX: judul Index 60px + baris sejajar 1 baris ==== */
+            /* ==== VIEW INDEX: judul Index 60px + baris sejajar horizontal ==== */
             <div
               style={{
                 display: "flex",
@@ -1767,107 +1767,104 @@ export default function Home() {
                 Index
               </span>
 
-              {/* 1 baris sejajar: kiri dan kanan */}
+              {/*
+                ===== 1 BARIS SEJAJAR HORIZONTAL =====
+                flexDirection: "row" + alignItems: "center" + tidak ada flexWrap
+                → semua elemen berjejer ke samping, bukan turun ke bawah.
+              */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
                   width: "100%",
                   gap: "40px",
                   flexWrap: "nowrap",
+                  overflowX: "auto",
                 }}
               >
-                {/* KIRI: 01, Menuru, deskripsi (2 baris), Productivity */}
-                <div
+                {/* 01 */}
+                <span
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "12px",
-                    flex: "1 1 auto",
-                    minWidth: 0,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "24px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    01
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                    }}
-                  >
-                    Menuru
-                  </span>
-                  <p
-                    style={{
-                      fontSize: "20px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLACK,
-                      lineHeight: 1.5,
-                      margin: 0,
-                      letterSpacing: "-0.01em",
-                      maxWidth: "560px",
-                    }}
-                  >
-                    Platform produktivitas untuk mencatat, merancang, dan
-                    mengelola pekerjaan dalam satu alur yang mulus — dari ide
-                    hingga eksekusi akhir.
-                  </p>
-                  <span
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                    }}
-                  >
-                    Productivity
-                  </span>
-                </div>
-
-                {/* KANAN: 2024 - Present */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-end",
-                    minWidth: "160px",
+                    fontSize: "24px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
                     flexShrink: 0,
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: "20px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.2,
-                      textAlign: "right",
-                    }}
-                  >
-                    2024 - Present
-                  </span>
-                </div>
+                  01
+                </span>
+
+                {/* Menuru */}
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                  }}
+                >
+                  Menuru
+                </span>
+
+                {/* deskripsi (2 baris) */}
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    lineHeight: 1.5,
+                    margin: 0,
+                    letterSpacing: "-0.01em",
+                    maxWidth: "320px",
+                    flexShrink: 1,
+                    minWidth: 0,
+                  }}
+                >
+                  Platform produktivitas untuk mencatat, merancang, dan
+                  mengelola pekerjaan dalam satu alur yang mulus — dari ide
+                  hingga eksekusi akhir.
+                </p>
+
+                {/* Productivity */}
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                  }}
+                >
+                  Productivity
+                </span>
+
+                {/* 2024 - Present (kanan) */}
+                <span
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    marginLeft: "auto",
+                    flexShrink: 0,
+                    textAlign: "right",
+                  }}
+                >
+                  2024 - Present
+                </span>
               </div>
             </div>
           )}
