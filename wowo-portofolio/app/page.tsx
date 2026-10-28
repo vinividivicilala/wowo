@@ -1174,6 +1174,21 @@ export default function Home() {
             Based In Indonesia
           </span>
 
+          {/* ===== JUDUL SECTION: Merancang Produk ===== */}
+          <span
+            style={{
+              fontSize: "64px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+              marginTop: "100px",
+            }}
+          >
+            Merancang Produk
+          </span>
+
           {/* ===== SECTION 3 KOLOM: Product Design / Design System / Research ===== */}
           <div
             style={{
@@ -1183,11 +1198,11 @@ export default function Home() {
               justifyContent: "flex-start",
               gap: "60px",
               flexWrap: "wrap",
-              marginTop: "40px",
+              marginTop: "30px",
               width: "100%",
             }}
           >
-            {/* Kolom 1: Product Design + Merancang Produk */}
+            {/* Kolom 1: Product Design */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1211,20 +1226,6 @@ export default function Home() {
                 }}
               >
                 Product Design
-              </span>
-              {/* Tambahan: Merancang Produk */}
-              <span
-                style={{
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 1.3,
-                  opacity: 0.85,
-                }}
-              >
-                Merancang Produk
               </span>
               <p
                 style={{
@@ -1485,7 +1486,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== SECTION SELECTED WORK + 2026 ===== */}
+          {/* ===== SECTION SELECTED WORK + Index / Grids / 2026 ===== */}
           <div
             style={{
               display: "flex",
@@ -1512,19 +1513,52 @@ export default function Home() {
               Selected Work
             </span>
 
-            {/* KANAN: 2026 */}
-            <span
+            {/* KANAN: Index · Grids · 2026 */}
+            <div
               style={{
-                fontSize: "80px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                display: "flex",
+                alignItems: "center",
+                gap: "40px",
+                flexWrap: "wrap",
               }}
             >
-              2026
-            </span>
+              <span
+                style={{
+                  fontSize: "80px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Index
+              </span>
+              <span
+                style={{
+                  fontSize: "80px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Grids
+              </span>
+              <span
+                style={{
+                  fontSize: "80px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                2026
+              </span>
+            </div>
           </div>
         </div>
 
