@@ -184,13 +184,7 @@ const ResearchIcon = ({
   color?: string;
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <circle
-      cx="10.5"
-      cy="10.5"
-      r="6.5"
-      stroke={color}
-      strokeWidth="1.8"
-    />
+    <circle cx="10.5" cy="10.5" r="6.5" stroke={color} strokeWidth="1.8" />
     <path
       d="M15.5 15.5L21 21"
       stroke={color}
@@ -203,6 +197,107 @@ const ResearchIcon = ({
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
+    />
+  </svg>
+);
+
+// ===== ENCRYPTION ICON =====
+const EncryptionIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="4"
+      y="10"
+      width="16"
+      height="11"
+      rx="2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <path
+      d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <circle cx="12" cy="15" r="1.6" fill={color} />
+    <path
+      d="M12 16.5V18"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+// ===== ANTI FRAUD ICON =====
+const AntiFraudIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 2.5L4.5 5.5V11.5C4.5 16 7.8 20.2 12 21.5C16.2 20.2 19.5 16 19.5 11.5V5.5L12 2.5Z"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 12L11 14L15.5 9.5"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+// ===== ANTI BOT ICON =====
+const AntiBotIcon = ({
+  size = 48,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="4"
+      y="8"
+      width="16"
+      height="12"
+      rx="3"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <circle cx="9" cy="14" r="1.4" fill={color} />
+    <circle cx="15" cy="14" r="1.4" fill={color} />
+    <path
+      d="M12 8V4.5"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <circle cx="12" cy="3" r="1.4" fill={color} />
+    <path
+      d="M2 13V15"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M22 13V15"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
     />
   </svg>
 );
@@ -1091,7 +1186,7 @@ export default function Home() {
               width: "100%",
             }}
           >
-            {/* === Kolom 1: Product Design === */}
+            {/* Kolom 1 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1132,7 +1227,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* === Kolom 2: Design System === */}
+            {/* Kolom 2 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1173,7 +1268,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* === Kolom 3: Research that changes decisions === */}
+            {/* Kolom 3 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1212,6 +1307,168 @@ export default function Home() {
                 Melakukan riset mendalam yang menghasilkan insight nyata untuk
                 mengubah arah keputusan produk menjadi lebih baik.
               </p>
+            </div>
+          </div>
+
+          {/* ===== SECTION SECURITY ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "24px",
+              marginTop: "100px",
+              width: "100%",
+            }}
+          >
+            {/* Judul Security */}
+            <span
+              style={{
+                fontSize: "64px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 700,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Security
+            </span>
+
+            {/* 3 kolom: Enkripsi / Sistem Anti Fraud / Anti Bot */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                gap: "60px",
+                flexWrap: "wrap",
+                width: "100%",
+              }}
+            >
+              {/* Enkripsi */}
+              <div
+                style={{
+                  flex: "1 1 300px",
+                  minWidth: "260px",
+                  maxWidth: "380px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                }}
+              >
+                <EncryptionIcon size={56} color={BLUE} />
+                <span
+                  style={{
+                    fontSize: "32px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 700,
+                    color: BLUE,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Enkripsi
+                </span>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    lineHeight: 1.6,
+                    margin: 0,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Data pengguna dilindungi dengan enkripsi end-to-end, sehingga
+                  hanya pengguna yang berhak yang dapat mengaksesnya.
+                </p>
+              </div>
+
+              {/* Sistem Anti Fraud */}
+              <div
+                style={{
+                  flex: "1 1 300px",
+                  minWidth: "260px",
+                  maxWidth: "380px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                }}
+              >
+                <AntiFraudIcon size={56} color={BLUE} />
+                <span
+                  style={{
+                    fontSize: "32px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 700,
+                    color: BLUE,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Sistem Anti Fraud
+                </span>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    lineHeight: 1.6,
+                    margin: 0,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Deteksi aktivitas mencurigakan secara real-time untuk mencegah
+                  penipuan dan melindungi setiap transaksi pengguna.
+                </p>
+              </div>
+
+              {/* Anti Bot */}
+              <div
+                style={{
+                  flex: "1 1 300px",
+                  minWidth: "260px",
+                  maxWidth: "380px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                }}
+              >
+                <AntiBotIcon size={56} color={BLUE} />
+                <span
+                  style={{
+                    fontSize: "32px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 700,
+                    color: BLUE,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Anti Bot
+                </span>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    lineHeight: 1.6,
+                    margin: 0,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Sistem perlindungan otomatis yang memblokir bot dan traffic
+                  palsu agar platform tetap aman dan adil.
+                </p>
+              </div>
             </div>
           </div>
         </div>
