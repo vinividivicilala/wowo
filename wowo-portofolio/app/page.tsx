@@ -1573,7 +1573,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== SECTION SELECTED WORK / INDEX ===== */}
+          {/* ===== SECTION SELECTED WORK (SELALU ADA) ===== */}
           <div
             style={{
               display: "flex",
@@ -1586,11 +1586,8 @@ export default function Home() {
               gap: "20px",
             }}
           >
-            {/* KIRI: judul dinamis */}
+            {/* KIRI: Selected Work (tetap) */}
             <span
-              onClick={() => {
-                if (activeView === "index") setActiveView("work");
-              }}
               style={{
                 fontSize: "80px",
                 fontFamily: FONT_FAMILY,
@@ -1598,13 +1595,12 @@ export default function Home() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
-                cursor: activeView === "index" ? "pointer" : "default",
               }}
             >
-              {activeView === "index" ? "Index" : "Selected Work"}
+              Selected Work
             </span>
 
-            {/* KANAN: 2026 + Index/Grids */}
+            {/* KANAN: 2026 + Index/Grids toggle */}
             <div
               style={{
                 display: "flex",
@@ -1651,6 +1647,7 @@ export default function Home() {
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
+                    opacity: activeView === "index" ? 1 : 0.55,
                   }}
                 >
                   <IndexIcon size={18} color={BLUE} />
@@ -1672,6 +1669,7 @@ export default function Home() {
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
+                    opacity: activeView === "work" ? 1 : 0.55,
                   }}
                 >
                   <GridsIcon size={18} color={BLUE} />
@@ -1681,7 +1679,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== KONDISI: WORK vs INDEX ===== */}
+          {/* ===== KONDISI: WORK / INDEX ===== */}
           {activeView === "work" ? (
             /* ==== VIEW WORK: gambar + Menuru / Productivity ==== */
             <div
@@ -1745,50 +1743,51 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            /* ==== VIEW INDEX ==== */
+            /* ==== VIEW INDEX: judul Index 60px + baris sejajar 1 baris ==== */
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                marginTop: "60px",
-                gap: "40px",
+                marginTop: "40px",
+                gap: "30px",
               }}
             >
-              {/* Judul besar Index */}
+              {/* Judul Index 60px */}
               <span
                 style={{
-                  fontSize: "160px",
+                  fontSize: "60px",
                   fontFamily: FONT_FAMILY,
                   fontWeight: 400,
                   color: BLUE,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
                 }}
               >
                 Index
               </span>
 
-              {/* Baris isi: kiri (01, Menuru, deskripsi, Productivity) + kanan (2024 - Present) */}
+              {/* 1 baris sejajar: kiri dan kanan */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
                   alignItems: "flex-start",
+                  justifyContent: "space-between",
                   width: "100%",
                   gap: "40px",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
                 }}
               >
-                {/* KIRI */}
+                {/* KIRI: 01, Menuru, deskripsi (2 baris), Productivity */}
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
-                    gap: "16px",
-                    maxWidth: "800px",
+                    gap: "12px",
+                    flex: "1 1 auto",
+                    minWidth: 0,
                   }}
                 >
                   <span
@@ -1821,10 +1820,10 @@ export default function Home() {
                       fontFamily: FONT_FAMILY,
                       fontWeight: 400,
                       color: BLACK,
-                      lineHeight: 1.6,
+                      lineHeight: 1.5,
                       margin: 0,
                       letterSpacing: "-0.01em",
-                      maxWidth: "600px",
+                      maxWidth: "560px",
                     }}
                   >
                     Platform produktivitas untuk mencatat, merancang, dan
@@ -1845,14 +1844,14 @@ export default function Home() {
                   </span>
                 </div>
 
-                {/* KANAN */}
+                {/* KANAN: 2024 - Present */}
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-end",
-                    gap: "8px",
-                    minWidth: "200px",
+                    minWidth: "160px",
+                    flexShrink: 0,
                   }}
                 >
                   <span
