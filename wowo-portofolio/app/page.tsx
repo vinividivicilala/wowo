@@ -11,11 +11,12 @@ if (typeof window !== "undefined") {
 
 // ===== CONSTANTS =====
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
-// Font brutal free (Google Fonts): Bungee, Archivo Black, Anton
-const BRUTAL_FONT = "'Bungee', 'Archivo Black', 'Anton', 'Impact', 'Arial Black', sans-serif";
+const BRUTAL_FONT =
+  "'Bungee', 'Archivo Black', 'Anton', 'Impact', 'Arial Black', sans-serif";
 const BLUE = "#0D3CFC";
 const WHITE = "#FFFFFF";
 const RED = "#DC2626";
+const BLACK = "#000000";
 
 // ===== VERIFIED BADGE (WHITE) =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
@@ -130,7 +131,6 @@ const FooterSection = () => {
       }
 
       ctx = gsap.context(() => {
-        // Animasi "Farid"
         gsap.set(split.chars, {
           yPercent: 120,
           opacity: 0,
@@ -155,7 +155,6 @@ const FooterSection = () => {
           },
         });
 
-        // Animasi "A" brutal ala GSAP
         if (splitA && splitA.chars.length > 0) {
           gsap.set(splitA.chars, {
             yPercent: 100,
@@ -226,7 +225,6 @@ const FooterSection = () => {
         fontFamily: FONT_FAMILY,
       }}
     >
-      {/* Tombol Download for Windows */}
       <div
         style={{
           maxWidth: "1400px",
@@ -274,7 +272,6 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Terms */}
       <div
         style={{
           maxWidth: "1400px",
@@ -302,7 +299,6 @@ const FooterSection = () => {
         </p>
       </div>
 
-      {/* Tombol Unduh Menuru */}
       <div
         style={{
           marginTop: "40px",
@@ -345,7 +341,6 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid + A brutal (font brutal free) */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
@@ -381,7 +376,6 @@ const FooterSection = () => {
             Farid
           </span>
 
-          {/* A brutal — font brutal free (Bungee/Archivo Black/Anton) */}
           <span
             style={{
               display: "inline-block",
@@ -455,7 +449,6 @@ export default function Home() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
 
-  // ===== PRELOADER =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -506,7 +499,6 @@ export default function Home() {
     };
   }, []);
 
-  // ===== MENU OPEN / CLOSE =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const overlay = overlayRef.current;
@@ -552,7 +544,6 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panelBg = panelBgRef.current;
@@ -621,7 +612,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ===== PRELOADER ===== */}
       <div
         ref={preloaderRef}
         style={{
@@ -705,6 +695,20 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
+          {/* KIRI: Bersponsor — hitam, tidak tebal, kapital di awal */}
+          <span
+            style={{
+              color: BLACK,
+              fontWeight: 400,
+              fontSize: "14px",
+              textTransform: "none",
+              fontFamily: FONT_FAMILY,
+            }}
+          >
+            Bersponsor
+          </span>
+
+          {/* KANAN: Kunjungi website Menuru */}
           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
             Kunjungi website{" "}
             <a
@@ -724,26 +728,9 @@ export default function Home() {
               <VerifiedBadgeWhite size={14} />
             </a>
           </span>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "2px 10px",
-              backgroundColor: "rgba(255,255,255,0.18)",
-              border: "1px solid rgba(255,255,255,0.35)",
-              borderRadius: "999px",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            Bersponsor
-          </span>
         </span>
       </div>
 
-      {/* ===== JUDUL KIRI + MENU KANAN ===== */}
       {preloaderDone && (
         <>
           <div
@@ -808,7 +795,6 @@ export default function Home() {
         </>
       )}
 
-      {/* ===== OVERLAY MENU BIRU ===== */}
       <div
         ref={overlayRef}
         style={{
@@ -824,7 +810,6 @@ export default function Home() {
         }}
       />
 
-      {/* ===== NAVBAR TENGAH & KANAN ===== */}
       {preloaderDone && (
         <>
           <div
@@ -896,7 +881,6 @@ export default function Home() {
         </>
       )}
 
-      {/* ===== KONTEN UTAMA ===== */}
       <div
         style={{
           minHeight: "200vh",
@@ -993,7 +977,6 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== TOMBOL BG FIXED ===== */}
       {preloaderDone && !menuOpen && (
         <div
           style={{
@@ -1015,7 +998,6 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* PANEL BG — desain tetap (biru, radius, shadow) */}
             <div
               ref={panelBgRef}
               style={{
@@ -1049,7 +1031,6 @@ export default function Home() {
               />
             </div>
 
-            {/* TOMBOL BG UTAMA */}
             <div
               ref={buttonBgRef}
               style={{
@@ -1116,7 +1097,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* ===== GLOBAL STYLE + GOOGLE FONTS BRUTAL ===== */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
 
