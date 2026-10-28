@@ -743,7 +743,6 @@ export default function Home() {
   const [activeView, setActiveView] = useState<"work" | "index">("work");
 
   // ==== STATE HOVER FOTO ====
-  // null = tidak ada hover, string = src foto yang muncul
   const [hoverImage, setHoverImage] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
     x: 0,
@@ -751,7 +750,6 @@ export default function Home() {
   });
   const hoverAreaRef = useRef<HTMLDivElement>(null);
 
-  // Track posisi mouse untuk foto follow cursor
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
   };
@@ -1587,7 +1585,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== SECTION SELECTED WORK (SELALU ADA) ===== */}
+          {/* ===== SECTION SELECTED WORK ===== */}
           <div
             style={{
               display: "flex",
@@ -1764,8 +1762,8 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                marginTop: "40px",
-                gap: "30px",
+                marginTop: "0px",
+                gap: "16px",
                 position: "relative",
               }}
             >
@@ -1783,7 +1781,7 @@ export default function Home() {
                 Index
               </span>
 
-              {/* 1 BARIS SEJAJAR HORIZONTAL */}
+              {/* 1 BARIS SEJAJAR HORIZONTAL — TANPA DESKRIPSI */}
               <div
                 style={{
                   display: "flex",
@@ -1796,7 +1794,7 @@ export default function Home() {
                   overflowX: "auto",
                 }}
               >
-                {/* 01 — ukuran besar 90px, hover foto */}
+                {/* 01 — hover foto */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1832,29 +1830,6 @@ export default function Home() {
                   Menuru
                 </span>
 
-                {/* deskripsi — hover foto */}
-                <p
-                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                  onMouseLeave={() => setHoverImage(null)}
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLACK,
-                    lineHeight: 1.5,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                    maxWidth: "320px",
-                    flexShrink: 1,
-                    minWidth: 0,
-                    cursor: "pointer",
-                  }}
-                >
-                  Platform produktivitas untuk mencatat, merancang, dan
-                  mengelola pekerjaan dalam satu alur yang mulus — dari ide
-                  hingga eksekusi akhir.
-                </p>
-
                 {/* Productivity — hover foto */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
@@ -1873,7 +1848,7 @@ export default function Home() {
                   Productivity
                 </span>
 
-                {/* 2024 - Present — ukuran besar 90px, hover foto, di kanan */}
+                {/* 2024 - Present — hover foto, di kanan */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1900,22 +1875,22 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== FOTO PREVIEW YANG MENGIKUTI CURSOR ===== */}
+      {/* ===== FOTO PREVIEW YANG MENGIKUTI CURSOR — LEBIH BESAR ===== */}
       {hoverImage && (
         <img
           src={hoverImage}
           alt="Preview"
           style={{
             position: "fixed",
-            left: `${mousePos.x + 20}px`,
-            top: `${mousePos.y + 20}px`,
-            width: "260px",
+            left: `${mousePos.x + 24}px`,
+            top: `${mousePos.y + 24}px`,
+            width: "480px",
             height: "auto",
-            borderRadius: "16px",
+            borderRadius: "20px",
             objectFit: "cover",
             pointerEvents: "none",
             zIndex: 100003,
-            boxShadow: "0 16px 48px rgba(13,60,252,0.35)",
+            boxShadow: "0 24px 64px rgba(13,60,252,0.4)",
             transition: "opacity 0.2s ease",
           }}
         />
