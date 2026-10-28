@@ -11,6 +11,8 @@ if (typeof window !== "undefined") {
 
 // ===== CONSTANTS =====
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
+// Font brutal free (Google Fonts): Bungee, Archivo Black, Anton
+const BRUTAL_FONT = "'Bungee', 'Archivo Black', 'Anton', 'Impact', 'Arial Black', sans-serif";
 const BLUE = "#0D3CFC";
 const WHITE = "#FFFFFF";
 const RED = "#DC2626";
@@ -40,7 +42,7 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   </span>
 );
 
-// ===== MICROSOFT STORE ICON — MINIMALIST SVG =====
+// ===== MICROSOFT STORE ICON =====
 const MicrosoftStoreIcon = ({
   size = 32,
   color = "#ffffff",
@@ -115,13 +117,11 @@ const FooterSection = () => {
     let ctx: any = null;
 
     const setup = () => {
-      // Split "Farid" per karakter
       split = new SplitText(title, {
         type: "chars",
         charsClass: "footer-farid-char",
       });
 
-      // Split "A" per karakter (hanya 1 huruf, tapi tetap pakai SplitText untuk konsistensi)
       if (aEl) {
         splitA = new SplitText(aEl, {
           type: "chars",
@@ -130,7 +130,7 @@ const FooterSection = () => {
       }
 
       ctx = gsap.context(() => {
-        // Animasi "Farid" — split text
+        // Animasi "Farid"
         gsap.set(split.chars, {
           yPercent: 120,
           opacity: 0,
@@ -155,7 +155,7 @@ const FooterSection = () => {
           },
         });
 
-        // Animasi "A" brutal ala GSAP — clip, scale, rotate tegas
+        // Animasi "A" brutal ala GSAP
         if (splitA && splitA.chars.length > 0) {
           gsap.set(splitA.chars, {
             yPercent: 100,
@@ -345,7 +345,7 @@ const FooterSection = () => {
         </a>
       </div>
 
-      {/* Teks besar Farid + A brutal ala GSAP */}
+      {/* Teks besar Farid + A brutal (font brutal free) */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
@@ -381,7 +381,7 @@ const FooterSection = () => {
             Farid
           </span>
 
-          {/* A brutal ala web GSAP — font Arial Black/Impact, tebal putih, animasi expo.out */}
+          {/* A brutal — font brutal free (Bungee/Archivo Black/Anton) */}
           <span
             style={{
               display: "inline-block",
@@ -392,14 +392,13 @@ const FooterSection = () => {
             <span
               ref={aRef}
               style={{
-                fontFamily:
-                  "'Arial Black', 'Helvetica Black', Impact, sans-serif",
+                fontFamily: BRUTAL_FONT,
                 fontSize: "600px",
                 fontWeight: 900,
                 color: WHITE,
                 lineHeight: "0.85",
                 display: "inline-block",
-                letterSpacing: "-0.14em",
+                letterSpacing: "-0.06em",
                 textTransform: "uppercase",
                 willChange: "transform, opacity",
                 pointerEvents: "none",
@@ -553,7 +552,7 @@ export default function Home() {
     }
   }, [menuOpen]);
 
-  // ===== EXPAND PANEL — tinggi sampai DI BAWAH BANNER =====
+  // ===== EXPAND PANEL =====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const panelBg = panelBgRef.current;
@@ -564,10 +563,9 @@ export default function Home() {
 
     if (expandOpen) {
       const buttonRect = buttonBg.getBoundingClientRect();
-      const BANNER_HEIGHT = 40; // tinggi banner atas
-      const BANNER_MARGIN = 12; // jarak aman dari banner
+      const BANNER_HEIGHT = 40;
+      const BANNER_MARGIN = 12;
 
-      // Tinggi panel = jarak dari atas tombol sampai bawah banner
       const targetHeight = Math.max(
         buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
         200
@@ -619,7 +617,6 @@ export default function Home() {
     }
   }, [expandOpen]);
 
-  // ===== NAVBAR FONT SIZE =====
   const navFontSize = "50px";
 
   return (
@@ -699,24 +696,50 @@ export default function Home() {
           zIndex: 10000,
         }}
       >
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-          Kunjungi website{" "}
-          <a
-            href="https://menuru-studio.netlify.app/notes"
-            target="_blank"
-            rel="noopener noreferrer"
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "10px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+            Kunjungi website{" "}
+            <a
+              href="https://menuru-studio.netlify.app/notes"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#FFFFFF",
+                textDecoration: "none",
+                fontWeight: 700,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "2px",
+              }}
+            >
+              Menuru
+              <VerifiedBadgeWhite size={14} />
+            </a>
+          </span>
+          <span
             style={{
-              color: "#FFFFFF",
-              textDecoration: "none",
-              fontWeight: 700,
               display: "inline-flex",
               alignItems: "center",
-              gap: "2px",
+              padding: "2px 10px",
+              backgroundColor: "rgba(255,255,255,0.18)",
+              border: "1px solid rgba(255,255,255,0.35)",
+              borderRadius: "999px",
+              fontSize: "12px",
+              fontWeight: 700,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
             }}
           >
-            Menuru
-            <VerifiedBadgeWhite size={14} />
-          </a>
+            Bersponsor
+          </span>
         </span>
       </div>
 
@@ -801,7 +824,7 @@ export default function Home() {
         }}
       />
 
-      {/* ===== NAVBAR TENGAH & KANAN (di bawah overlay) ===== */}
+      {/* ===== NAVBAR TENGAH & KANAN ===== */}
       {preloaderDone && (
         <>
           <div
@@ -967,11 +990,10 @@ export default function Home() {
           </span>
         </div>
 
-        {/* ===== FOOTER CARD ===== */}
         <FooterSection />
       </div>
 
-      {/* ===== TOMBOL BG FIXED — TIDAK TAMPIL SAAT MENU TERBUKA ===== */}
+      {/* ===== TOMBOL BG FIXED ===== */}
       {preloaderDone && !menuOpen && (
         <div
           style={{
@@ -993,7 +1015,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* PANEL BG — desain tetap (biru, radius, shadow), tinggi sampai bawah banner */}
+            {/* PANEL BG — desain tetap (biru, radius, shadow) */}
             <div
               ref={panelBgRef}
               style={{
@@ -1013,7 +1035,6 @@ export default function Home() {
                 margin: 0,
               }}
             >
-              {/* Isi panel dikosongkan — hanya wrapper transparan */}
               <div
                 ref={panelInnerRef}
                 style={{
@@ -1095,8 +1116,10 @@ export default function Home() {
         </div>
       )}
 
-      {/* ===== HAPUS SCROLLBAR ===== */}
+      {/* ===== GLOBAL STYLE + GOOGLE FONTS BRUTAL ===== */}
       <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
+
         html,
         body {
           overflow-x: hidden !important;
