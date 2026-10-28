@@ -739,6 +739,9 @@ export default function Home() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
 
+  // ==== STATE VIEW: work | index ====
+  const [activeView, setActiveView] = useState<"work" | "index">("work");
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -1292,7 +1295,6 @@ export default function Home() {
               width: "100%",
             }}
           >
-            {/* Kolom 1 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1333,7 +1335,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Kolom 2 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1374,7 +1375,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Kolom 3 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1451,7 +1451,6 @@ export default function Home() {
                 width: "100%",
               }}
             >
-              {/* Enkripsi */}
               <div
                 style={{
                   flex: "1 1 300px",
@@ -1492,7 +1491,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Sistem Anti Fraud */}
               <div
                 style={{
                   flex: "1 1 300px",
@@ -1533,7 +1531,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Anti Bot */}
               <div
                 style={{
                   flex: "1 1 300px",
@@ -1576,7 +1573,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== SECTION SELECTED WORK + 2026 + Index/Grids ===== */}
+          {/* ===== SECTION SELECTED WORK / INDEX ===== */}
           <div
             style={{
               display: "flex",
@@ -1589,7 +1586,11 @@ export default function Home() {
               gap: "20px",
             }}
           >
+            {/* KIRI: judul dinamis */}
             <span
+              onClick={() => {
+                if (activeView === "index") setActiveView("work");
+              }}
               style={{
                 fontSize: "80px",
                 fontFamily: FONT_FAMILY,
@@ -1597,11 +1598,13 @@ export default function Home() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                cursor: activeView === "index" ? "pointer" : "default",
               }}
             >
-              Selected Work
+              {activeView === "index" ? "Index" : "Selected Work"}
             </span>
 
+            {/* KANAN: 2026 + Index/Grids */}
             <div
               style={{
                 display: "flex",
@@ -1632,7 +1635,8 @@ export default function Home() {
                   marginTop: "4px",
                 }}
               >
-                <span
+                <button
+                  onClick={() => setActiveView("index")}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -1643,12 +1647,17 @@ export default function Home() {
                     color: BLUE,
                     letterSpacing: "-0.01em",
                     lineHeight: 1.2,
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
                   }}
                 >
                   <IndexIcon size={18} color={BLUE} />
                   Index
-                </span>
-                <span
+                </button>
+                <button
+                  onClick={() => setActiveView("work")}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -1659,78 +1668,210 @@ export default function Home() {
                     color: BLUE,
                     letterSpacing: "-0.01em",
                     lineHeight: 1.2,
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
                   }}
                 >
                   <GridsIcon size={18} color={BLUE} />
                   Grids
-                </span>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* ===== SECTION GAMBAR + MENURU + PRODUCTIVITY ===== */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              width: "100%",
-              marginTop: "80px",
-              gap: "24px",
-            }}
-          >
-            {/* Gambar */}
-            <img
-              src="/images/pjgff.JPG"
-              alt="Menuru Productivity"
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "block",
-                borderRadius: "24px",
-                objectFit: "cover",
-                boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
-              }}
-            />
-
-            {/* Menuru (kiri) + Productivity (kanan) */}
+          {/* ===== KONDISI: WORK vs INDEX ===== */}
+          {activeView === "work" ? (
+            /* ==== VIEW WORK: gambar + Menuru / Productivity ==== */
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
+                flexDirection: "column",
+                alignItems: "flex-start",
                 width: "100%",
-                flexWrap: "wrap",
-                gap: "20px",
+                marginTop: "80px",
+                gap: "24px",
               }}
             >
-              <span
+              <img
+                src="/images/pjgff.JPG"
+                alt="Menuru Productivity"
                 style={{
-                  fontSize: "90px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                  borderRadius: "24px",
+                  objectFit: "cover",
+                  boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
+                }}
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  flexWrap: "wrap",
+                  gap: "20px",
                 }}
               >
-                Menuru
-              </span>
-              <span
-                style={{
-                  fontSize: "90px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
-                Productivity
-              </span>
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Menuru
+                </span>
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Productivity
+                </span>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* ==== VIEW INDEX ==== */
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                marginTop: "60px",
+                gap: "40px",
+              }}
+            >
+              {/* Judul besar Index */}
+              <span
+                style={{
+                  fontSize: "160px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.04em",
+                  lineHeight: 1,
+                }}
+              >
+                Index
+              </span>
+
+              {/* Baris isi: kiri (01, Menuru, deskripsi, Productivity) + kanan (2024 - Present) */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  gap: "40px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {/* KIRI */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "16px",
+                    maxWidth: "800px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "24px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLUE,
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    01
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "90px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLUE,
+                      letterSpacing: "-0.03em",
+                      lineHeight: 1.05,
+                    }}
+                  >
+                    Menuru
+                  </span>
+                  <p
+                    style={{
+                      fontSize: "20px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLACK,
+                      lineHeight: 1.6,
+                      margin: 0,
+                      letterSpacing: "-0.01em",
+                      maxWidth: "600px",
+                    }}
+                  >
+                    Platform produktivitas untuk mencatat, merancang, dan
+                    mengelola pekerjaan dalam satu alur yang mulus — dari ide
+                    hingga eksekusi akhir.
+                  </p>
+                  <span
+                    style={{
+                      fontSize: "90px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLUE,
+                      letterSpacing: "-0.03em",
+                      lineHeight: 1.05,
+                    }}
+                  >
+                    Productivity
+                  </span>
+                </div>
+
+                {/* KANAN */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    gap: "8px",
+                    minWidth: "200px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLUE,
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.2,
+                      textAlign: "right",
+                    }}
+                  >
+                    2024 - Present
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <FooterSection />
