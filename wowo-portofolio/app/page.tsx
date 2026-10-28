@@ -742,6 +742,20 @@ export default function Home() {
   // ==== STATE VIEW: work | index ====
   const [activeView, setActiveView] = useState<"work" | "index">("work");
 
+  // ==== STATE HOVER FOTO ====
+  // null = tidak ada hover, string = src foto yang muncul
+  const [hoverImage, setHoverImage] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const hoverAreaRef = useRef<HTMLDivElement>(null);
+
+  // Track posisi mouse untuk foto follow cursor
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -1586,7 +1600,6 @@ export default function Home() {
               gap: "20px",
             }}
           >
-            {/* KIRI: Selected Work (tetap) */}
             <span
               style={{
                 fontSize: "80px",
@@ -1600,7 +1613,6 @@ export default function Home() {
               Selected Work
             </span>
 
-            {/* KANAN: 2026 + Index/Grids toggle */}
             <div
               style={{
                 display: "flex",
@@ -1681,7 +1693,7 @@ export default function Home() {
 
           {/* ===== KONDISI: WORK / INDEX ===== */}
           {activeView === "work" ? (
-            /* ==== VIEW WORK: gambar + Menuru / Productivity ==== */
+            /* ==== VIEW WORK ==== */
             <div
               style={{
                 display: "flex",
@@ -1743,14 +1755,18 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            /* ==== VIEW INDEX: judul Index 60px + baris sejajar horizontal ==== */
+            /* ==== VIEW INDEX ==== */
             <div
+              ref={hoverAreaRef}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoverImage(null)}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
                 marginTop: "40px",
                 gap: "30px",
+                position: "relative",
               }}
             >
               {/* Judul Index 60px */}
@@ -1767,11 +1783,7 @@ export default function Home() {
                 Index
               </span>
 
-              {/*
-                ===== 1 BARIS SEJAJAR HORIZONTAL =====
-                flexDirection: "row" + alignItems: "center" + tidak ada flexWrap
-                → semua elemen berjejer ke samping, bukan turun ke bawah.
-              */}
+              {/* 1 BARIS SEJAJAR HORIZONTAL */}
               <div
                 style={{
                   display: "flex",
@@ -1784,23 +1796,10 @@ export default function Home() {
                   overflowX: "auto",
                 }}
               >
-                {/* 01 */}
+                {/* 01 — ukuran besar 90px, hover foto */}
                 <span
-                  style={{
-                    fontSize: "24px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
-                    flexShrink: 0,
-                  }}
-                >
-                  01
-                </span>
-
-                {/* Menuru */}
-                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
                   style={{
                     fontSize: "90px",
                     fontFamily: FONT_FAMILY,
@@ -1809,13 +1808,34 @@ export default function Home() {
                     letterSpacing: "-0.03em",
                     lineHeight: 1.05,
                     flexShrink: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  01
+                </span>
+
+                {/* Menuru — hover foto */}
+                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                    cursor: "pointer",
                   }}
                 >
                   Menuru
                 </span>
 
-                {/* deskripsi (2 baris) */}
+                {/* deskripsi — hover foto */}
                 <p
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
                   style={{
                     fontSize: "18px",
                     fontFamily: FONT_FAMILY,
@@ -1827,6 +1847,7 @@ export default function Home() {
                     maxWidth: "320px",
                     flexShrink: 1,
                     minWidth: 0,
+                    cursor: "pointer",
                   }}
                 >
                   Platform produktivitas untuk mencatat, merancang, dan
@@ -1834,8 +1855,10 @@ export default function Home() {
                   hingga eksekusi akhir.
                 </p>
 
-                {/* Productivity */}
+                {/* Productivity — hover foto */}
                 <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
                   style={{
                     fontSize: "90px",
                     fontFamily: FONT_FAMILY,
@@ -1844,23 +1867,27 @@ export default function Home() {
                     letterSpacing: "-0.03em",
                     lineHeight: 1.05,
                     flexShrink: 0,
+                    cursor: "pointer",
                   }}
                 >
                   Productivity
                 </span>
 
-                {/* 2024 - Present (kanan) */}
+                {/* 2024 - Present — ukuran besar 90px, hover foto, di kanan */}
                 <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
                   style={{
-                    fontSize: "20px",
+                    fontSize: "90px",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 400,
                     color: BLUE,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
                     marginLeft: "auto",
                     flexShrink: 0,
                     textAlign: "right",
+                    cursor: "pointer",
                   }}
                 >
                   2024 - Present
@@ -1872,6 +1899,27 @@ export default function Home() {
 
         <FooterSection />
       </div>
+
+      {/* ===== FOTO PREVIEW YANG MENGIKUTI CURSOR ===== */}
+      {hoverImage && (
+        <img
+          src={hoverImage}
+          alt="Preview"
+          style={{
+            position: "fixed",
+            left: `${mousePos.x + 20}px`,
+            top: `${mousePos.y + 20}px`,
+            width: "260px",
+            height: "auto",
+            borderRadius: "16px",
+            objectFit: "cover",
+            pointerEvents: "none",
+            zIndex: 100003,
+            boxShadow: "0 16px 48px rgba(13,60,252,0.35)",
+            transition: "opacity 0.2s ease",
+          }}
+        />
+      )}
 
       {preloaderDone && !menuOpen && (
         <div
