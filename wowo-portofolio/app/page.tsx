@@ -102,7 +102,7 @@ const WindowsIcon = ({
   </svg>
 );
 
-// ===== ICON INDEX (list dengan titik) =====
+// ===== ICON INDEX =====
 const IndexIcon = ({
   size = 18,
   color = "#0D3CFC",
@@ -144,7 +144,7 @@ const IndexIcon = ({
   </svg>
 );
 
-// ===== ICON GRIDS (kotak-kotak) =====
+// ===== ICON GRIDS =====
 const GridsIcon = ({
   size = 18,
   color = "#0D3CFC",
@@ -1589,7 +1589,6 @@ export default function Home() {
               gap: "20px",
             }}
           >
-            {/* KIRI: Selected Work */}
             <span
               style={{
                 fontSize: "80px",
@@ -1603,7 +1602,6 @@ export default function Home() {
               Selected Work
             </span>
 
-            {/* KANAN: 2026 + Index/Grids kecil di bawah */}
             <div
               style={{
                 display: "flex",
@@ -1625,7 +1623,6 @@ export default function Home() {
                 2026
               </span>
 
-              {/* Index & Grids kecil dengan icon */}
               <div
                 style={{
                   display: "flex",
@@ -1668,6 +1665,70 @@ export default function Home() {
                   Grids
                 </span>
               </div>
+            </div>
+          </div>
+
+          {/* ===== SECTION GAMBAR + MENURU + PRODUCTIVITY ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              width: "100%",
+              marginTop: "80px",
+              gap: "24px",
+            }}
+          >
+            {/* Gambar */}
+            <img
+              src="/images/pjgff.JPG"
+              alt="Menuru Productivity"
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                borderRadius: "24px",
+                objectFit: "cover",
+                boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
+              }}
+            />
+
+            {/* Menuru (kiri) + Productivity (kanan) */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+                flexWrap: "wrap",
+                gap: "20px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Menuru
+              </span>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Productivity
+              </span>
             </div>
           </div>
         </div>
