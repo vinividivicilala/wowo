@@ -1187,7 +1187,7 @@ export default function Home() {
               width: "100%",
             }}
           >
-            {/* Kolom 1 */}
+            {/* Kolom 1: Product Design + Merancang Produk */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1204,13 +1204,27 @@ export default function Home() {
                 style={{
                   fontSize: "32px",
                   fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: BLUE,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.2,
                 }}
               >
                 Product Design
+              </span>
+              {/* Tambahan: Merancang Produk */}
+              <span
+                style={{
+                  fontSize: "20px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.3,
+                  opacity: 0.85,
+                }}
+              >
+                Merancang Produk
               </span>
               <p
                 style={{
@@ -1245,7 +1259,7 @@ export default function Home() {
                 style={{
                   fontSize: "32px",
                   fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: BLUE,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.2,
@@ -1286,7 +1300,7 @@ export default function Home() {
                 style={{
                   fontSize: "32px",
                   fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: BLUE,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.2,
@@ -1326,7 +1340,7 @@ export default function Home() {
               style={{
                 fontSize: "64px",
                 fontFamily: FONT_FAMILY,
-                fontWeight: 700,
+                fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
@@ -1363,7 +1377,7 @@ export default function Home() {
                   style={{
                     fontSize: "32px",
                     fontFamily: FONT_FAMILY,
-                    fontWeight: 700,
+                    fontWeight: 400,
                     color: BLUE,
                     letterSpacing: "-0.02em",
                     lineHeight: 1.2,
@@ -1404,7 +1418,7 @@ export default function Home() {
                   style={{
                     fontSize: "32px",
                     fontFamily: FONT_FAMILY,
-                    fontWeight: 700,
+                    fontWeight: 400,
                     color: BLUE,
                     letterSpacing: "-0.02em",
                     lineHeight: 1.2,
@@ -1445,7 +1459,7 @@ export default function Home() {
                   style={{
                     fontSize: "32px",
                     fontFamily: FONT_FAMILY,
-                    fontWeight: 700,
+                    fontWeight: 400,
                     color: BLUE,
                     letterSpacing: "-0.02em",
                     lineHeight: 1.2,
@@ -1489,7 +1503,7 @@ export default function Home() {
               style={{
                 fontSize: "80px",
                 fontFamily: FONT_FAMILY,
-                fontWeight: 700,
+                fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
