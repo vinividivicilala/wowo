@@ -1080,7 +1080,7 @@ export default function Home() {
 
       <div
         style={{
-          minHeight: "200vh",
+          minHeight: "300vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           padding: "200px 0 0 0",
@@ -1102,6 +1102,7 @@ export default function Home() {
             maxWidth: "1600px",
             margin: "0 auto",
             width: "100%",
+            marginBottom: "200px",
           }}
         >
           {/* ===== Founder And Developer Brand ===== */}
@@ -1321,7 +1322,6 @@ export default function Home() {
               width: "100%",
             }}
           >
-            {/* Judul Security */}
             <span
               style={{
                 fontSize: "64px",
@@ -1335,7 +1335,6 @@ export default function Home() {
               Security
             </span>
 
-            {/* 3 kolom: Enkripsi / Sistem Anti Fraud / Anti Bot */}
             <div
               style={{
                 display: "flex",
@@ -1470,6 +1469,48 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* ===== SECTION SELECTED WORK + 2026 ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              marginTop: "120px",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            {/* KIRI: Selected Work */}
+            <span
+              style={{
+                fontSize: "80px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 700,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Selected Work
+            </span>
+
+            {/* KANAN: 2026 */}
+            <span
+              style={{
+                fontSize: "80px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              2026
+            </span>
           </div>
         </div>
 
