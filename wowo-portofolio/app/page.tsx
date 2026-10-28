@@ -102,6 +102,96 @@ const WindowsIcon = ({
   </svg>
 );
 
+// ===== ICON INDEX (list dengan titik) =====
+const IndexIcon = ({
+  size = 18,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="4" cy="6" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="6"
+      x2="21"
+      y2="6"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="4" cy="12" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="12"
+      x2="21"
+      y2="12"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="4" cy="18" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="18"
+      x2="21"
+      y2="18"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+// ===== ICON GRIDS (kotak-kotak) =====
+const GridsIcon = ({
+  size = 18,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="3"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="3"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+  </svg>
+);
+
 // ===== PRODUCT DESIGN ICON =====
 const ProductDesignIcon = ({
   size = 48,
@@ -1189,7 +1279,7 @@ export default function Home() {
             Merancang Produk
           </span>
 
-          {/* ===== SECTION 3 KOLOM: Product Design / Design System / Research ===== */}
+          {/* ===== SECTION 3 KOLOM ===== */}
           <div
             style={{
               display: "flex",
@@ -1202,7 +1292,7 @@ export default function Home() {
               width: "100%",
             }}
           >
-            {/* Kolom 1: Product Design */}
+            {/* Kolom 1 */}
             <div
               style={{
                 flex: "1 1 300px",
@@ -1486,12 +1576,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== SECTION SELECTED WORK + Index / Grids / 2026 ===== */}
+          {/* ===== SECTION SELECTED WORK + 2026 + Index/Grids ===== */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
+              alignItems: "flex-start",
               justifyContent: "space-between",
               width: "100%",
               marginTop: "120px",
@@ -1513,13 +1603,13 @@ export default function Home() {
               Selected Work
             </span>
 
-            {/* KANAN: Index · Grids · 2026 */}
+            {/* KANAN: 2026 + Index/Grids kecil di bawah */}
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
-                gap: "40px",
-                flexWrap: "wrap",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "10px",
               }}
             >
               <span
@@ -1532,32 +1622,52 @@ export default function Home() {
                   lineHeight: 1.1,
                 }}
               >
-                Index
-              </span>
-              <span
-                style={{
-                  fontSize: "80px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
-                Grids
-              </span>
-              <span
-                style={{
-                  fontSize: "80px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
                 2026
               </span>
+
+              {/* Index & Grids kecil dengan icon */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "20px",
+                  marginTop: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  <IndexIcon size={18} color={BLUE} />
+                  Index
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  <GridsIcon size={18} color={BLUE} />
+                  Grids
+                </span>
+              </div>
             </div>
           </div>
         </div>
