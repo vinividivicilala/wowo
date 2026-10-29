@@ -18,6 +18,9 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 
+// Tautan Privacy Policy (bisa diganti)
+const PRIVACY_POLICY_URL = "/privacy-policy";
+
 // ===== VERIFIED BADGE (WHITE) =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   <span
@@ -720,6 +723,120 @@ const FooterSection = () => {
   );
 };
 
+// ===== COOKIES POPUP COMPONENT =====
+const CookiesPopup = ({
+  onAccept,
+  onDecline,
+}: {
+  onAccept: () => void;
+  onDecline: () => void;
+}) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: "24px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "calc(100% - 40px)",
+        maxWidth: "720px",
+        backgroundColor: WHITE,
+        borderRadius: "20px",
+        padding: "24px 28px",
+        boxShadow: "0 16px 48px rgba(0,0,0,0.25)",
+        border: `1.5px solid ${BLUE}30`,
+        zIndex: 100004,
+        fontFamily: FONT_FAMILY,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "24px",
+        flexWrap: "wrap",
+        boxSizing: "border-box",
+        animation: "cookies-slide-up 0.4s ease-out",
+      }}
+    >
+      {/* Teks + link privacy policy (tanpa icon cookies) */}
+      <p
+        style={{
+          flex: "1 1 320px",
+          margin: 0,
+          fontSize: "15px",
+          fontFamily: FONT_FAMILY,
+          fontWeight: 400,
+          color: BLACK,
+          lineHeight: 1.6,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        Kami menggunakan cookies untuk meningkatkan pengalaman Anda di situs
+        ini. Dengan melanjutkan, Anda menyetujui penggunaan cookies sesuai{" "}
+        <a
+          href={PRIVACY_POLICY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: BLUE,
+            fontWeight: 700,
+            textDecoration: "underline",
+          }}
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
+
+      {/* Tombol Accept / Decline */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "12px",
+          flexShrink: 0,
+        }}
+      >
+        <button
+          onClick={onDecline}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "transparent",
+            color: BLUE,
+            border: `1.5px solid ${BLUE}`,
+            borderRadius: "10px",
+            fontFamily: FONT_FAMILY,
+            fontSize: "14px",
+            fontWeight: 700,
+            cursor: "pointer",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Decline
+        </button>
+        <button
+          onClick={onAccept}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: BLUE,
+            color: WHITE,
+            border: `1.5px solid ${BLUE}`,
+            borderRadius: "10px",
+            fontFamily: FONT_FAMILY,
+            fontSize: "14px",
+            fontWeight: 700,
+            cursor: "pointer",
+            letterSpacing: "-0.01em",
+            boxShadow: "0 4px 16px rgba(13,60,252,0.35)",
+          }}
+        >
+          Accept
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function Home() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
@@ -752,6 +869,37 @@ export default function Home() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  // ==== STATE COOKIES POPUP ====
+  const [showCookies, setShowCookies] = useState(false);
+
+  // Cek localStorage saat mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const consent = localStorage.getItem("cookies-consent");
+      if (!consent) {
+        // Tampilkan setelah preloader selesai + delay sedikit
+        setTimeout(() => setShowCookies(true), 1500);
+      }
+    } catch {
+      setShowCookies(true);
+    }
+  }, []);
+
+  const handleAcceptCookies = () => {
+    try {
+      localStorage.setItem("cookies-consent", "accepted");
+    } catch {}
+    setShowCookies(false);
+  };
+
+  const handleDeclineCookies = () => {
+    try {
+      localStorage.setItem("cookies-consent", "declined");
+    } catch {}
+    setShowCookies(false);
   };
 
   useEffect(() => {
@@ -1691,7 +1839,6 @@ export default function Home() {
 
           {/* ===== KONDISI: WORK / INDEX ===== */}
           {activeView === "work" ? (
-            /* ==== VIEW WORK ==== */
             <div
               style={{
                 display: "flex",
@@ -1753,7 +1900,6 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            /* ==== VIEW INDEX ==== */
             <div
               ref={hoverAreaRef}
               onMouseMove={handleMouseMove}
@@ -1767,7 +1913,6 @@ export default function Home() {
                 position: "relative",
               }}
             >
-              {/* Judul Index 60px */}
               <span
                 style={{
                   fontSize: "60px",
@@ -1781,7 +1926,6 @@ export default function Home() {
                 Index
               </span>
 
-              {/* 1 BARIS SEJAJAR HORIZONTAL — TANPA DESKRIPSI */}
               <div
                 style={{
                   display: "flex",
@@ -1794,7 +1938,6 @@ export default function Home() {
                   overflowX: "auto",
                 }}
               >
-                {/* 01 — hover foto */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1812,7 +1955,6 @@ export default function Home() {
                   01
                 </span>
 
-                {/* Menuru — hover foto */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1830,7 +1972,6 @@ export default function Home() {
                   Menuru
                 </span>
 
-                {/* Productivity — hover foto */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1848,7 +1989,6 @@ export default function Home() {
                   Productivity
                 </span>
 
-                {/* 2024 - Present — hover foto, di kanan */}
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
                   onMouseLeave={() => setHoverImage(null)}
@@ -1875,7 +2015,7 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* ===== FOTO PREVIEW YANG MENGIKUTI CURSOR — LEBIH BESAR ===== */}
+      {/* ===== FOTO PREVIEW HOVER ===== */}
       {hoverImage && (
         <img
           src={hoverImage}
@@ -1893,6 +2033,14 @@ export default function Home() {
             boxShadow: "0 24px 64px rgba(13,60,252,0.4)",
             transition: "opacity 0.2s ease",
           }}
+        />
+      )}
+
+      {/* ===== COOKIES POPUP ===== */}
+      {showCookies && (
+        <CookiesPopup
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
         />
       )}
 
@@ -2018,6 +2166,17 @@ export default function Home() {
 
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
+
+        @keyframes cookies-slide-up {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
 
         html,
         body {
