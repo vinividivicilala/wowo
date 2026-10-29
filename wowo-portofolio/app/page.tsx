@@ -19,6 +19,7 @@ const RED = "#DC2626";
 const BLACK = "#000000";
 
 const PRIVACY_POLICY_URL = "/privacy-policy";
+const CONTACT_URL = "/contact";
 
 // ===== VERIFIED BADGE (WHITE) =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
@@ -45,25 +46,26 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   </span>
 );
 
-// ===== MESSAGE ICON (pesan / chat bubble) =====
-const MessageIcon = ({
-  size = 20,
-  color = "#ffffff",
+// ===== PESAN ICON — LEBIH DETAIL (chat bubble + ekor + 2 dot) =====
+const PesanIcon = ({
+  size = 28,
+  color = "#0D3CFC",
 }: {
   size?: number;
   color?: string;
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <path
-      d="M21 11.5C21 16.1944 16.9706 20 12 20C10.8452 20 9.74371 19.7964 8.73507 19.4276L4 21L5.45177 16.7441C4.53668 15.3762 4 13.7581 4 12C4 7.30558 8.02944 3.5 12 3.5C16.9706 3.5 21 7.30558 21 11.5Z"
+      d="M12 3.5C7.02944 3.5 3 7.02944 3 11.5C3 13.2207 3.58242 14.8102 4.55385 16.0937L3.5 20.5L7.90633 19.4462C9.18977 20.4176 10.7793 21 12.5 21C17.1944 21 21 17.1944 21 12.5C21 7.80558 17.1944 3.5 12 3.5Z"
       stroke={color}
-      strokeWidth="2"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
+      fill="none"
     />
-    <circle cx="9" cy="11.5" r="1" fill={color} />
-    <circle cx="12" cy="11.5" r="1" fill={color} />
-    <circle cx="15" cy="11.5" r="1" fill={color} />
+    <circle cx="8.5" cy="12" r="1.2" fill={color} />
+    <circle cx="12" cy="12" r="1.2" fill={color} />
+    <circle cx="15.5" cy="12" r="1.2" fill={color} />
   </svg>
 );
 
@@ -1403,7 +1405,6 @@ export default function Home() {
             >
               Founder And Developer Brand
             </span>
-            {/* Menuru dengan background biru, teks putih */}
             <span
               style={{
                 backgroundColor: BLUE,
@@ -1441,49 +1442,40 @@ export default function Home() {
             Based In Indonesia
           </span>
 
-          {/* ===== Contact For Me? Hubungin — bg biru, teks putih, icon pesan ===== */}
-          <div
+          {/* ===== KOTAK BORDER "Pesan" di bawah Menuru ===== */}
+          <a
+            href={CONTACT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "14px",
               padding: "14px 28px",
-              backgroundColor: BLUE,
-              borderRadius: "999px",
-              boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-              marginTop: "12px",
+              backgroundColor: "transparent",
+              border: `2px solid ${BLUE}`,
+              borderRadius: "14px",
+              boxShadow: "0 4px 20px rgba(13,60,252,0.15)",
+              textDecoration: "none",
               cursor: "pointer",
-              flexWrap: "wrap",
+              marginTop: "8px",
+              transition: "background-color 0.2s ease, box-shadow 0.2s ease",
             }}
           >
-            <MessageIcon size={28} color={WHITE} />
+            <PesanIcon size={28} color={BLUE} />
             <span
               style={{
-                fontSize: "32px",
+                fontSize: "28px",
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 700,
-                color: WHITE,
+                color: BLUE,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
               }}
             >
-              Contact For Me? Hubungin
+              Pesan
             </span>
-            <span
-              style={{
-                fontSize: "20px",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontWeight: 400,
-                color: WHITE,
-                letterSpacing: "-0.01em",
-                lineHeight: 1.2,
-                opacity: 0.9,
-                marginLeft: "6px",
-              }}
-            >
-              Message
-            </span>
-          </div>
+          </a>
 
           {/* ===== JUDUL SECTION: Merancang Produk ===== */}
           <span
