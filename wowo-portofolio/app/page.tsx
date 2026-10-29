@@ -45,6 +45,28 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   </span>
 );
 
+// ===== MESSAGE ICON (pesan / chat bubble) =====
+const MessageIcon = ({
+  size = 20,
+  color = "#ffffff",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M21 11.5C21 16.1944 16.9706 20 12 20C10.8452 20 9.74371 19.7964 8.73507 19.4276L4 21L5.45177 16.7441C4.53668 15.3762 4 13.7581 4 12C4 7.30558 8.02944 3.5 12 3.5C16.9706 3.5 21 7.30558 21 11.5Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="9" cy="11.5" r="1" fill={color} />
+    <circle cx="12" cy="11.5" r="1" fill={color} />
+    <circle cx="15" cy="11.5" r="1" fill={color} />
+  </svg>
+);
+
 // ===== MICROSOFT STORE ICON =====
 const MicrosoftStoreIcon = ({
   size = 32,
@@ -395,8 +417,6 @@ const AntiBotIcon = ({
 );
 
 // ===== FOOTER SECTION =====
-// Dipindah keluar dari parent agar render stabil di kedua view.
-// Refresh ScrollTrigger dipanggil ulang saat `activeView` berubah.
 const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLSpanElement>(null);
@@ -770,8 +790,8 @@ const CookiesPopup = ({
           letterSpacing: "-0.01em",
         }}
       >
-        Kami menggunakan cookies untuk meningkatkan pengalaman Anda di situs
-        ini. Dengan melanjutkan, Anda menyetujui penggunaan cookies sesuai{" "}
+        We use cookies to improve your experience on this site. By continuing,
+        you agree to the use of cookies in accordance with our{" "}
         <a
           href={PRIVACY_POLICY_URL}
           target="_blank"
@@ -855,10 +875,8 @@ export default function Home() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
 
-  // ==== STATE VIEW: work | index ====
   const [activeView, setActiveView] = useState<"work" | "index">("work");
 
-  // ==== STATE HOVER FOTO ====
   const [hoverImage, setHoverImage] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
     x: 0,
@@ -870,7 +888,6 @@ export default function Home() {
     setMousePos({ x: e.clientX, y: e.clientY });
   };
 
-  // ==== STATE COOKIES POPUP ====
   const [showCookies, setShowCookies] = useState(false);
 
   useEffect(() => {
@@ -899,11 +916,8 @@ export default function Home() {
     setShowCookies(false);
   };
 
-  // ==== REFRESH SCROLLTRIGGER SAAT VIEW BERUBAH ====
-  // Ini yang memastikan animasi footer "Farid A" tetap jalan di kedua view.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Delay sedikit agar layout reflow selesai dulu
     const t = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 120);
@@ -1366,7 +1380,7 @@ export default function Home() {
             marginBottom: "200px",
           }}
         >
-          {/* ===== Founder And Developer Brand ===== */}
+          {/* ===== Founder And Developer Brand + Menuru (bg biru) ===== */}
           <div
             style={{
               display: "flex",
@@ -1389,33 +1403,25 @@ export default function Home() {
             >
               Founder And Developer Brand
             </span>
+            {/* Menuru dengan background biru, teks putih */}
             <span
               style={{
-                backgroundColor: "#0D3CFC",
+                backgroundColor: BLUE,
+                color: WHITE,
                 padding: "10px 28px",
-                borderRadius: "6px 28px 28px 28px",
-                display: "inline-block",
+                borderRadius: "28px",
+                display: "inline-flex",
+                alignItems: "center",
                 boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-                border: "2px solid #0D3CFC",
+                fontSize: "50px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 400,
+                letterSpacing: "-0.02em",
+                lineHeight: "1.1",
+                textTransform: "capitalize",
               }}
             >
-              <span
-                style={{
-                  backgroundColor: "#FFFFFF",
-                  padding: "6px 22px",
-                  borderRadius: "24px 4px 24px 24px",
-                  display: "inline-block",
-                  fontSize: "50px",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 400,
-                  letterSpacing: "-0.02em",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  textTransform: "capitalize",
-                }}
-              >
-                Menuru
-              </span>
+              Menuru
             </span>
           </div>
 
@@ -1434,6 +1440,50 @@ export default function Home() {
           >
             Based In Indonesia
           </span>
+
+          {/* ===== Contact For Me? Hubungin — bg biru, teks putih, icon pesan ===== */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "14px",
+              padding: "14px 28px",
+              backgroundColor: BLUE,
+              borderRadius: "999px",
+              boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+              marginTop: "12px",
+              cursor: "pointer",
+              flexWrap: "wrap",
+            }}
+          >
+            <MessageIcon size={28} color={WHITE} />
+            <span
+              style={{
+                fontSize: "32px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 700,
+                color: WHITE,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+              }}
+            >
+              Contact For Me? Hubungin
+            </span>
+            <span
+              style={{
+                fontSize: "20px",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 400,
+                color: WHITE,
+                letterSpacing: "-0.01em",
+                lineHeight: 1.2,
+                opacity: 0.9,
+                marginLeft: "6px",
+              }}
+            >
+              Message
+            </span>
+          </div>
 
           {/* ===== JUDUL SECTION: Merancang Produk ===== */}
           <span
@@ -1498,8 +1548,8 @@ export default function Home() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Merancang pengalaman produk yang intuitif, fungsional, dan
-                berpusat pada pengguna — dari konsep hingga prototipe akhir.
+                Designing intuitive, functional, and user-centered product
+                experiences — from concept to final prototype.
               </p>
             </div>
 
@@ -1538,8 +1588,8 @@ export default function Home() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Membangun sistem desain yang konsisten, skalabel, dan mudah
-                digunakan untuk seluruh tim produk.
+                Building a consistent, scalable, and easy-to-use design system
+                for the entire product team.
               </p>
             </div>
 
@@ -1578,8 +1628,8 @@ export default function Home() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Melakukan riset mendalam yang menghasilkan insight nyata untuk
-                mengubah arah keputusan produk menjadi lebih baik.
+                Conducting in-depth research that generates real insights to
+                change product decisions for the better.
               </p>
             </div>
           </div>
@@ -1641,7 +1691,7 @@ export default function Home() {
                     lineHeight: 1.2,
                   }}
                 >
-                  Enkripsi
+                  Encryption
                 </span>
                 <p
                   style={{
@@ -1654,8 +1704,8 @@ export default function Home() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Data pengguna dilindungi dengan enkripsi end-to-end, sehingga
-                  hanya pengguna yang berhak yang dapat mengaksesnya.
+                  User data is protected with end-to-end encryption, so only
+                  authorized users can access it.
                 </p>
               </div>
 
@@ -1681,7 +1731,7 @@ export default function Home() {
                     lineHeight: 1.2,
                   }}
                 >
-                  Sistem Anti Fraud
+                  Anti-Fraud System
                 </span>
                 <p
                   style={{
@@ -1694,8 +1744,8 @@ export default function Home() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Deteksi aktivitas mencurigakan secara real-time untuk mencegah
-                  penipuan dan melindungi setiap transaksi pengguna.
+                  Real-time detection of suspicious activity to prevent fraud
+                  and protect every user transaction.
                 </p>
               </div>
 
@@ -1721,7 +1771,7 @@ export default function Home() {
                     lineHeight: 1.2,
                   }}
                 >
-                  Anti Bot
+                  Anti-Bot
                 </span>
                 <p
                   style={{
@@ -1734,8 +1784,8 @@ export default function Home() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Sistem perlindungan otomatis yang memblokir bot dan traffic
-                  palsu agar platform tetap aman dan adil.
+                  An automated protection system that blocks bots and fake
+                  traffic to keep the platform safe and fair.
                 </p>
               </div>
             </div>
@@ -2020,11 +2070,9 @@ export default function Home() {
           )}
         </div>
 
-        {/* ===== FOOTER SELALU DI-RENDER DI KEDUA VIEW ===== */}
         <FooterSection refreshKey={activeView} />
       </div>
 
-      {/* ===== FOTO PREVIEW HOVER ===== */}
       {hoverImage && (
         <img
           src={hoverImage}
@@ -2045,7 +2093,6 @@ export default function Home() {
         />
       )}
 
-      {/* ===== COOKIES POPUP ===== */}
       {showCookies && (
         <CookiesPopup
           onAccept={handleAcceptCookies}
