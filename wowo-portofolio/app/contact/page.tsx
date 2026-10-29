@@ -1108,7 +1108,7 @@ export default function ContactPage() {
         </>
       )}
 
-      {/* ===== KONTEN UTAMA CONTACT — KOSONG ===== */}
+      {/* ===== KONTEN UTAMA CONTACT ===== */}
       <div
         style={{
           minHeight: "100vh",
@@ -1123,8 +1123,51 @@ export default function ContactPage() {
           position: "relative",
         }}
       >
-        {/* Isi konten dihapus — hanya spacer kosong */}
-        <div style={{ height: "400px" }} />
+        <div
+          style={{
+            padding: "0 40px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "16px",
+            maxWidth: "1600px",
+            margin: "0 auto",
+            width: "100%",
+            marginBottom: "200px",
+          }}
+        >
+          {/* ===== TEKS "Contact" 450px ===== */}
+          <span
+            style={{
+              fontSize: "450px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.04em",
+              lineHeight: 1,
+              display: "block",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Contact
+          </span>
+
+          {/* ===== TEKS "Messages" 90px ===== */}
+          <span
+            style={{
+              fontSize: "90px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+              display: "block",
+              marginTop: "8px",
+            }}
+          >
+            Messages
+          </span>
+        </div>
 
         {/* ===== FOOTER ===== */}
         <FooterSection refreshKey="contact" />
