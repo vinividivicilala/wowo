@@ -618,6 +618,7 @@ const LiveChatSection = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [showCompose, setShowCompose] = useState(false);
+  const [composeMode, setComposeMode] = useState<"reply" | "broadcast" | "announcement">("reply");
   const [formSubject, setFormSubject] = useState("");
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -625,7 +626,7 @@ const LiveChatSection = () => {
     "idle"
   );
   
-  // ==== STATE UNTUK LOGIN MANUAL ====
+  // Auth states
   const [authMode, setAuthMode] = useState<"login" | "register" | "google">("google");
   const [authName, setAuthName] = useState("");
   const [authEmail, setAuthEmail] = useState("");
@@ -646,14 +647,16 @@ const LiveChatSection = () => {
     let q;
 
     if (isAdmin) {
+      // Admin melihat semua pesan, broadcast, dan pengumuman
       q = query(
         collection(db, "contactMessages"),
         orderBy("createdAt", "desc")
       );
     } else if (user) {
+      // User melihat pesan mereka sendiri + broadcast + pengumuman
       q = query(
         collection(db, "contactMessages"),
-        where("userId", "==", user.uid),
+        where("userId", "in", [user.uid, "all"]),
         orderBy("createdAt", "desc")
       );
     } else {
@@ -745,18 +748,72 @@ const LiveChatSection = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
     try {
-      await addDoc(collection(db, "contactMessages"), {
-        userId: user.uid,
-        name: user.displayName || user.email?.split("@")[0] || "Anonymous",
-        email: user.email || "",
-        photoURL: user.photoURL || "",
-        subject: formSubject.trim(),
-        message: formMessage.trim(),
-        to: ADMIN_EMAIL,
-        from: user.email || "",
-        status: "sent",
-        createdAt: serverTimestamp(),
-      });
+      const isAdmin = user?.email === ADMIN_EMAIL;
+      
+      // Jika mode reply dan admin balas ke user spesifik
+      if (isAdmin && composeMode === "reply" && selected) {
+        await addDoc(collection(db, "contactMessages"), {
+          userId: selected.userId, // Kirim ke user spesifik
+          name: ADMIN_NAME,
+          email: ADMIN_EMAIL,
+          photoURL: "",
+          subject: formSubject.trim(),
+          message: formMessage.trim(),
+          to: selected.email,
+          from: ADMIN_EMAIL,
+          status: "sent",
+          isAdminReply: true,
+          createdAt: serverTimestamp(),
+        });
+      } 
+      // Jika mode broadcast
+      else if (isAdmin && composeMode === "broadcast") {
+        await addDoc(collection(db, "contactMessages"), {
+          userId: "all", // Untuk semua user
+          name: ADMIN_NAME,
+          email: ADMIN_EMAIL,
+          photoURL: "",
+          subject: `[BROADCAST] ${formSubject.trim()}`,
+          message: formMessage.trim(),
+          to: "all",
+          from: ADMIN_EMAIL,
+          status: "sent",
+          isBroadcast: true,
+          createdAt: serverTimestamp(),
+        });
+      }
+      // Jika mode announcement
+      else if (isAdmin && composeMode === "announcement") {
+        await addDoc(collection(db, "contactMessages"), {
+          userId: "all", // Untuk semua user
+          name: ADMIN_NAME,
+          email: ADMIN_EMAIL,
+          photoURL: "",
+          subject: `[PENGUMUMAN] ${formSubject.trim()}`,
+          message: formMessage.trim(),
+          to: "all",
+          from: ADMIN_EMAIL,
+          status: "sent",
+          isAnnouncement: true,
+          createdAt: serverTimestamp(),
+        });
+      }
+      // User biasa kirim pesan ke admin
+      else {
+        await addDoc(collection(db, "contactMessages"), {
+          userId: user.uid,
+          name: user.displayName || user.email?.split("@")[0] || "Anonymous",
+          email: user.email || "",
+          photoURL: user.photoURL || "",
+          subject: formSubject.trim(),
+          message: formMessage.trim(),
+          to: ADMIN_EMAIL,
+          from: user.email || "",
+          status: "sent",
+          createdAt: serverTimestamp(),
+        });
+      }
+
       setFormSubject("");
       setFormMessage("");
       setSubmitStatus("success");
@@ -768,6 +825,18 @@ const LiveChatSection = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const openCompose = (mode: "reply" | "broadcast" | "announcement") => {
+    if (!user) {
+      setAuthMode("google");
+      setAuthError("");
+      return;
+    }
+    setComposeMode(mode);
+    setFormSubject("");
+    setFormMessage("");
+    setShowCompose(true);
   };
 
   const selected = messages.find((m) => m.id === selectedId) || null;
@@ -784,7 +853,7 @@ const LiveChatSection = () => {
         gap: "20px",
       }}
     >
-      {/* Top bar */}
+      {/* Top bar - Menu Admin & User */}
       <div
         style={{
           display: "flex",
@@ -795,34 +864,74 @@ const LiveChatSection = () => {
           flexWrap: "wrap",
         }}
       >
-        <button
-          onClick={() => {
-            if (!user) {
-              setAuthMode("google");
-              setAuthError("");
-            } else {
-              setShowCompose((v) => !v);
-            }
-          }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "10px",
-            padding: "16px 28px",
-            backgroundColor: WHITE,
-            color: BLUE,
-            border: "none",
-            borderRadius: "20px",
-            fontSize: "18px",
-            fontWeight: 700,
-            fontFamily: FONT_FAMILY,
-            cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-          }}
-        >
-          <SendIcon size={20} color={BLUE} />
-          {!user ? "Sign in to Send" : "Kirim Pesan"}
-        </button>
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <button
+            onClick={() => openCompose("reply")}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "16px 28px",
+              backgroundColor: WHITE,
+              color: BLUE,
+              border: "none",
+              borderRadius: "20px",
+              fontSize: "18px",
+              fontWeight: 700,
+              fontFamily: FONT_FAMILY,
+              cursor: "pointer",
+              boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
+            }}
+          >
+            <SendIcon size={20} color={BLUE} />
+            {!user ? "Sign in to Send" : isAdmin ? "Balas User" : "Kirim Pesan"}
+          </button>
+
+          {isAdmin && (
+            <>
+              <button
+                onClick={() => openCompose("broadcast")}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "16px 28px",
+                  backgroundColor: "#F59E0B",
+                  color: WHITE,
+                  border: "none",
+                  borderRadius: "20px",
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  fontFamily: FONT_FAMILY,
+                  cursor: "pointer",
+                  boxShadow: "0 8px 24px rgba(245,158,11,0.35)",
+                }}
+              >
+                Broadcast
+              </button>
+              <button
+                onClick={() => openCompose("announcement")}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "16px 28px",
+                  backgroundColor: "#10B981",
+                  color: WHITE,
+                  border: "none",
+                  borderRadius: "20px",
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  fontFamily: FONT_FAMILY,
+                  cursor: "pointer",
+                  boxShadow: "0 8px 24px rgba(16,185,129,0.35)",
+                }}
+              >
+                Pengumuman
+              </button>
+            </>
+          )}
+        </div>
 
         {!user ? (
           <div style={{ display: "flex", gap: "12px" }}>
@@ -957,7 +1066,9 @@ const LiveChatSection = () => {
           >
             <div
               style={{
-                backgroundColor: BLUE,
+                backgroundColor: 
+                  composeMode === "broadcast" ? "#F59E0B" : 
+                  composeMode === "announcement" ? "#10B981" : BLUE,
                 padding: "20px 28px",
                 display: "flex",
                 alignItems: "center",
@@ -968,7 +1079,9 @@ const LiveChatSection = () => {
             >
               <SendIcon size={22} color={WHITE} />
               <span style={{ fontSize: "20px", fontWeight: 700, color: WHITE }}>
-                New Message
+                {composeMode === "broadcast" ? "Kirim Broadcast ke Semua" :
+                 composeMode === "announcement" ? "Kirim Pengumuman ke Semua" :
+                 isAdmin ? `Balas ke ${selected?.name || "User"}` : "Kirim Pesan ke Admin"}
               </span>
             </div>
             <form
@@ -996,7 +1109,9 @@ const LiveChatSection = () => {
               >
                 <span>To:</span>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                  {ADMIN_EMAIL}
+                  {composeMode === "broadcast" || composeMode === "announcement" 
+                    ? "Semua User" 
+                    : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
                   <VerifiedBadge size={16} color={BLUE} />
                 </span>
               </div>
@@ -1137,12 +1252,12 @@ const LiveChatSection = () => {
           }}
         >
           <EmailIcon size={60} color={WHITE} open={false} />
-          <h2 style={{ fontSize: "32px", fontWeight: 700, margin: 0 }}>
+          <h2 style={{ fontSize: "50px", fontWeight: 700, margin: 0 }}>
             Pesan Terkunci
           </h2>
           <p
             style={{
-              fontSize: "18px",
+              fontSize: "20px",
               opacity: 0.9,
               maxWidth: "600px",
               margin: 0,
@@ -1273,7 +1388,7 @@ const LiveChatSection = () => {
             boxShadow: "0 24px 64px rgba(13,60,252,0.35)",
             flexWrap: "wrap",
             boxSizing: "border-box",
-            minHeight: "800px",
+            minHeight: "900px", // Diperpanjang ke bawah
           }}
         >
           {/* ===== CARD KIRI: LIST PESAN ===== */}
@@ -1304,13 +1419,13 @@ const LiveChatSection = () => {
                 <EmailIcon size={28} color={BLUE} open={false} />
                 <span
                   style={{
-                    fontSize: "24px",
+                    fontSize: "50px", // DIPERBESAR
                     fontWeight: 700,
                     color: BLUE,
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  {isAdmin ? "Inbox" : "Pesan Saya"}
+                  {isAdmin ? "Inbox" : "Pesan"}
                 </span>
               </div>
               <span
@@ -1319,7 +1434,7 @@ const LiveChatSection = () => {
                   backgroundColor: BLUE,
                   color: WHITE,
                   borderRadius: "999px",
-                  fontSize: "15px",
+                  fontSize: "20px",
                   fontWeight: 700,
                 }}
               >
@@ -1327,15 +1442,14 @@ const LiveChatSection = () => {
               </span>
             </div>
 
-            {/* PERBAIKAN PADDING KIRI */}
             <div
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: "24px 28px", // Padding dilebarkan agar tidak nabrak card
+                padding: "24px 28px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "14px", // Jarak antar item
+                gap: "14px",
                 backgroundColor: WHITE,
               }}
             >
@@ -1344,7 +1458,7 @@ const LiveChatSection = () => {
                   style={{
                     padding: "48px 20px",
                     textAlign: "center",
-                    fontSize: "16px",
+                    fontSize: "20px",
                     color: BLUE,
                     opacity: 0.65,
                     fontStyle: "italic",
@@ -1355,6 +1469,22 @@ const LiveChatSection = () => {
               ) : (
                 messages.map((m) => {
                   const isActive = m.id === selectedId;
+                  // Desain khusus untuk broadcast & pengumuman
+                  const isBroadcast = m.isBroadcast;
+                  const isAnnouncement = m.isAnnouncement;
+                  
+                  let bgColor = isActive ? BLUE : `${BLUE}08`;
+                  let textColor = isActive ? WHITE : BLUE;
+                  
+                  if (isBroadcast && !isActive) {
+                    bgColor = "#FEF3C7"; // Kuning muda
+                    textColor = "#92400E";
+                  }
+                  if (isAnnouncement && !isActive) {
+                    bgColor = "#D1FAE5"; // Hijau muda
+                    textColor = "#065F46";
+                  }
+
                   return (
                     <motion.button
                       key={m.id}
@@ -1366,14 +1496,14 @@ const LiveChatSection = () => {
                       whileTap={{ scale: 0.99 }}
                       style={{
                         display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: "16px", // Jarak antar elemen dalam card
-                        padding: "20px 24px", // Padding dalam card item dilebarkan
-                        backgroundColor: isActive ? BLUE : `${BLUE}08`,
-                        color: isActive ? WHITE : BLUE,
+                        flexDirection: "column", // Dibuat vertikal untuk pesan besar
+                        alignItems: "flex-start",
+                        gap: "12px",
+                        padding: "24px", // Lebih lega
+                        backgroundColor: bgColor,
+                        color: textColor,
                         border: isActive
-                          ? `1.5px solid ${BLUE}`
+                          ? `2px solid ${BLUE}`
                           : `1.5px solid ${BLUE}15`,
                         borderRadius: "30px 30px 30px 10px",
                         cursor: "pointer",
@@ -1383,66 +1513,84 @@ const LiveChatSection = () => {
                           "background-color 0.25s ease, color 0.25s ease",
                       }}
                     >
+                      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "100%" }}>
+                        <div
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "16px",
+                            backgroundColor: isActive ? WHITE : BLUE,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <EmailIcon
+                            size={24}
+                            color={isActive ? BLUE : WHITE}
+                            open={isActive}
+                          />
+                        </div>
+
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontSize: "20px",
+                              fontWeight: 700,
+                              color: isActive ? WHITE : textColor,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {m.name || "Anonymous"}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 400,
+                              opacity: 0.85,
+                              marginTop: "4px",
+                            }}
+                          >
+                            {timeAgo(m.createdAt)}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Judul / Subjek Besar */}
                       <div
                         style={{
-                          width: "48px",
-                          height: "48px",
-                          borderRadius: "16px",
-                          backgroundColor: isActive ? WHITE : BLUE,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
+                          fontSize: "24px",
+                          fontWeight: 700,
+                          color: isActive ? WHITE : textColor,
+                          marginTop: "8px",
+                          wordBreak: "break-word",
+                          lineHeight: 1.3,
                         }}
                       >
-                        <EmailIcon
-                          size={24}
-                          color={isActive ? BLUE : WHITE}
-                          open={isActive}
-                        />
+                        {m.subject || "(no subject)"}
                       </div>
 
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div
-                          style={{
-                            fontSize: "17px",
-                            fontWeight: 400,
-                            color: isActive ? WHITE : BLUE,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {m.name || "Anonymous"}
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: 400,
-                            color: isActive ? WHITE : BLUE,
-                            opacity: isActive ? 0.85 : 0.75,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            marginTop: "4px",
-                          }}
-                        >
-                          {m.subject || "(no subject)"}
-                        </div>
-                      </div>
-
-                      <span
+                      {/* Cuplikan Pesan Panjang ke Bawah */}
+                      <div
                         style={{
-                          fontSize: "12px",
+                          fontSize: "16px",
                           fontWeight: 400,
-                          color: isActive ? WHITE : BLUE,
-                          opacity: isActive ? 0.8 : 0.65,
-                          flexShrink: 0,
-                          marginLeft: "10px", // Jarak aman dari teks kiri
+                          color: isActive ? WHITE : textColor,
+                          opacity: 0.9,
+                          lineHeight: 1.5,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3, // Menampilkan 3 baris
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          marginTop: "4px",
                         }}
                       >
-                        {timeAgo(m.createdAt)}
-                      </span>
+                        {m.message}
+                      </div>
                     </motion.button>
                   );
                 })
@@ -1484,7 +1632,7 @@ const LiveChatSection = () => {
                 <EmailIcon size={100} color={`${BLUE}30`} open={false} />
                 <span
                   style={{
-                    fontSize: "18px",
+                    fontSize: "30px",
                     color: BLUE,
                     fontWeight: 400,
                     opacity: 0.55,
@@ -1511,14 +1659,14 @@ const LiveChatSection = () => {
                 >
                   <span
                     style={{
-                      fontSize: "22px",
+                      fontSize: "50px", // DIPERBESAR
                       fontWeight: 400,
                       color: BLUE,
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {isAdmin ? "Pesan Masuk" : "Pesan Kirim"}
+                    {selected.isBroadcast ? "Broadcast" : selected.isAnnouncement ? "Pengumuman" : (isAdmin ? "Pesan Masuk" : "Pesan Kirim")}
                   </span>
                   <span
                     style={{
@@ -1546,7 +1694,7 @@ const LiveChatSection = () => {
                 >
                   <span
                     style={{
-                      fontSize: "36px",
+                      fontSize: "40px", // DIPERBESAR
                       fontWeight: 400,
                       color: BLUE,
                       letterSpacing: "-0.02em",
@@ -1567,8 +1715,8 @@ const LiveChatSection = () => {
                   >
                     <div
                       style={{
-                        width: "52px",
-                        height: "52px",
+                        width: "60px",
+                        height: "60px",
                         borderRadius: "50%",
                         backgroundColor: BLUE,
                         overflow: "hidden",
@@ -1593,7 +1741,7 @@ const LiveChatSection = () => {
                         <span
                           style={{
                             color: WHITE,
-                            fontSize: "22px",
+                            fontSize: "24px",
                             fontWeight: 400,
                           }}
                         >
@@ -1612,7 +1760,7 @@ const LiveChatSection = () => {
                     >
                       <span
                         style={{
-                          fontSize: "20px",
+                          fontSize: "24px",
                           fontWeight: 400,
                           color: BLUE,
                           letterSpacing: "-0.01em",
@@ -1622,7 +1770,7 @@ const LiveChatSection = () => {
                       </span>
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "16px",
                           fontWeight: 400,
                           color: BLUE,
                           opacity: 0.75,
@@ -1632,7 +1780,7 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.email || selected.name}
-                        <VerifiedBadge size={14} color={BLUE} />
+                        <VerifiedBadge size={16} color={BLUE} />
                       </span>
                     </div>
                   </div>
@@ -1649,7 +1797,7 @@ const LiveChatSection = () => {
                   >
                     <span
                       style={{
-                        fontSize: "13px",
+                        fontSize: "16px",
                         fontWeight: 400,
                         color: BLUE,
                         opacity: 0.7,
@@ -1666,7 +1814,7 @@ const LiveChatSection = () => {
                     >
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "18px",
                           fontWeight: 400,
                           color: BLUE,
                           display: "inline-flex",
@@ -1674,18 +1822,18 @@ const LiveChatSection = () => {
                           gap: "4px",
                         }}
                       >
-                        {ADMIN_NAME}
-                        <VerifiedBadge size={14} color={BLUE} />
+                        {selected.isBroadcast || selected.isAnnouncement ? "Semua User" : (isAdmin ? selected.name : ADMIN_NAME)}
+                        <VerifiedBadge size={16} color={BLUE} />
                       </span>
                       <span
                         style={{
-                          fontSize: "12px",
+                          fontSize: "14px",
                           fontWeight: 400,
                           color: BLUE,
                           opacity: 0.7,
                         }}
                       >
-                        {ADMIN_EMAIL}
+                        {selected.isBroadcast || selected.isAnnouncement ? "Global" : (isAdmin ? selected.email : ADMIN_EMAIL)}
                       </span>
                     </div>
                   </div>
@@ -1713,7 +1861,7 @@ const LiveChatSection = () => {
                   >
                     <span
                       style={{
-                        fontSize: "22px",
+                        fontSize: "30px", // DIPERBESAR
                         fontWeight: 400,
                         color: BLUE,
                         textTransform: "uppercase",
@@ -1750,8 +1898,8 @@ const LiveChatSection = () => {
                     style={{
                       backgroundColor: WHITE,
                       borderRadius: "24px",
-                      padding: "24px 28px",
-                      fontSize: "20px",
+                      padding: "32px", // Lebih lega
+                      fontSize: "24px", // Teks pesan lebih besar
                       fontWeight: 400,
                       color: BLUE,
                       lineHeight: 1.75,
@@ -1772,14 +1920,14 @@ const LiveChatSection = () => {
                         alignItems: "center",
                         justifyContent: "flex-end",
                         gap: "8px",
-                        marginTop: "20px",
+                        marginTop: "24px",
                         paddingTop: "16px",
                         borderTop: `1.5px solid ${BLUE}15`,
                       }}
                     >
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "16px",
                           color: BLUE,
                           opacity: 0.75,
                           fontWeight: 400,
@@ -1795,7 +1943,7 @@ const LiveChatSection = () => {
                       </span>
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "16px",
                           fontWeight: 400,
                           color: BLUE,
                           opacity: 0.75,
