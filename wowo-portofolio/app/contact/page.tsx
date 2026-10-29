@@ -13,6 +13,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -621,6 +624,14 @@ const LiveChatSection = () => {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
     "idle"
   );
+  
+  // ==== STATE UNTUK LOGIN MANUAL ====
+  const [authMode, setAuthMode] = useState<"login" | "register" | "google">("google");
+  const [authName, setAuthName] = useState("");
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -635,20 +646,17 @@ const LiveChatSection = () => {
     let q;
 
     if (isAdmin) {
-      // Admin melihat semua pesan
       q = query(
         collection(db, "contactMessages"),
         orderBy("createdAt", "desc")
       );
     } else if (user) {
-      // User hanya melihat pesannya sendiri
       q = query(
         collection(db, "contactMessages"),
         where("userId", "==", user.uid),
         orderBy("createdAt", "desc")
       );
     } else {
-      // Jika belum login, kosongkan pesan
       setMessages([]);
       setSelectedId(null);
       return;
@@ -666,7 +674,6 @@ const LiveChatSection = () => {
     return () => unsub();
   }, [user]);
 
-  // Otomatis ubah status menjadi "dibaca" jika pemilik membuka pesan
   useEffect(() => {
     if (!db || !selectedId || !user) return;
     const isAdmin = user?.email === ADMIN_EMAIL;
@@ -689,8 +696,33 @@ const LiveChatSection = () => {
     if (!auth) return;
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
-    } catch (e) {
-      console.error(e);
+      setAuthError("");
+    } catch (e: any) {
+      setAuthError(e.message);
+    }
+  };
+
+  const handleManualAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auth || !authEmail.trim() || !authPassword.trim()) {
+      setAuthError("Email dan password wajib diisi.");
+      return;
+    }
+    if (authMode === "register" && !authName.trim()) {
+      setAuthError("Nama wajib diisi untuk mendaftar.");
+      return;
+    }
+
+    try {
+      setAuthError("");
+      if (authMode === "register") {
+        const userCredential = await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+        await updateProfile(userCredential.user, { displayName: authName });
+      } else {
+        await signInWithEmailAndPassword(auth, authEmail, authPassword);
+      }
+    } catch (err: any) {
+      setAuthError(err.message || "Gagal melakukan autentikasi.");
     }
   };
 
@@ -713,15 +745,14 @@ const LiveChatSection = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
     try {
-      // Semua pesan dikirim ke email pemilik
       await addDoc(collection(db, "contactMessages"), {
-        userId: user.uid, // ID user yang mengirim
+        userId: user.uid,
         name: user.displayName || user.email?.split("@")[0] || "Anonymous",
         email: user.email || "",
         photoURL: user.photoURL || "",
         subject: formSubject.trim(),
         message: formMessage.trim(),
-        to: ADMIN_EMAIL, // Dikirim ke pemilik
+        to: ADMIN_EMAIL,
         from: user.email || "",
         status: "sent",
         createdAt: serverTimestamp(),
@@ -767,7 +798,8 @@ const LiveChatSection = () => {
         <button
           onClick={() => {
             if (!user) {
-              handleGoogleSignIn();
+              setAuthMode("google");
+              setAuthError("");
             } else {
               setShowCompose((v) => !v);
             }
@@ -793,27 +825,48 @@ const LiveChatSection = () => {
         </button>
 
         {!user ? (
-          <button
-            onClick={handleGoogleSignIn}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "14px 24px",
-              backgroundColor: WHITE,
-              color: BLUE,
-              border: `2px solid ${WHITE}`,
-              borderRadius: "20px",
-              fontSize: "16px",
-              fontWeight: 700,
-              fontFamily: FONT_FAMILY,
-              cursor: "pointer",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-            }}
-          >
-            <GoogleLogo size={22} />
-            Sign in with Google
-          </button>
+          <div style={{ display: "flex", gap: "12px" }}>
+            <button
+              onClick={handleGoogleSignIn}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "14px 24px",
+                backgroundColor: WHITE,
+                color: BLUE,
+                border: `2px solid ${WHITE}`,
+                borderRadius: "20px",
+                fontSize: "16px",
+                fontWeight: 700,
+                fontFamily: FONT_FAMILY,
+                cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+              }}
+            >
+              <GoogleLogo size={22} />
+              Google
+            </button>
+            <button
+              onClick={() => setAuthMode("login")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "14px 24px",
+                backgroundColor: "transparent",
+                color: WHITE,
+                border: `2px solid ${WHITE}`,
+                borderRadius: "20px",
+                fontSize: "16px",
+                fontWeight: 700,
+                fontFamily: FONT_FAMILY,
+                cursor: "pointer",
+              }}
+            >
+              Login
+            </button>
+          </div>
         ) : (
           <div
             style={{
@@ -887,7 +940,7 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* Compose (Hanya muncul jika login) */}
+      {/* Compose Form */}
       <AnimatePresence>
         {showCompose && user && (
           <motion.div
@@ -1065,7 +1118,7 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* MAIN AREA (Disembunyikan jika belum login) */}
+      {/* MAIN AREA */}
       {!user ? (
         <div
           style={{
@@ -1073,16 +1126,17 @@ const LiveChatSection = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: "100px 20px",
+            padding: "60px 20px",
             backgroundColor: BLUE,
             borderRadius: "60px",
             color: WHITE,
             textAlign: "center",
             gap: "20px",
             marginTop: "20px",
+            minHeight: "400px",
           }}
         >
-          <EmailIcon size={80} color={WHITE} open={false} />
+          <EmailIcon size={60} color={WHITE} open={false} />
           <h2 style={{ fontSize: "32px", fontWeight: 700, margin: 0 }}>
             Pesan Terkunci
           </h2>
@@ -1095,30 +1149,116 @@ const LiveChatSection = () => {
               lineHeight: 1.5,
             }}
           >
-            Silakan login menggunakan akun Google Anda terlebih dahulu untuk
-            melihat pesan dan mengirim pesan ke Farid Ardiansyah.
+            Silakan login menggunakan akun Google atau Email Anda terlebih
+            dahulu untuk melihat pesan dan mengirim pesan ke Farid Ardiansyah.
           </p>
-          <button
-            onClick={handleGoogleSignIn}
+
+          {/* Manual Auth Panel */}
+          <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "16px 32px",
               backgroundColor: WHITE,
-              color: BLUE,
-              border: "none",
-              borderRadius: "20px",
-              fontSize: "18px",
-              fontWeight: 700,
-              cursor: "pointer",
+              padding: "30px",
+              borderRadius: "24px",
+              width: "100%",
+              maxWidth: "400px",
+              textAlign: "left",
               marginTop: "10px",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
             }}
           >
-            <GoogleLogo size={24} />
-            Sign in with Google
-          </button>
+            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+              <button
+                onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  backgroundColor: authMode === "login" ? BLUE : "transparent",
+                  color: authMode === "login" ? WHITE : BLUE,
+                  border: `1.5px solid ${BLUE}`,
+                  borderRadius: "10px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  fontFamily: FONT_FAMILY,
+                }}
+              >
+                Masuk
+              </button>
+              <button
+                onClick={() => { setAuthMode("register"); setAuthError(""); }}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  backgroundColor: authMode === "register" ? BLUE : "transparent",
+                  color: authMode === "register" ? WHITE : BLUE,
+                  border: `1.5px solid ${BLUE}`,
+                  borderRadius: "10px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  fontFamily: FONT_FAMILY,
+                }}
+              >
+                Daftar
+              </button>
+            </div>
+
+            <form onSubmit={handleManualAuth} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {authMode === "register" && (
+                <input
+                  type="text"
+                  placeholder="Nama Lengkap"
+                  value={authName}
+                  onChange={(e) => setAuthName(e.target.value)}
+                  style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+                />
+              )}
+              <input
+                type="email"
+                placeholder="Email"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+              />
+              <input
+                type="password"
+                placeholder="Password (min. 6 karakter)"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+              />
+              {authError && <div style={{ color: RED, fontSize: "13px", fontWeight: 600 }}>{authError}</div>}
+              <button type="submit" style={{ padding: "14px", backgroundColor: BLUE, color: WHITE, border: "none", borderRadius: "10px", fontSize: "16px", fontWeight: 700, cursor: "pointer", fontFamily: FONT_FAMILY }}>
+                {authMode === "login" ? "Masuk" : "Daftar"}
+              </button>
+            </form>
+            
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "20px 0" }}>
+              <div style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }} />
+              <span style={{ fontSize: "12px", color: BLUE, opacity: 0.6, fontWeight: 600 }}>ATAU</span>
+              <div style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }} />
+            </div>
+
+            <button
+              onClick={handleGoogleSignIn}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
+                width: "100%",
+                padding: "14px",
+                backgroundColor: "transparent",
+                color: BLUE,
+                border: `1.5px solid ${BLUE}`,
+                borderRadius: "10px",
+                fontSize: "16px",
+                fontWeight: 700,
+                cursor: "pointer",
+                fontFamily: FONT_FAMILY,
+              }}
+            >
+              <GoogleLogo size={22} />
+              Google
+            </button>
+          </div>
         </div>
       ) : (
         <div
@@ -1187,14 +1327,15 @@ const LiveChatSection = () => {
               </span>
             </div>
 
+            {/* PERBAIKAN PADDING KIRI */}
             <div
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: "24px",
+                padding: "24px 28px", // Padding dilebarkan agar tidak nabrak card
                 display: "flex",
                 flexDirection: "column",
-                gap: "12px",
+                gap: "14px", // Jarak antar item
                 backgroundColor: WHITE,
               }}
             >
@@ -1227,8 +1368,8 @@ const LiveChatSection = () => {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
-                        gap: "14px",
-                        padding: "18px 20px",
+                        gap: "16px", // Jarak antar elemen dalam card
+                        padding: "20px 24px", // Padding dalam card item dilebarkan
                         backgroundColor: isActive ? BLUE : `${BLUE}08`,
                         color: isActive ? WHITE : BLUE,
                         border: isActive
@@ -1283,7 +1424,7 @@ const LiveChatSection = () => {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
-                            marginTop: "2px",
+                            marginTop: "4px",
                           }}
                         >
                           {m.subject || "(no subject)"}
@@ -1297,6 +1438,7 @@ const LiveChatSection = () => {
                           color: isActive ? WHITE : BLUE,
                           opacity: isActive ? 0.8 : 0.65,
                           flexShrink: 0,
+                          marginLeft: "10px", // Jarak aman dari teks kiri
                         }}
                       >
                         {timeAgo(m.createdAt)}
@@ -1353,7 +1495,6 @@ const LiveChatSection = () => {
               </div>
             ) : (
               <>
-                {/* 1. HEADER (DINAMIS) */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1391,7 +1532,6 @@ const LiveChatSection = () => {
                   </span>
                 </div>
 
-                {/* 2. CARD SUBJECT & PENGIRIM & PENERIMA */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1417,7 +1557,6 @@ const LiveChatSection = () => {
                     {selected.subject || "(no subject)"}
                   </span>
 
-                  {/* FROM (Pengirim) */}
                   <div
                     style={{
                       display: "flex",
@@ -1492,13 +1631,12 @@ const LiveChatSection = () => {
                           gap: "4px",
                         }}
                       >
-                        {selected.email || selected.name} {/* Fallback nama jika kosong */}
+                        {selected.email || selected.name}
                         <VerifiedBadge size={14} color={BLUE} />
                       </span>
                     </div>
                   </div>
 
-                  {/* TO (Penerima) */}
                   <div
                     style={{
                       display: "flex",
@@ -1553,7 +1691,6 @@ const LiveChatSection = () => {
                   </div>
                 </div>
 
-                {/* 3. HEADER MESSAGE */}
                 <div
                   style={{
                     backgroundColor: BLUE,
@@ -1598,7 +1735,6 @@ const LiveChatSection = () => {
                   </div>
                 </div>
 
-                {/* 4. ISI PESAN + STATUS & JAM */}
                 <div
                   style={{
                     backgroundColor: BLUE,
@@ -1630,7 +1766,6 @@ const LiveChatSection = () => {
                   >
                     <div>{selected.message || "(empty message)"}</div>
                     
-                    {/* Status & Jam Otomatis */}
                     <div
                       style={{
                         display: "flex",
