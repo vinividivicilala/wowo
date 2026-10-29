@@ -267,8 +267,15 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
     let ctx: any = null;
 
     const setup = () => {
-      split = new SplitText(title, { type: "chars", charsClass: "footer-farid-char" });
-      if (aEl) splitA = new SplitText(aEl, { type: "chars", charsClass: "footer-a-char" });
+      split = new SplitText(title, {
+        type: "chars",
+        charsClass: "footer-farid-char",
+      });
+      if (aEl)
+        splitA = new SplitText(aEl, {
+          type: "chars",
+          charsClass: "footer-a-char",
+        });
 
       ctx = gsap.context(() => {
         gsap.set(split.chars, {
@@ -535,7 +542,15 @@ const CookiesPopup = ({
       flexWrap: "wrap",
     }}
   >
-    <p style={{ flex: "1 1 320px", margin: 0, fontSize: "15px", color: BLACK, lineHeight: 1.6 }}>
+    <p
+      style={{
+        flex: "1 1 320px",
+        margin: 0,
+        fontSize: "15px",
+        color: BLACK,
+        lineHeight: 1.6,
+      }}
+    >
       We use cookies to improve your experience on this website. By continuing,
       you agree to the use of cookies in accordance with our{" "}
       <a
@@ -592,7 +607,9 @@ const LiveChatSection = () => {
   const [formSubject, setFormSubject] = useState("");
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
   const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -602,7 +619,10 @@ const LiveChatSection = () => {
 
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
-    const q = query(collection(db, "contactMessages"), orderBy("createdAt", "desc"));
+    const q = query(
+      collection(db, "contactMessages"),
+      orderBy("createdAt", "desc")
+    );
     const unsub = onSnapshot(q, (snap: any) => {
       const list: any[] = [];
       snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
@@ -679,9 +699,27 @@ const LiveChatSection = () => {
   const selected = messages.find((m) => m.id === selectedId) || null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%", maxWidth: "1500px", marginTop: "60px", gap: "20px" }}>
-      {/* Top bar */}
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        maxWidth: "1500px",
+        marginTop: "60px",
+        gap: "20px",
+      }}
+    >
+      {/* Top bar: Kirim Pesan + Login */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+          flexWrap: "wrap",
+        }}
+      >
         <button
           onClick={() => setShowCompose((v) => !v)}
           style={{
@@ -689,10 +727,10 @@ const LiveChatSection = () => {
             alignItems: "center",
             gap: "10px",
             padding: "16px 28px",
-            backgroundColor: BLUE,
-            color: WHITE,
+            backgroundColor: WHITE,
+            color: BLUE,
             border: "none",
-            borderRadius: "12px",
+            borderRadius: "20px",
             fontSize: "18px",
             fontWeight: 700,
             fontFamily: FONT_FAMILY,
@@ -700,7 +738,7 @@ const LiveChatSection = () => {
             boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
           }}
         >
-          <SendIcon size={20} color={WHITE} />
+          <SendIcon size={20} color={BLUE} />
           Kirim Pesan
         </button>
 
@@ -713,14 +751,14 @@ const LiveChatSection = () => {
               gap: "10px",
               padding: "14px 24px",
               backgroundColor: WHITE,
-              color: BLACK,
-              border: `1.5px solid ${BLUE}30`,
-              borderRadius: "12px",
+              color: BLUE,
+              border: `2px solid ${WHITE}`,
+              borderRadius: "20px",
               fontSize: "16px",
               fontWeight: 700,
               fontFamily: FONT_FAMILY,
               cursor: "pointer",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
             }}
           >
             <GoogleLogo size={22} />
@@ -734,7 +772,6 @@ const LiveChatSection = () => {
               gap: "12px",
               padding: "8px 16px 8px 8px",
               backgroundColor: WHITE,
-              border: `1.5px solid ${BLUE}30`,
               borderRadius: "999px",
             }}
           >
@@ -751,10 +788,18 @@ const LiveChatSection = () => {
               }}
             >
               {user.photoURL ? (
-                <img src={user.photoURL} alt={user.displayName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               ) : (
-                <span style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}>
-                  {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
+                <span
+                  style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}
+                >
+                  {(user.displayName || user.email || "U")
+                    .charAt(0)
+                    .toUpperCase()}
                 </span>
               )}
             </div>
@@ -806,13 +851,22 @@ const LiveChatSection = () => {
             transition={{ duration: 0.35 }}
             style={{
               overflow: "hidden",
-              borderRadius: "20px",
+              borderRadius: "32px",
               backgroundColor: WHITE,
-              border: `1.5px solid ${BLUE}25`,
-              boxShadow: "0 16px 48px rgba(13,60,252,0.15)",
+              boxShadow: "0 16px 48px rgba(13,60,252,0.25)",
             }}
           >
-            <div style={{ backgroundColor: BLUE, padding: "20px 28px", display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                backgroundColor: BLUE,
+                padding: "20px 28px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                borderTopLeftRadius: "32px",
+                borderTopRightRadius: "32px",
+              }}
+            >
               <SendIcon size={22} color={WHITE} />
               <span style={{ fontSize: "20px", fontWeight: 700, color: WHITE }}>
                 New Message
@@ -820,8 +874,19 @@ const LiveChatSection = () => {
             </div>
 
             {!user ? (
-              <div style={{ padding: "40px 28px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-                <span style={{ fontSize: "16px", color: BLUE, fontWeight: 600 }}>
+              <div
+                style={{
+                  padding: "40px 28px",
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "16px",
+                }}
+              >
+                <span
+                  style={{ fontSize: "16px", color: BLUE, fontWeight: 600 }}
+                >
                   Sign in with Google first to send a message.
                 </span>
                 <button
@@ -834,7 +899,7 @@ const LiveChatSection = () => {
                     backgroundColor: BLUE,
                     color: WHITE,
                     border: "none",
-                    borderRadius: "12px",
+                    borderRadius: "14px",
                     fontSize: "16px",
                     fontWeight: 700,
                     cursor: "pointer",
@@ -845,10 +910,37 @@ const LiveChatSection = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSend} style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "18px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", backgroundColor: `${BLUE}08`, border: `1.5px solid ${BLUE}15`, borderRadius: "12px", fontSize: "15px", color: BLUE, fontWeight: 600 }}>
+              <form
+                onSubmit={handleSend}
+                style={{
+                  padding: "28px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "18px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "14px 18px",
+                    backgroundColor: `${BLUE}08`,
+                    border: `1.5px solid ${BLUE}15`,
+                    borderRadius: "14px",
+                    fontSize: "15px",
+                    color: BLUE,
+                    fontWeight: 600,
+                  }}
+                >
                   <span>To:</span>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
                     {ADMIN_EMAIL}
                     <VerifiedBadge size={16} color={BLUE} />
                   </span>
@@ -859,7 +951,18 @@ const LiveChatSection = () => {
                   placeholder="Subject"
                   value={formSubject}
                   onChange={(e) => setFormSubject(e.target.value)}
-                  style={{ width: "100%", padding: "16px 20px", fontSize: "16px", color: BLUE, backgroundColor: `${BLUE}05`, border: `1.5px solid ${BLUE}20`, borderRadius: "12px", outline: "none", boxSizing: "border-box", fontFamily: FONT_FAMILY }}
+                  style={{
+                    width: "100%",
+                    padding: "16px 20px",
+                    fontSize: "16px",
+                    color: BLUE,
+                    backgroundColor: `${BLUE}05`,
+                    border: `1.5px solid ${BLUE}20`,
+                    borderRadius: "14px",
+                    outline: "none",
+                    boxSizing: "border-box",
+                    fontFamily: FONT_FAMILY,
+                  }}
                 />
 
                 <textarea
@@ -867,25 +970,70 @@ const LiveChatSection = () => {
                   value={formMessage}
                   onChange={(e) => setFormMessage(e.target.value)}
                   rows={6}
-                  style={{ width: "100%", padding: "16px 20px", fontSize: "16px", color: BLUE, backgroundColor: `${BLUE}05`, border: `1.5px solid ${BLUE}20`, borderRadius: "12px", outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: FONT_FAMILY }}
+                  style={{
+                    width: "100%",
+                    padding: "16px 20px",
+                    fontSize: "16px",
+                    color: BLUE,
+                    backgroundColor: `${BLUE}05`,
+                    border: `1.5px solid ${BLUE}20`,
+                    borderRadius: "14px",
+                    outline: "none",
+                    resize: "vertical",
+                    boxSizing: "border-box",
+                    fontFamily: FONT_FAMILY,
+                  }}
                 />
 
                 {submitStatus === "success" && (
-                  <div style={{ padding: "14px 20px", backgroundColor: "#DCFCE7", color: "#065F46", borderRadius: "10px", fontSize: "15px", fontWeight: 700 }}>
+                  <div
+                    style={{
+                      padding: "14px 20px",
+                      backgroundColor: "#DCFCE7",
+                      color: "#065F46",
+                      borderRadius: "10px",
+                      fontSize: "15px",
+                      fontWeight: 700,
+                    }}
+                  >
                     Pesan berhasil dikirim.
                   </div>
                 )}
                 {submitStatus === "error" && (
-                  <div style={{ padding: "14px 20px", backgroundColor: "#FEE2E2", color: "#991B1B", borderRadius: "10px", fontSize: "15px", fontWeight: 700 }}>
+                  <div
+                    style={{
+                      padding: "14px 20px",
+                      backgroundColor: "#FEE2E2",
+                      color: "#991B1B",
+                      borderRadius: "10px",
+                      fontSize: "15px",
+                      fontWeight: 700,
+                    }}
+                  >
                     Gagal. Pastikan semua field terisi.
                   </div>
                 )}
 
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    gap: "12px",
+                  }}
+                >
                   <button
                     type="button"
                     onClick={() => setShowCompose(false)}
-                    style={{ padding: "14px 26px", backgroundColor: "transparent", color: BLUE, border: `1.5px solid ${BLUE}`, borderRadius: "10px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
+                    style={{
+                      padding: "14px 26px",
+                      backgroundColor: "transparent",
+                      color: BLUE,
+                      border: `1.5px solid ${BLUE}`,
+                      borderRadius: "14px",
+                      fontSize: "15px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
                   >
                     Cancel
                   </button>
@@ -900,7 +1048,7 @@ const LiveChatSection = () => {
                       backgroundColor: isSubmitting ? "#94A3B8" : BLUE,
                       color: WHITE,
                       border: "none",
-                      borderRadius: "10px",
+                      borderRadius: "14px",
                       fontSize: "15px",
                       fontWeight: 700,
                       cursor: isSubmitting ? "not-allowed" : "pointer",
@@ -916,29 +1064,34 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* MAIN 2 KOLOM */}
+      {/* ===== MAIN AREA: BG BIRU dengan 2 CARD PUTIH MELENGKUNG ===== */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          borderRadius: "24px",
-          overflow: "hidden",
-          boxShadow: "0 24px 64px rgba(13,60,252,0.22)",
-          border: `1.5px solid ${BLUE}20`,
-          minHeight: "780px",
+          borderRadius: "40px",
+          backgroundColor: BLUE,
+          padding: "24px",
+          gap: "20px",
+          boxShadow: "0 24px 64px rgba(13,60,252,0.35)",
           flexWrap: "wrap",
+          boxSizing: "border-box",
+          minHeight: "800px",
         }}
       >
-        {/* ===== KIRI: LIST PESAN ===== */}
+        {/* ===== CARD KIRI: LIST PESAN (PUTIH MELENGKUNG) ===== */}
         <div
           style={{
             flex: "0 0 440px",
             minWidth: "320px",
             maxWidth: "100%",
-            backgroundColor: BLUE,
+            backgroundColor: WHITE,
+            borderRadius: "32px",
             display: "flex",
             flexDirection: "column",
+            overflow: "hidden",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
           }}
         >
           {/* Header Inbox */}
@@ -948,20 +1101,28 @@ const LiveChatSection = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              borderBottom: `1px solid rgba(255,255,255,0.18)`,
+              borderBottom: `1.5px solid ${BLUE}15`,
+              backgroundColor: WHITE,
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-              <EmailIcon size={28} color={WHITE} open={false} />
-              <span style={{ fontSize: "24px", fontWeight: 700, color: WHITE, letterSpacing: "-0.01em" }}>
+              <EmailIcon size={28} color={BLUE} open={false} />
+              <span
+                style={{
+                  fontSize: "24px",
+                  fontWeight: 700,
+                  color: BLUE,
+                  letterSpacing: "-0.01em",
+                }}
+              >
                 Inbox
               </span>
             </div>
             <span
               style={{
                 padding: "6px 16px",
-                backgroundColor: WHITE,
-                color: BLUE,
+                backgroundColor: BLUE,
+                color: WHITE,
                 borderRadius: "999px",
                 fontSize: "15px",
                 fontWeight: 700,
@@ -972,9 +1133,28 @@ const LiveChatSection = () => {
           </div>
 
           {/* List */}
-          <div style={{ flex: 1, overflowY: "auto", padding: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div
+            style={{
+              flex: 1,
+              overflowY: "auto",
+              padding: "14px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+              backgroundColor: WHITE,
+            }}
+          >
             {messages.length === 0 ? (
-              <div style={{ padding: "48px 20px", textAlign: "center", fontSize: "16px", color: WHITE, opacity: 0.65, fontStyle: "italic" }}>
+              <div
+                style={{
+                  padding: "48px 20px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  color: BLUE,
+                  opacity: 0.65,
+                  fontStyle: "italic",
+                }}
+              >
                 Belum ada pesan masuk.
               </div>
             ) : (
@@ -995,29 +1175,36 @@ const LiveChatSection = () => {
                       alignItems: "center",
                       gap: "14px",
                       padding: "18px 20px",
-                      backgroundColor: isActive ? WHITE : BLUE,
-                      color: isActive ? BLUE : WHITE,
-                      border: isActive ? `1.5px solid ${BLUE}30` : `1.5px solid rgba(255,255,255,0.15)`,
-                      borderRadius: "14px",
+                      backgroundColor: isActive ? BLUE : `${BLUE}08`,
+                      color: isActive ? WHITE : BLUE,
+                      border: isActive
+                        ? `1.5px solid ${BLUE}`
+                        : `1.5px solid ${BLUE}15`,
+                      borderRadius: "24px",
                       cursor: "pointer",
                       textAlign: "left",
                       width: "100%",
-                      transition: "background-color 0.25s ease, color 0.25s ease",
+                      transition:
+                        "background-color 0.25s ease, color 0.25s ease",
                     }}
                   >
                     <div
                       style={{
                         width: "48px",
                         height: "48px",
-                        borderRadius: "12px",
-                        backgroundColor: isActive ? `${BLUE}15` : "rgba(255,255,255,0.15)",
+                        borderRadius: "14px",
+                        backgroundColor: isActive ? WHITE : BLUE,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         flexShrink: 0,
                       }}
                     >
-                      <EmailIcon size={24} color={isActive ? BLUE : WHITE} open={isActive} />
+                      <EmailIcon
+                        size={24}
+                        color={isActive ? BLUE : WHITE}
+                        open={isActive}
+                      />
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -1025,7 +1212,7 @@ const LiveChatSection = () => {
                         style={{
                           fontSize: "17px",
                           fontWeight: 700,
-                          color: isActive ? BLUE : WHITE,
+                          color: isActive ? WHITE : BLUE,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -1036,8 +1223,8 @@ const LiveChatSection = () => {
                       <div
                         style={{
                           fontSize: "14px",
-                          color: isActive ? BLUE : WHITE,
-                          opacity: isActive ? 0.75 : 0.85,
+                          color: isActive ? WHITE : BLUE,
+                          opacity: isActive ? 0.85 : 0.75,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -1051,8 +1238,8 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "12px",
-                        color: isActive ? BLUE : WHITE,
-                        opacity: isActive ? 0.65 : 0.8,
+                        color: isActive ? WHITE : BLUE,
+                        opacity: isActive ? 0.8 : 0.65,
                         fontWeight: 600,
                         flexShrink: 0,
                       }}
@@ -1066,16 +1253,18 @@ const LiveChatSection = () => {
           </div>
         </div>
 
-        {/* ===== KANAN: DETAIL GAYA GMAIL ===== */}
+        {/* ===== CARD KANAN: DETAIL PESAN (PUTIH MELENGKUNG) ===== */}
         <div
           ref={detailRef}
           style={{
             flex: 1,
             minWidth: "340px",
             backgroundColor: WHITE,
+            borderRadius: "32px",
             display: "flex",
             flexDirection: "column",
-            borderLeft: `1.5px solid ${BLUE}15`,
+            overflow: "hidden",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
           }}
         >
           {!selected ? (
@@ -1092,13 +1281,20 @@ const LiveChatSection = () => {
               }}
             >
               <EmailIcon size={100} color={`${BLUE}30`} open={false} />
-              <span style={{ fontSize: "18px", color: BLUE, fontWeight: 600, opacity: 0.55 }}>
+              <span
+                style={{
+                  fontSize: "18px",
+                  color: BLUE,
+                  fontWeight: 600,
+                  opacity: 0.55,
+                }}
+              >
                 Pilih pesan di sisi kiri untuk melihat detail
               </span>
             </div>
           ) : (
             <>
-              {/* ===== HEADER BIRU (gaya Gmail) ===== */}
+              {/* Header biru melengkung atas */}
               <div
                 style={{
                   padding: "32px 36px",
@@ -1106,9 +1302,10 @@ const LiveChatSection = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "12px",
+                  borderTopLeftRadius: "32px",
+                  borderTopRightRadius: "32px",
                 }}
               >
-                {/* Subject besar */}
                 <span
                   style={{
                     fontSize: "40px",
@@ -1122,8 +1319,15 @@ const LiveChatSection = () => {
                   {selected.subject || "(no subject)"}
                 </span>
 
-                {/* From: nama + email + verified */}
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px", flexWrap: "wrap" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginTop: "8px",
+                    flexWrap: "wrap",
+                  }}
+                >
                   <div
                     style={{
                       width: "48px",
@@ -1138,14 +1342,35 @@ const LiveChatSection = () => {
                     }}
                   >
                     {selected.photoURL ? (
-                      <img src={selected.photoURL} alt={selected.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      <img
+                        src={selected.photoURL}
+                        alt={selected.name}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
                     ) : (
-                      <span style={{ color: BLUE, fontSize: "22px", fontWeight: 800 }}>
+                      <span
+                        style={{
+                          color: BLUE,
+                          fontSize: "22px",
+                          fontWeight: 800,
+                        }}
+                      >
                         {(selected.name || "U").charAt(0).toUpperCase()}
                       </span>
                     )}
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      minWidth: 0,
+                    }}
+                  >
                     <span
                       style={{
                         fontSize: "22px",
@@ -1184,7 +1409,7 @@ const LiveChatSection = () => {
                 </div>
               </div>
 
-              {/* ===== BODY PUTIH (isi pesan) ===== */}
+              {/* Body putih isi pesan */}
               <div
                 style={{
                   flex: 1,
@@ -1219,14 +1444,13 @@ const LiveChatSection = () => {
                     padding: "24px 28px",
                     backgroundColor: `${BLUE}05`,
                     border: `1.5px solid ${BLUE}15`,
-                    borderRadius: "16px",
+                    borderRadius: "24px",
                     minHeight: "180px",
                   }}
                 >
                   {selected.message || "(empty message)"}
                 </div>
 
-                {/* Meta: To admin + status */}
                 <div
                   style={{
                     display: "flex",
@@ -1338,10 +1562,23 @@ export default function ContactPage() {
     gsap.set(preloader, { opacity: 1, display: "flex" });
 
     const tl = gsap.timeline();
-    tl.to([leftText, rightText], { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 }, 0)
+    tl.to(
+      [leftText, rightText],
+      { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 },
+      0
+    )
       .to({}, { duration: 1 })
-      .to(leftText, { xPercent: -220, opacity: 0, duration: 2.4, ease: "power2.inOut" })
-      .to(rightText, { xPercent: 220, opacity: 0, duration: 2.4, ease: "power2.inOut" }, "<")
+      .to(leftText, {
+        xPercent: -220,
+        opacity: 0,
+        duration: 2.4,
+        ease: "power2.inOut",
+      })
+      .to(
+        rightText,
+        { xPercent: 220, opacity: 0, duration: 2.4, ease: "power2.inOut" },
+        "<"
+      )
       .to(preloader, {
         opacity: 0,
         duration: 0.8,
@@ -1366,12 +1603,37 @@ export default function ContactPage() {
     if (menuOpen) {
       gsap.set(overlay, { display: "flex" });
       const tl = gsap.timeline();
-      tl.fromTo(overlay, { clipPath: `inset(0 0 100% 0)`, opacity: 0 }, { clipPath: `inset(0 0 0% 0)`, opacity: 1, duration: 1.2, ease: "power3.inOut" })
-        .fromTo(label, { opacity: 0, y: 20, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, "-=0.5");
+      tl.fromTo(
+        overlay,
+        { clipPath: `inset(0 0 100% 0)`, opacity: 0 },
+        {
+          clipPath: `inset(0 0 0% 0)`,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.inOut",
+        }
+      ).fromTo(
+        label,
+        { opacity: 0, y: 20, scale: 0.85 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+        "-=0.5"
+      );
     } else {
       const tl = gsap.timeline();
-      tl.to(overlay, { clipPath: `inset(0 0 100% 0)`, opacity: 0, duration: 1, ease: "power3.inOut", onComplete: () => { if (overlay) overlay.style.display = "none"; } })
-        .fromTo(label, { opacity: 0, y: 20, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, "-=0.4");
+      tl.to(overlay, {
+        clipPath: `inset(0 0 100% 0)`,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.inOut",
+        onComplete: () => {
+          if (overlay) overlay.style.display = "none";
+        },
+      }).fromTo(
+        label,
+        { opacity: 0, y: 20, scale: 0.85 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        "-=0.4"
+      );
     }
   }, [menuOpen]);
 
@@ -1387,15 +1649,44 @@ export default function ContactPage() {
       const buttonRect = buttonBg.getBoundingClientRect();
       const BANNER_HEIGHT = 40;
       const BANNER_MARGIN = 12;
-      const targetHeight = Math.max(buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN, 200);
+      const targetHeight = Math.max(
+        buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
+        200
+      );
       gsap.set(panelBg, { display: "block" });
-      gsap.fromTo(panelBg, { height: 0, opacity: 0 }, { height: `${targetHeight}px`, opacity: 1, duration: 0.9, ease: "power3.out" });
-      if (panelInner) gsap.to(panelInner, { opacity: 1, duration: 0.5, delay: 0.2, ease: "power2.out" });
-      if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
+      gsap.fromTo(
+        panelBg,
+        { height: 0, opacity: 0 },
+        {
+          height: `${targetHeight}px`,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+        }
+      );
+      if (panelInner)
+        gsap.to(panelInner, {
+          opacity: 1,
+          duration: 0.5,
+          delay: 0.2,
+          ease: "power2.out",
+        });
+      if (plusIcon)
+        gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
     } else {
-      gsap.to(panelBg, { height: 0, opacity: 0, duration: 0.6, ease: "power3.inOut", onComplete: () => { if (panelBg) panelBg.style.display = "none"; } });
-      if (panelInner) gsap.to(panelInner, { opacity: 0, duration: 0.3, ease: "power2.in" });
-      if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
+      gsap.to(panelBg, {
+        height: 0,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.inOut",
+        onComplete: () => {
+          if (panelBg) panelBg.style.display = "none";
+        },
+      });
+      if (panelInner)
+        gsap.to(panelInner, { opacity: 0, duration: 0.3, ease: "power2.in" });
+      if (plusIcon)
+        gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
     }
   }, [expandOpen]);
 
@@ -1420,10 +1711,26 @@ export default function ContactPage() {
           padding: "20px",
         }}
       >
-        <span ref={leftTextRef} style={{ fontSize: "90px", color: BLUE, lineHeight: 1, whiteSpace: "nowrap" }}>
+        <span
+          ref={leftTextRef}
+          style={{
+            fontSize: "90px",
+            color: BLUE,
+            lineHeight: 1,
+            whiteSpace: "nowrap",
+          }}
+        >
           Farid
         </span>
-        <span ref={rightTextRef} style={{ fontSize: "90px", color: BLUE, lineHeight: 1, whiteSpace: "nowrap" }}>
+        <span
+          ref={rightTextRef}
+          style={{
+            fontSize: "90px",
+            color: BLUE,
+            lineHeight: 1,
+            whiteSpace: "nowrap",
+          }}
+        >
           By Founder And Developer Menuru
         </span>
       </div>
@@ -1444,15 +1751,32 @@ export default function ContactPage() {
           zIndex: 10000,
         }}
       >
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "10px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <span style={{ color: BLACK }}>Bersponsor</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+          <span
+            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+          >
             Kunjungi website{" "}
             <a
               href="https://menuru-studio.netlify.app/notes"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: WHITE, textDecoration: "none", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "2px" }}
+              style={{
+                color: WHITE,
+                textDecoration: "none",
+                fontWeight: 700,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "2px",
+              }}
             >
               Menuru
               <VerifiedBadge size={14} color={WHITE} />
@@ -1477,7 +1801,9 @@ export default function ContactPage() {
               transition: "color 0.3s ease",
             }}
           >
-            <span style={{ fontSize: navFontSize, fontWeight: 400, lineHeight: 1 }}>
+            <span
+              style={{ fontSize: navFontSize, fontWeight: 400, lineHeight: 1 }}
+            >
               Farid Ardiansyah
             </span>
           </Link>
@@ -1652,7 +1978,10 @@ export default function ContactPage() {
       </div>
 
       {showCookies && (
-        <CookiesPopup onAccept={handleAcceptCookies} onDecline={handleDeclineCookies} />
+        <CookiesPopup
+          onAccept={handleAcceptCookies}
+          onDecline={handleDeclineCookies}
+        />
       )}
 
       {preloaderDone && !menuOpen && (
