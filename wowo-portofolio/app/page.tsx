@@ -556,7 +556,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           gap: "40px",
         }}
       >
-        {/* Kolom Link */}
+        {/* Kolom Link — font 80px */}
         <div
           style={{
             display: "flex",
@@ -573,18 +573,18 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                gap: "12px",
-                minWidth: "160px",
+                gap: "16px",
+                minWidth: "260px",
               }}
             >
               <span
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: "20px",
-                  fontWeight: 700,
+                  fontSize: "80px",
+                  fontWeight: 400,
                   color: WHITE,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 1.2,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
                 }}
               >
                 {col.title}
@@ -595,12 +595,13 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                   href={link.href}
                   style={{
                     fontFamily: FONT_FAMILY,
-                    fontSize: "16px",
+                    fontSize: "80px",
                     fontWeight: 400,
                     color: WHITE,
                     textDecoration: "none",
                     opacity: 0.9,
-                    lineHeight: 1.4,
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.03em",
                     cursor: "pointer",
                   }}
                 >
@@ -648,33 +649,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         </a>
       </div>
 
-      {/* Terms */}
-      <div
-        style={{
-          maxWidth: "1400px",
-          margin: "0 auto",
-          paddingTop: "20px",
-          borderTop: `1px solid ${WHITE}40`,
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <p
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: "14px",
-            fontWeight: 400,
-            color: WHITE,
-            margin: 0,
-            textAlign: "center",
-            letterSpacing: "0.01em",
-            opacity: 0.9,
-          }}
-        >
-          Terms and conditions apply. By using this website, you agree to our
-          Terms of Use and Privacy Policy.
-        </p>
-      </div>
+      {/* ===== Terms DIHAPUS ===== */}
 
       <div
         style={{
@@ -1984,7 +1959,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* ===== TEKS PESAN + LINK /contact — UKURAN 70px, "Hubungi saya" ===== */}
+              {/* ===== TEKS: "Apakah kamu mengalami sesuatu?" + link Hubungi saya — 70px ===== */}
               <div
                 style={{
                   display: "flex",
@@ -2005,7 +1980,7 @@ export default function Home() {
                     lineHeight: 1.2,
                   }}
                 >
-                  Have a project in mind?{" "}
+                  Apakah kamu mengalami sesuatu?{" "}
                   <a
                     href="/contact"
                     style={{
