@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -626,6 +626,9 @@ const LiveChatSection = () => {
     "idle"
   );
   
+  // State untuk User Selection di Admin
+  const [selectedUserToReply, setSelectedUserToReply] = useState<string>("");
+
   // Auth states
   const [authMode, setAuthMode] = useState<"login" | "register" | "google">("google");
   const [authName, setAuthName] = useState("");
@@ -647,13 +650,11 @@ const LiveChatSection = () => {
     let q;
 
     if (isAdmin) {
-      // Admin melihat semua pesan, broadcast, dan pengumuman
       q = query(
         collection(db, "contactMessages"),
         orderBy("createdAt", "desc")
       );
     } else if (user) {
-      // User melihat pesan mereka sendiri + broadcast + pengumuman
       q = query(
         collection(db, "contactMessages"),
         where("userId", "in", [user.uid, "all"]),
@@ -750,26 +751,27 @@ const LiveChatSection = () => {
     try {
       const isAdmin = user?.email === ADMIN_EMAIL;
       
-      // Jika mode reply dan admin balas ke user spesifik
-      if (isAdmin && composeMode === "reply" && selected) {
+      if (isAdmin && composeMode === "reply") {
+        // Cari data user yang dipilih admin
+        const targetUser = messages.find(m => m.userId === selectedUserToReply || m.email === selectedUserToReply);
+        
         await addDoc(collection(db, "contactMessages"), {
-          userId: selected.userId, // Kirim ke user spesifik
+          userId: targetUser ? targetUser.userId : selectedUserToReply,
           name: ADMIN_NAME,
           email: ADMIN_EMAIL,
           photoURL: "",
           subject: formSubject.trim(),
           message: formMessage.trim(),
-          to: selected.email,
+          to: targetUser ? targetUser.email : "",
           from: ADMIN_EMAIL,
           status: "sent",
           isAdminReply: true,
           createdAt: serverTimestamp(),
         });
       } 
-      // Jika mode broadcast
       else if (isAdmin && composeMode === "broadcast") {
         await addDoc(collection(db, "contactMessages"), {
-          userId: "all", // Untuk semua user
+          userId: "all",
           name: ADMIN_NAME,
           email: ADMIN_EMAIL,
           photoURL: "",
@@ -782,10 +784,9 @@ const LiveChatSection = () => {
           createdAt: serverTimestamp(),
         });
       }
-      // Jika mode announcement
       else if (isAdmin && composeMode === "announcement") {
         await addDoc(collection(db, "contactMessages"), {
-          userId: "all", // Untuk semua user
+          userId: "all",
           name: ADMIN_NAME,
           email: ADMIN_EMAIL,
           photoURL: "",
@@ -798,7 +799,6 @@ const LiveChatSection = () => {
           createdAt: serverTimestamp(),
         });
       }
-      // User biasa kirim pesan ke admin
       else {
         await addDoc(collection(db, "contactMessages"), {
           userId: user.uid,
@@ -836,11 +836,25 @@ const LiveChatSection = () => {
     setComposeMode(mode);
     setFormSubject("");
     setFormMessage("");
+    if (mode === "reply" && !isAdmin && selected) {
+      setSelectedUserToReply(selected.userId);
+    }
     setShowCompose(true);
   };
 
   const selected = messages.find((m) => m.id === selectedId) || null;
   const isAdmin = user?.email === ADMIN_EMAIL;
+
+  // Daftar unik user untuk pilihan Admin
+  const uniqueUsers = useMemo(() => {
+    const map = new Map();
+    messages.forEach(m => {
+      if (m.userId && m.userId !== "all" && !m.isAdminReply && !m.isBroadcast && !m.isAnnouncement) {
+        map.set(m.userId, { id: m.userId, name: m.name, email: m.email });
+      }
+    });
+    return Array.from(map.values());
+  }, [messages]);
 
   return (
     <div
@@ -1081,7 +1095,7 @@ const LiveChatSection = () => {
               <span style={{ fontSize: "20px", fontWeight: 700, color: WHITE }}>
                 {composeMode === "broadcast" ? "Kirim Broadcast ke Semua" :
                  composeMode === "announcement" ? "Kirim Pengumuman ke Semua" :
-                 isAdmin ? `Balas ke ${selected?.name || "User"}` : "Kirim Pesan ke Admin"}
+                 isAdmin ? `Balas Pesan` : "Kirim Pesan ke Admin"}
               </span>
             </div>
             <form
@@ -1093,28 +1107,57 @@ const LiveChatSection = () => {
                 gap: "18px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "14px 18px",
-                  backgroundColor: `${BLUE}08`,
-                  border: `1.5px solid ${BLUE}15`,
-                  borderRadius: "14px",
-                  fontSize: "15px",
-                  color: BLUE,
-                  fontWeight: 600,
-                }}
-              >
-                <span>To:</span>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                  {composeMode === "broadcast" || composeMode === "announcement" 
-                    ? "Semua User" 
-                    : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
-                  <VerifiedBadge size={16} color={BLUE} />
-                </span>
-              </div>
+              {/* Pilihan User Khusus Admin */}
+              {isAdmin && composeMode === "reply" ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <label style={{ fontSize: "14px", fontWeight: 700, color: BLUE }}>Pilih User Tujuan:</label>
+                  <select
+                    value={selectedUserToReply}
+                    onChange={(e) => setSelectedUserToReply(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "16px 20px",
+                      fontSize: "16px",
+                      color: BLUE,
+                      backgroundColor: `${BLUE}05`,
+                      border: `1.5px solid ${BLUE}20`,
+                      borderRadius: "14px",
+                      outline: "none",
+                      fontFamily: FONT_FAMILY,
+                    }}
+                  >
+                    <option value="">-- Pilih User --</option>
+                    {uniqueUsers.map((u: any) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name} ({u.email})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "14px 18px",
+                    backgroundColor: `${BLUE}08`,
+                    border: `1.5px solid ${BLUE}15`,
+                    borderRadius: "14px",
+                    fontSize: "15px",
+                    color: BLUE,
+                    fontWeight: 600,
+                  }}
+                >
+                  <span>To:</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                    {composeMode === "broadcast" || composeMode === "announcement" 
+                      ? "Semua User" 
+                      : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
+                    <VerifiedBadge size={16} color={BLUE} />
+                  </span>
+                </div>
+              )}
 
               <input
                 type="text"
@@ -1388,7 +1431,7 @@ const LiveChatSection = () => {
             boxShadow: "0 24px 64px rgba(13,60,252,0.35)",
             flexWrap: "wrap",
             boxSizing: "border-box",
-            minHeight: "900px", // Diperpanjang ke bawah
+            minHeight: "900px",
           }}
         >
           {/* ===== CARD KIRI: LIST PESAN ===== */}
@@ -1419,7 +1462,7 @@ const LiveChatSection = () => {
                 <EmailIcon size={28} color={BLUE} open={false} />
                 <span
                   style={{
-                    fontSize: "50px", // DIPERBESAR
+                    fontSize: "50px",
                     fontWeight: 700,
                     color: BLUE,
                     letterSpacing: "-0.01em",
@@ -1442,14 +1485,15 @@ const LiveChatSection = () => {
               </span>
             </div>
 
+            {/* PERBAIKAN PADDING DAN GAP PADA LIST KIRI */}
             <div
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: "24px 28px",
+                padding: "24px 32px", // Padding samping diperlebar
                 display: "flex",
                 flexDirection: "column",
-                gap: "14px",
+                gap: "16px", // Gap antar item
                 backgroundColor: WHITE,
               }}
             >
@@ -1469,7 +1513,6 @@ const LiveChatSection = () => {
               ) : (
                 messages.map((m) => {
                   const isActive = m.id === selectedId;
-                  // Desain khusus untuk broadcast & pengumuman
                   const isBroadcast = m.isBroadcast;
                   const isAnnouncement = m.isAnnouncement;
                   
@@ -1477,11 +1520,11 @@ const LiveChatSection = () => {
                   let textColor = isActive ? WHITE : BLUE;
                   
                   if (isBroadcast && !isActive) {
-                    bgColor = "#FEF3C7"; // Kuning muda
+                    bgColor = "#FEF3C7";
                     textColor = "#92400E";
                   }
                   if (isAnnouncement && !isActive) {
-                    bgColor = "#D1FAE5"; // Hijau muda
+                    bgColor = "#D1FAE5";
                     textColor = "#065F46";
                   }
 
@@ -1496,7 +1539,7 @@ const LiveChatSection = () => {
                       whileTap={{ scale: 0.99 }}
                       style={{
                         display: "flex",
-                        flexDirection: "column", // Dibuat vertikal untuk pesan besar
+                        flexDirection: "column",
                         alignItems: "flex-start",
                         gap: "12px",
                         padding: "24px", // Lebih lega
@@ -1559,7 +1602,6 @@ const LiveChatSection = () => {
                         </div>
                       </div>
                       
-                      {/* Judul / Subjek Besar */}
                       <div
                         style={{
                           fontSize: "24px",
@@ -1573,7 +1615,6 @@ const LiveChatSection = () => {
                         {m.subject || "(no subject)"}
                       </div>
 
-                      {/* Cuplikan Pesan Panjang ke Bawah */}
                       <div
                         style={{
                           fontSize: "16px",
@@ -1582,7 +1623,7 @@ const LiveChatSection = () => {
                           opacity: 0.9,
                           lineHeight: 1.5,
                           display: "-webkit-box",
-                          WebkitLineClamp: 3, // Menampilkan 3 baris
+                          WebkitLineClamp: 3,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -1659,7 +1700,7 @@ const LiveChatSection = () => {
                 >
                   <span
                     style={{
-                      fontSize: "50px", // DIPERBESAR
+                      fontSize: "50px",
                       fontWeight: 400,
                       color: BLUE,
                       textTransform: "uppercase",
@@ -1694,7 +1735,7 @@ const LiveChatSection = () => {
                 >
                   <span
                     style={{
-                      fontSize: "40px", // DIPERBESAR
+                      fontSize: "40px",
                       fontWeight: 400,
                       color: BLUE,
                       letterSpacing: "-0.02em",
@@ -1861,7 +1902,7 @@ const LiveChatSection = () => {
                   >
                     <span
                       style={{
-                        fontSize: "30px", // DIPERBESAR
+                        fontSize: "30px",
                         fontWeight: 400,
                         color: BLUE,
                         textTransform: "uppercase",
@@ -1898,8 +1939,8 @@ const LiveChatSection = () => {
                     style={{
                       backgroundColor: WHITE,
                       borderRadius: "24px",
-                      padding: "32px", // Lebih lega
-                      fontSize: "24px", // Teks pesan lebih besar
+                      padding: "32px",
+                      fontSize: "24px",
                       fontWeight: 400,
                       color: BLUE,
                       lineHeight: 1.75,
@@ -1914,6 +1955,7 @@ const LiveChatSection = () => {
                   >
                     <div>{selected.message || "(empty message)"}</div>
                     
+                    {/* PERBAIKAN JARAK STATUS DAN JAM */}
                     <div
                       style={{
                         display: "flex",
@@ -1922,6 +1964,7 @@ const LiveChatSection = () => {
                         gap: "8px",
                         marginTop: "24px",
                         paddingTop: "16px",
+                        paddingRight: "8px", // Jarak aman dari kanan
                         borderTop: `1.5px solid ${BLUE}15`,
                       }}
                     >
