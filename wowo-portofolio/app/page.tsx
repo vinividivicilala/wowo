@@ -394,6 +394,30 @@ const AntiBotIcon = ({
   </svg>
 );
 
+// ===== FOOTER LINK DATA =====
+const footerColumns = [
+  {
+    title: "Attention",
+    links: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Use", href: "/terms-of-services" },
+      { label: "Cookies Policy", href: "/cookies-policy" },
+    ],
+  },
+  {
+    title: "Product",
+    links: [
+      { label: "Work", href: "/work" },
+      { label: "Messages", href: "/messages" },
+      { label: "Post", href: "/post" },
+    ],
+  },
+  {
+    title: "Get in Touch",
+    links: [{ label: "Contact", href: "/contact" }],
+  },
+];
+
 // ===== FOOTER SECTION =====
 const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -517,18 +541,77 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         fontFamily: FONT_FAMILY,
       }}
     >
+      {/* ===== TOP: Link Kolom + Download Button ===== */}
       <div
         style={{
           maxWidth: "1400px",
           margin: "0 auto",
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "flex-start",
           position: "relative",
           zIndex: 1,
           marginBottom: "40px",
+          flexWrap: "wrap",
+          gap: "40px",
         }}
       >
+        {/* Kolom Link */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start",
+            gap: "80px",
+            flexWrap: "wrap",
+          }}
+        >
+          {footerColumns.map((col) => (
+            <div
+              key={col.title}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "12px",
+                minWidth: "160px",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  color: WHITE,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.2,
+                }}
+              >
+                {col.title}
+              </span>
+              {col.links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  style={{
+                    fontFamily: FONT_FAMILY,
+                    fontSize: "16px",
+                    fontWeight: 400,
+                    color: WHITE,
+                    textDecoration: "none",
+                    opacity: 0.9,
+                    lineHeight: 1.4,
+                    cursor: "pointer",
+                  }}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Tombol Download for Windows */}
         <a
           href="#"
           target="_blank"
@@ -545,6 +628,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
             boxShadow: "0 6px 24px rgba(255,255,255,0.25)",
             transition: "transform 0.2s ease, boxShadow 0.2s ease",
             pointerEvents: "auto",
+            flexShrink: 0,
           }}
         >
           <WindowsIcon size={24} color={RED} />
@@ -564,6 +648,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         </a>
       </div>
 
+      {/* Terms */}
       <div
         style={{
           maxWidth: "1400px",
@@ -1899,7 +1984,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* ===== TAMBAHAN: TEKS PESAN + LINK /contact DI BAWAH MENURU ===== */}
+              {/* ===== TEKS PESAN + LINK /contact — UKURAN 70px, "Hubungi saya" ===== */}
               <div
                 style={{
                   display: "flex",
@@ -1912,15 +1997,15 @@ export default function Home() {
               >
                 <span
                   style={{
-                    fontSize: "20px",
+                    fontSize: "70px",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 400,
                     color: BLACK,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.5,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
                   }}
                 >
-                  Have a project in mind or want to collaborate?{" "}
+                  Have a project in mind?{" "}
                   <a
                     href="/contact"
                     style={{
@@ -1929,7 +2014,7 @@ export default function Home() {
                       textDecoration: "underline",
                     }}
                   >
-                    Send me a message
+                    Hubungi saya
                   </a>
                   .
                 </span>
