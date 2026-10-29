@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -60,10 +60,9 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
-
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== VERIFIED BADGE WHITE =====
+// ===== VERIFIED BADGES =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
@@ -78,7 +77,6 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
-// ===== VERIFIED BADGE BLUE =====
 const VerifiedBadgeBlue = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
@@ -93,7 +91,6 @@ const VerifiedBadgeBlue = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
-// ===== MICROSOFT STORE ICON =====
 const MicrosoftStoreIcon = ({
   size = 32,
   color = "#ffffff",
@@ -129,7 +126,6 @@ const MicrosoftStoreIcon = ({
   </svg>
 );
 
-// ===== WINDOWS ICON =====
 const WindowsIcon = ({
   size = 20,
   color = "#ffffff",
@@ -145,7 +141,6 @@ const WindowsIcon = ({
   </svg>
 );
 
-// ===== EMAIL ICON (closed & opened) — untuk animasi Framer Motion =====
 const EmailIcon = ({
   size = 22,
   color = "#0D3CFC",
@@ -156,7 +151,6 @@ const EmailIcon = ({
   open?: boolean;
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    {/* Body amplop */}
     <rect
       x="2"
       y="5"
@@ -166,7 +160,6 @@ const EmailIcon = ({
       stroke={color}
       strokeWidth="1.8"
     />
-    {/* Flap — animasi buka/tutup */}
     <motion.path
       d={open ? "M2 5L12 2L22 5" : "M2 7L12 13L22 7"}
       stroke={color}
@@ -192,7 +185,6 @@ const EmailIcon = ({
   </svg>
 );
 
-// ===== GOOGLE LOGO =====
 const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 48 48">
     <path
@@ -214,7 +206,6 @@ const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// ===== SEND ICON =====
 const SendIcon = ({
   size = 18,
   color = "#ffffff",
@@ -259,7 +250,7 @@ function timeAgo(ts: any): string {
   return `${Math.floor(month / 12)} tahun lalu`;
 }
 
-// ===== FOOTER LINK DATA =====
+// ===== FOOTER =====
 const footerColumns = [
   {
     title: "Attention",
@@ -283,7 +274,6 @@ const footerColumns = [
   },
 ];
 
-// ===== FOOTER SECTION =====
 const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLSpanElement>(null);
@@ -638,7 +628,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
   );
 };
 
-// ===== COOKIES POPUP =====
+// ===== COOKIES =====
 const CookiesPopup = ({
   onAccept,
   onDecline,
@@ -729,11 +719,11 @@ const CookiesPopup = ({
   </div>
 );
 
-// ===== LIVE CHAT SECTION =====
+// ===== LIVE CHAT =====
 const LiveChatSection = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [nowTick, setNowTick] = useState(0);
+  const [, setNowTick] = useState(0);
 
   const [user, setUser] = useState<any>(null);
   const [showCompose, setShowCompose] = useState(false);
@@ -746,15 +736,14 @@ const LiveChatSection = () => {
   );
 
   const detailRef = useRef<HTMLDivElement>(null);
+  const composeRef = useRef<HTMLDivElement>(null);
 
-  // ==== AUTH LISTENER ====
   useEffect(() => {
     if (!auth) return;
     const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return () => unsub();
   }, []);
 
-  // ==== FIRESTORE LISTENER (REAL-TIME) ====
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const q = query(
@@ -777,13 +766,11 @@ const LiveChatSection = () => {
     return () => unsub();
   }, []);
 
-  // ==== TIME AGO TICK ====
   useEffect(() => {
     const int = setInterval(() => setNowTick((t) => t + 1), 30000);
     return () => clearInterval(int);
   }, []);
 
-  // ==== GSAP: ANIMASI DETAIL PANEL SAAT PESAN DIPILIH ====
   useEffect(() => {
     if (!detailRef.current || !selectedId) return;
     gsap.fromTo(
@@ -793,8 +780,6 @@ const LiveChatSection = () => {
     );
   }, [selectedId]);
 
-  // ==== GSAP: ANIMASI COMPOSE PANEL ====
-  const composeRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!composeRef.current) return;
     if (showCompose) {
@@ -813,7 +798,6 @@ const LiveChatSection = () => {
     }
   }, [showCompose]);
 
-  // ==== LOGIN GOOGLE ====
   const handleGoogleSignIn = async () => {
     if (!auth) return;
     try {
@@ -833,7 +817,6 @@ const LiveChatSection = () => {
     }
   };
 
-  // ==== KIRIM PESAN ====
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!db || !user) return;
@@ -882,7 +865,7 @@ const LiveChatSection = () => {
         fontFamily: FONT_FAMILY,
       }}
     >
-      {/* ===== TOP BAR: Kirim Pesan + Login ===== */}
+      {/* Top bar: Kirim Pesan + Login */}
       <div
         style={{
           display: "flex",
@@ -915,7 +898,6 @@ const LiveChatSection = () => {
           Kirim Pesan
         </button>
 
-        {/* Login status */}
         {!user ? (
           <button
             onClick={handleGoogleSignIn}
@@ -967,33 +949,17 @@ const LiveChatSection = () => {
                 <img
                   src={user.photoURL}
                   alt={user.displayName || "User"}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               ) : (
-                <span
-                  style={{
-                    color: WHITE,
-                    fontSize: "14px",
-                    fontWeight: 800,
-                  }}
-                >
+                <span style={{ color: WHITE, fontSize: "14px", fontWeight: 800 }}>
                   {(user.displayName || user.email || "U")
                     .charAt(0)
                     .toUpperCase()}
                 </span>
               )}
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                minWidth: 0,
-              }}
-            >
+            <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
               <span
                 style={{
                   fontSize: "13px",
@@ -1042,11 +1008,10 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* ===== COMPOSE PANEL (klik "Kirim Pesan") ===== */}
+      {/* Compose */}
       <AnimatePresence>
         {showCompose && (
           <motion.div
-            ref={composeRef as any}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -1069,13 +1034,7 @@ const LiveChatSection = () => {
               }}
             >
               <SendIcon size={20} color={WHITE} />
-              <span
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 700,
-                  color: WHITE,
-                }}
-              >
+              <span style={{ fontSize: "18px", fontWeight: 700, color: WHITE }}>
                 New Message
               </span>
             </div>
@@ -1091,13 +1050,7 @@ const LiveChatSection = () => {
                   gap: "16px",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "15px",
-                    color: BLUE,
-                    fontWeight: 600,
-                  }}
-                >
+                <span style={{ fontSize: "15px", color: BLUE, fontWeight: 600 }}>
                   Sign in with Google first to send a message.
                 </span>
                 <button
@@ -1145,13 +1098,7 @@ const LiveChatSection = () => {
                   }}
                 >
                   <span>To:</span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
                     {ADMIN_EMAIL}
                     <VerifiedBadgeBlue size={14} />
                   </span>
@@ -1275,7 +1222,7 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* ===== MAIN: KIRI (list) + KANAN (detail) ===== */}
+      {/* Main: KIRI + KANAN */}
       <div
         style={{
           display: "flex",
@@ -1289,7 +1236,7 @@ const LiveChatSection = () => {
           flexWrap: "wrap",
         }}
       >
-        {/* ===== LEFT PANEL: LIST ===== */}
+        {/* KIRI */}
         <div
           style={{
             flex: "0 0 420px",
@@ -1390,7 +1337,6 @@ const LiveChatSection = () => {
                       transition: "background-color 0.2s ease",
                     }}
                   >
-                    {/* ICON EMAIL — animasi buka/tutup via Framer Motion */}
                     <div
                       style={{
                         width: "44px",
@@ -1456,7 +1402,7 @@ const LiveChatSection = () => {
           </div>
         </div>
 
-        {/* ===== RIGHT PANEL: DETAIL ===== */}
+        {/* KANAN */}
         <div
           ref={detailRef}
           style={{
@@ -1504,7 +1450,6 @@ const LiveChatSection = () => {
                 flex: 1,
               }}
             >
-              {/* Subject */}
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 <span
                   style={{
@@ -1532,7 +1477,6 @@ const LiveChatSection = () => {
                 </span>
               </div>
 
-              {/* Pengirim */}
               <div
                 style={{
                   display: "flex",
@@ -1564,11 +1508,7 @@ const LiveChatSection = () => {
                     <img
                       src={selected.photoURL}
                       alt={selected.name}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   ) : (
                     (selected.name || "U").charAt(0).toUpperCase()
@@ -1604,7 +1544,6 @@ const LiveChatSection = () => {
                 </div>
               </div>
 
-              {/* Tanggal */}
               <div
                 style={{
                   display: "flex",
@@ -1627,7 +1566,6 @@ const LiveChatSection = () => {
                 Dikirim {timeAgo(selected.createdAt)}
               </div>
 
-              {/* Message */}
               <div
                 style={{
                   display: "flex",
@@ -1718,6 +1656,7 @@ export default function ContactPage() {
     setShowCookies(false);
   };
 
+  // ==== PRELOADER (PERBAIKAN: cleanup return void) ====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -1763,7 +1702,10 @@ export default function ContactPage() {
         },
       });
 
-    return () => tl.kill();
+    // ✅ FIX: cleanup harus return void, bukan Timeline
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   useEffect(() => {
@@ -2048,7 +1990,7 @@ export default function ContactPage() {
         }}
       />
 
-      {/* NAVBAR CENTER & RIGHT */}
+      {/* NAVBAR TENGAH & KANAN */}
       {preloaderDone && (
         <>
           <div
@@ -2209,10 +2151,7 @@ export default function ContactPage() {
             boxSizing: "border-box",
           }}
         >
-          <div
-            ref={wrapperRef}
-            style={{ width: "100%", position: "relative" }}
-          >
+          <div ref={wrapperRef} style={{ width: "100%", position: "relative" }}>
             <div
               ref={panelBgRef}
               style={{
