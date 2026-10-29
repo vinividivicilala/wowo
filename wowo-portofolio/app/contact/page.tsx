@@ -626,10 +626,8 @@ const LiveChatSection = () => {
     "idle"
   );
   
-  // State untuk User Selection di Admin
   const [selectedUserToReply, setSelectedUserToReply] = useState<string>("");
 
-  // Auth states
   const [authMode, setAuthMode] = useState<"login" | "register" | "google">("google");
   const [authName, setAuthName] = useState("");
   const [authEmail, setAuthEmail] = useState("");
@@ -752,7 +750,6 @@ const LiveChatSection = () => {
       const isAdmin = user?.email === ADMIN_EMAIL;
       
       if (isAdmin && composeMode === "reply") {
-        // Cari data user yang dipilih admin
         const targetUser = messages.find(m => m.userId === selectedUserToReply || m.email === selectedUserToReply);
         
         await addDoc(collection(db, "contactMessages"), {
@@ -845,7 +842,6 @@ const LiveChatSection = () => {
   const selected = messages.find((m) => m.id === selectedId) || null;
   const isAdmin = user?.email === ADMIN_EMAIL;
 
-  // Daftar unik user untuk pilihan Admin
   const uniqueUsers = useMemo(() => {
     const map = new Map();
     messages.forEach(m => {
@@ -855,6 +851,18 @@ const LiveChatSection = () => {
     });
     return Array.from(map.values());
   }, [messages]);
+
+  // ==== LOGIKA DINAMIS UNTUK HEADER ====
+  let headerTitle = "";
+  if (selected?.isBroadcast) headerTitle = "Broadcast";
+  else if (selected?.isAnnouncement) headerTitle = "Pengumuman";
+  else if (isAdmin) {
+    // Jika admin melihat pesan dari user -> Masuk, jika balasan admin sendiri -> Kirim
+    headerTitle = selected?.isAdminReply ? "Pesan Kirim" : "Pesan Masuk";
+  } else {
+    // Jika user melihat pesan dari admin -> Masuk, jika pesan user sendiri -> Kirim
+    headerTitle = selected?.isAdminReply ? "Pesan Masuk" : "Pesan Kirim";
+  }
 
   return (
     <div
@@ -1107,7 +1115,6 @@ const LiveChatSection = () => {
                 gap: "18px",
               }}
             >
-              {/* Pilihan User Khusus Admin */}
               {isAdmin && composeMode === "reply" ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <label style={{ fontSize: "14px", fontWeight: 700, color: BLUE }}>Pilih User Tujuan:</label>
@@ -1485,15 +1492,14 @@ const LiveChatSection = () => {
               </span>
             </div>
 
-            {/* PERBAIKAN PADDING DAN GAP PADA LIST KIRI */}
             <div
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: "24px 32px", // Padding samping diperlebar
+                padding: "24px 32px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "16px", // Gap antar item
+                gap: "16px",
                 backgroundColor: WHITE,
               }}
             >
@@ -1542,7 +1548,7 @@ const LiveChatSection = () => {
                         flexDirection: "column",
                         alignItems: "flex-start",
                         gap: "12px",
-                        padding: "24px", // Lebih lega
+                        padding: "24px",
                         backgroundColor: bgColor,
                         color: textColor,
                         border: isActive
@@ -1707,7 +1713,7 @@ const LiveChatSection = () => {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {selected.isBroadcast ? "Broadcast" : selected.isAnnouncement ? "Pengumuman" : (isAdmin ? "Pesan Masuk" : "Pesan Kirim")}
+                    {headerTitle}
                   </span>
                   <span
                     style={{
@@ -1955,7 +1961,6 @@ const LiveChatSection = () => {
                   >
                     <div>{selected.message || "(empty message)"}</div>
                     
-                    {/* PERBAIKAN JARAK STATUS DAN JAM */}
                     <div
                       style={{
                         display: "flex",
@@ -1964,7 +1969,7 @@ const LiveChatSection = () => {
                         gap: "8px",
                         marginTop: "24px",
                         paddingTop: "16px",
-                        paddingRight: "8px", // Jarak aman dari kanan
+                        paddingRight: "8px",
                         borderTop: `1.5px solid ${BLUE}15`,
                       }}
                     >
