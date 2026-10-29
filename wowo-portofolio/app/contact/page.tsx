@@ -22,6 +22,9 @@ import {
   query,
   orderBy,
   serverTimestamp,
+  where,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
@@ -627,10 +630,19 @@ const LiveChatSection = () => {
 
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
-    const q = query(
-      collection(db, "contactMessages"),
-      orderBy("createdAt", "desc")
-    );
+    
+    // Pesan terpisah per akun. Jika admin, tampilkan semua. Jika user, hanya miliknya.
+    const isAdmin = user?.email === ADMIN_EMAIL;
+    let q = query(collection(db, "contactMessages"), orderBy("createdAt", "desc"));
+    
+    if (!isAdmin && user) {
+      q = query(
+        collection(db, "contactMessages"),
+        where("userId", "==", user.uid),
+        orderBy("createdAt", "desc")
+      );
+    }
+
     const unsub = onSnapshot(q, (snap: any) => {
       const list: any[] = [];
       snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
@@ -641,7 +653,17 @@ const LiveChatSection = () => {
       });
     });
     return () => unsub();
-  }, []);
+  }, [user]);
+
+  // Otomatis ubah status menjadi "dibaca" jika admin membuka pesan
+  useEffect(() => {
+    if (!db || !selectedId || !user) return;
+    const isAdmin = user?.email === ADMIN_EMAIL;
+    if (isAdmin) {
+      const msgRef = doc(db, "contactMessages", selectedId);
+      updateDoc(msgRef, { status: "read" }).catch(() => {});
+    }
+  }, [selectedId, user]);
 
   useEffect(() => {
     if (!detailRef.current || !selectedId) return;
@@ -681,6 +703,7 @@ const LiveChatSection = () => {
     setSubmitStatus("idle");
     try {
       await addDoc(collection(db, "contactMessages"), {
+        userId: user.uid, // Menyimpan ID user untuk pemisahan
         name: user.displayName || user.email?.split("@")[0] || "Anonymous",
         email: user.email || "",
         photoURL: user.photoURL || "",
@@ -802,12 +825,8 @@ const LiveChatSection = () => {
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               ) : (
-                <span
-                  style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}
-                >
-                  {(user.displayName || user.email || "U")
-                    .charAt(0)
-                    .toUpperCase()}
+                <span style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}>
+                  {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
                 </span>
               )}
             </div>
@@ -942,13 +961,7 @@ const LiveChatSection = () => {
                   }}
                 >
                   <span>To:</span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
                     {ADMIN_EMAIL}
                     <VerifiedBadge size={16} color={BLUE} />
                   </span>
@@ -1078,7 +1091,7 @@ const LiveChatSection = () => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          borderRadius: "60px", // Melengkung seperti teks Menuru
+          borderRadius: "60px",
           backgroundColor: BLUE,
           padding: "24px",
           gap: "20px",
@@ -1143,10 +1156,10 @@ const LiveChatSection = () => {
             style={{
               flex: 1,
               overflowY: "auto",
-              padding: "14px",
+              padding: "24px", // Jarak diperlebar
               display: "flex",
               flexDirection: "column",
-              gap: "8px",
+              gap: "12px",
               backgroundColor: WHITE,
             }}
           >
@@ -1217,7 +1230,7 @@ const LiveChatSection = () => {
                       <div
                         style={{
                           fontSize: "17px",
-                          fontWeight: 700,
+                          fontWeight: 400, // Nama user tidak tebal
                           color: isActive ? WHITE : BLUE,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -1229,6 +1242,7 @@ const LiveChatSection = () => {
                       <div
                         style={{
                           fontSize: "14px",
+                          fontWeight: 400, // Subjek tidak tebal
                           color: isActive ? WHITE : BLUE,
                           opacity: isActive ? 0.85 : 0.75,
                           overflow: "hidden",
@@ -1244,9 +1258,9 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "12px",
+                        fontWeight: 400, // Waktu tidak tebal
                         color: isActive ? WHITE : BLUE,
                         opacity: isActive ? 0.8 : 0.65,
-                        fontWeight: 600,
                         flexShrink: 0,
                       }}
                     >
@@ -1295,7 +1309,7 @@ const LiveChatSection = () => {
                 style={{
                   fontSize: "18px",
                   color: BLUE,
-                  fontWeight: 600,
+                  fontWeight: 400, // Tidak tebal
                   opacity: 0.55,
                 }}
               >
@@ -1322,7 +1336,7 @@ const LiveChatSection = () => {
                 <span
                   style={{
                     fontSize: "22px",
-                    fontWeight: 800,
+                    fontWeight: 400, // Tidak tebal
                     color: BLUE,
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
@@ -1333,7 +1347,7 @@ const LiveChatSection = () => {
                 <span
                   style={{
                     fontSize: "20px",
-                    fontWeight: 700,
+                    fontWeight: 400, // Tidak tebal
                     color: BLUE,
                     opacity: 0.85,
                   }}
@@ -1358,7 +1372,7 @@ const LiveChatSection = () => {
                 <span
                   style={{
                     fontSize: "36px",
-                    fontWeight: 700,
+                    fontWeight: 400, // Tidak tebal
                     color: BLUE,
                     letterSpacing: "-0.02em",
                     lineHeight: 1.15,
@@ -1405,7 +1419,7 @@ const LiveChatSection = () => {
                         style={{
                           color: WHITE,
                           fontSize: "22px",
-                          fontWeight: 800,
+                          fontWeight: 400, // Tidak tebal
                         }}
                       >
                         {(selected.name || "U").charAt(0).toUpperCase()}
@@ -1424,7 +1438,7 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "20px",
-                        fontWeight: 700,
+                        fontWeight: 400, // Tidak tebal
                         color: BLUE,
                         letterSpacing: "-0.01em",
                       }}
@@ -1434,6 +1448,7 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "14px",
+                        fontWeight: 400, // Tidak tebal
                         color: BLUE,
                         opacity: 0.75,
                         display: "inline-flex",
@@ -1460,7 +1475,7 @@ const LiveChatSection = () => {
                   <span
                     style={{
                       fontSize: "13px",
-                      fontWeight: 700,
+                      fontWeight: 400, // Tidak tebal
                       color: BLUE,
                       opacity: 0.7,
                     }}
@@ -1477,7 +1492,7 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "14px",
-                        fontWeight: 700,
+                        fontWeight: 400, // Tidak tebal
                         color: BLUE,
                         display: "inline-flex",
                         alignItems: "center",
@@ -1490,6 +1505,7 @@ const LiveChatSection = () => {
                     <span
                       style={{
                         fontSize: "12px",
+                        fontWeight: 400, // Tidak tebal
                         color: BLUE,
                         opacity: 0.7,
                       }}
@@ -1524,7 +1540,7 @@ const LiveChatSection = () => {
                   <span
                     style={{
                       fontSize: "22px",
-                      fontWeight: 800,
+                      fontWeight: 400, // Tidak tebal
                       color: BLUE,
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
@@ -1535,7 +1551,7 @@ const LiveChatSection = () => {
                   <span
                     style={{
                       fontSize: "20px",
-                      fontWeight: 700,
+                      fontWeight: 400, // Tidak tebal
                       color: BLUE,
                       opacity: 0.85,
                     }}
@@ -1563,6 +1579,7 @@ const LiveChatSection = () => {
                     borderRadius: "24px",
                     padding: "24px 28px",
                     fontSize: "20px",
+                    fontWeight: 400, // Tidak tebal
                     color: BLUE,
                     lineHeight: 1.75,
                     whiteSpace: "pre-wrap",
@@ -1588,7 +1605,14 @@ const LiveChatSection = () => {
                       borderTop: `1.5px solid ${BLUE}15`,
                     }}
                   >
-                    <span style={{ fontSize: "14px", color: BLUE, opacity: 0.75, fontWeight: 600 }}>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        color: BLUE,
+                        opacity: 0.75,
+                        fontWeight: 400, // Tidak tebal
+                      }}
+                    >
                       {selected.status === "read"
                         ? "Dibaca"
                         : selected.status === "delivered"
@@ -1597,7 +1621,14 @@ const LiveChatSection = () => {
                         ? "Gagal Terkirim"
                         : "Terkirim"}
                     </span>
-                    <span style={{ fontSize: "14px", color: BLUE, opacity: 0.75 }}>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 400, // Tidak tebal
+                        color: BLUE,
+                        opacity: 0.75,
+                      }}
+                    >
                       {formatJam(selected.createdAt)}
                     </span>
                   </div>
