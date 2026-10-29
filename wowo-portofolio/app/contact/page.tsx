@@ -58,6 +58,9 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
+const ADMIN_NAME = "Farid Ardiansyah";
+const ADMIN_PHOTO =
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== VERIFIED =====
@@ -709,7 +712,7 @@ const LiveChatSection = () => {
         gap: "20px",
       }}
     >
-      {/* Top bar: Kirim Pesan + Login */}
+      {/* Top bar */}
       <div
         style={{
           display: "flex",
@@ -1064,7 +1067,7 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* ===== MAIN AREA: BG BIRU dengan 2 CARD PUTIH MELENGKUNG ===== */}
+      {/* MAIN AREA */}
       <div
         style={{
           display: "flex",
@@ -1080,7 +1083,7 @@ const LiveChatSection = () => {
           minHeight: "800px",
         }}
       >
-        {/* ===== CARD KIRI: LIST PESAN (PUTIH MELENGKUNG) ===== */}
+        {/* ===== CARD KIRI: LIST PESAN ===== */}
         <div
           style={{
             flex: "0 0 440px",
@@ -1094,7 +1097,6 @@ const LiveChatSection = () => {
             boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
           }}
         >
-          {/* Header Inbox */}
           <div
             style={{
               padding: "28px 32px",
@@ -1132,7 +1134,6 @@ const LiveChatSection = () => {
             </span>
           </div>
 
-          {/* List */}
           <div
             style={{
               flex: 1,
@@ -1253,7 +1254,7 @@ const LiveChatSection = () => {
           </div>
         </div>
 
-        {/* ===== CARD KANAN: DETAIL PESAN (PUTIH MELENGKUNG) ===== */}
+        {/* ===== CARD KANAN: DETAIL PESAN ===== */}
         <div
           ref={detailRef}
           style={{
@@ -1294,210 +1295,349 @@ const LiveChatSection = () => {
             </div>
           ) : (
             <>
-              {/* Header biru melengkung atas */}
+              {/* ===== HEADER BIRU + PUTIH TAMBAHAN ===== */}
               <div
                 style={{
-                  padding: "32px 36px",
                   backgroundColor: BLUE,
+                  padding: "28px 28px 0 28px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "12px",
+                  gap: "0",
                   borderTopLeftRadius: "32px",
                   borderTopRightRadius: "32px",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "40px",
-                    fontWeight: 700,
-                    color: WHITE,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.15,
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {selected.subject || "(no subject)"}
-                </span>
-
+                {/* Bagian atas: judul kecil "Pesan" + badge */}
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "12px",
-                    marginTop: "8px",
-                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                    marginBottom: "16px",
                   }}
                 >
-                  <div
+                  <span
                     style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "50%",
-                      backgroundColor: WHITE,
-                      overflow: "hidden",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      color: WHITE,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      opacity: 0.85,
                     }}
                   >
-                    {selected.photoURL ? (
+                    Pesan Masuk
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: WHITE,
+                      opacity: 0.85,
+                    }}
+                  >
+                    {timeAgo(selected.createdAt)}
+                  </span>
+                </div>
+
+                {/* Bagian putih tambahan di dalam header biru */}
+                <div
+                  style={{
+                    backgroundColor: WHITE,
+                    borderRadius: "24px 24px 0 0",
+                    padding: "28px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "14px",
+                  }}
+                >
+                  {/* Subject besar */}
+                  <span
+                    style={{
+                      fontSize: "36px",
+                      fontWeight: 700,
+                      color: BLUE,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.15,
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {selected.subject || "(no subject)"}
+                  </span>
+
+                  {/* Foto profil pengirim (Gmail) + info */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "14px",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "52px",
+                        height: "52px",
+                        borderRadius: "50%",
+                        backgroundColor: BLUE,
+                        overflow: "hidden",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        border: `2px solid ${BLUE}20`,
+                      }}
+                    >
+                      {selected.photoURL ? (
+                        <img
+                          src={selected.photoURL}
+                          alt={selected.name}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <span
+                          style={{
+                            color: WHITE,
+                            fontSize: "22px",
+                            fontWeight: 800,
+                          }}
+                        >
+                          {(selected.name || "U").charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                        minWidth: 0,
+                        flex: 1,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          color: BLUE,
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {selected.name || "Anonymous"}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: BLUE,
+                          opacity: 0.75,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        {selected.email || "no-email@example.com"}
+                        <VerifiedBadge size={14} color={BLUE} />
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Penerima: foto profil pemilik + nama */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      paddingTop: "12px",
+                      borderTop: `1.5px solid ${BLUE}15`,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: BLUE,
+                        opacity: 0.7,
+                      }}
+                    >
+                      To:
+                    </span>
+                    <div
+                      style={{
+                        width: "36px",
+                        height: "36px",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        backgroundColor: BLUE,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        border: `2px solid ${BLUE}`,
+                      }}
+                    >
                       <img
-                        src={selected.photoURL}
-                        alt={selected.name}
+                        src={ADMIN_PHOTO}
+                        alt={ADMIN_NAME}
                         style={{
                           width: "100%",
                           height: "100%",
                           objectFit: "cover",
                         }}
                       />
-                    ) : (
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        minWidth: 0,
+                      }}
+                    >
                       <span
                         style={{
+                          fontSize: "14px",
+                          fontWeight: 700,
                           color: BLUE,
-                          fontSize: "22px",
-                          fontWeight: 800,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
                         }}
                       >
-                        {(selected.name || "U").charAt(0).toUpperCase()}
+                        {ADMIN_NAME}
+                        <VerifiedBadge size={14} color={BLUE} />
                       </span>
-                    )}
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: BLUE,
+                          opacity: 0.7,
+                        }}
+                      >
+                        {ADMIN_EMAIL}
+                      </span>
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                      minWidth: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "22px",
-                        fontWeight: 700,
-                        color: WHITE,
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      {selected.name || "Anonymous"}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        color: WHITE,
-                        opacity: 0.9,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "4px",
-                      }}
-                    >
-                      {selected.email || "no-email@example.com"}
-                      <VerifiedBadge size={16} color={WHITE} />
-                    </span>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: "14px",
-                      color: WHITE,
-                      opacity: 0.8,
-                      marginLeft: "auto",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {timeAgo(selected.createdAt)}
-                  </span>
                 </div>
               </div>
 
-              {/* Body putih isi pesan */}
+              {/* ===== BODY EMAIL: BG BIRU DULU, LALU PUTIH ===== */}
               <div
                 style={{
                   flex: 1,
                   overflowY: "auto",
-                  padding: "36px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "20px",
                   backgroundColor: WHITE,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    color: BLUE,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    opacity: 0.7,
-                  }}
-                >
-                  Message
-                </span>
-
+                {/* Bagian BIRU (label pesan) */}
                 <div
                   style={{
-                    fontSize: "20px",
-                    color: BLUE,
-                    lineHeight: 1.7,
-                    whiteSpace: "pre-wrap",
-                    wordBreak: "break-word",
-                    padding: "24px 28px",
-                    backgroundColor: `${BLUE}05`,
-                    border: `1.5px solid ${BLUE}15`,
-                    borderRadius: "24px",
-                    minHeight: "180px",
-                  }}
-                >
-                  {selected.message || "(empty message)"}
-                </div>
-
-                <div
-                  style={{
+                    backgroundColor: BLUE,
+                    padding: "20px 28px",
                     display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingTop: "16px",
-                    borderTop: `1.5px solid ${BLUE}15`,
-                    flexWrap: "wrap",
-                    gap: "12px",
+                    flexDirection: "column",
+                    gap: "6px",
                   }}
                 >
                   <span
                     style={{
                       fontSize: "14px",
-                      color: BLUE,
-                      opacity: 0.75,
-                      fontWeight: 600,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
+                      fontWeight: 700,
+                      color: WHITE,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
                     }}
                   >
-                    To: {ADMIN_EMAIL}
-                    <VerifiedBadge size={14} color={BLUE} />
+                    Message
                   </span>
                   <span
                     style={{
                       fontSize: "13px",
+                      color: WHITE,
+                      opacity: 0.8,
+                    }}
+                  >
+                    Dikirim {timeAgo(selected.createdAt)}
+                  </span>
+                </div>
+
+                {/* Bagian PUTIH (isi pesan) */}
+                <div
+                  style={{
+                    padding: "32px 28px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px",
+                    flex: 1,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "20px",
                       color: BLUE,
-                      opacity: 0.75,
-                      fontWeight: 600,
-                      display: "inline-flex",
+                      lineHeight: 1.75,
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-word",
+                      padding: "24px 28px",
+                      backgroundColor: `${BLUE}05`,
+                      border: `1.5px solid ${BLUE}15`,
+                      borderRadius: "20px",
+                      minHeight: "160px",
+                    }}
+                  >
+                    {selected.message || "(empty message)"}
+                  </div>
+
+                  {/* Footer meta: status */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
                       alignItems: "center",
-                      gap: "6px",
+                      justifyContent: "space-between",
+                      paddingTop: "16px",
+                      borderTop: `1.5px solid ${BLUE}15`,
+                      flexWrap: "wrap",
+                      gap: "12px",
                     }}
                   >
                     <span
                       style={{
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "50%",
-                        backgroundColor: BLUE,
+                        fontSize: "13px",
+                        color: BLUE,
+                        opacity: 0.75,
+                        fontWeight: 600,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
                       }}
-                    />
-                    Sent
-                  </span>
+                    >
+                      <span
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: BLUE,
+                        }}
+                      />
+                      Sent
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: BLUE,
+                        opacity: 0.6,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {timeAgo(selected.createdAt)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </>
@@ -1694,7 +1834,6 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* PRELOADER */}
       <div
         ref={preloaderRef}
         style={{
@@ -1735,7 +1874,6 @@ export default function ContactPage() {
         </span>
       </div>
 
-      {/* BANNER */}
       <div
         style={{
           position: "fixed",
@@ -1785,7 +1923,6 @@ export default function ContactPage() {
         </span>
       </div>
 
-      {/* NAVBAR */}
       {preloaderDone && (
         <>
           <Link
@@ -1915,7 +2052,6 @@ export default function ContactPage() {
         </>
       )}
 
-      {/* KONTEN */}
       <div
         style={{
           minHeight: "100vh",
