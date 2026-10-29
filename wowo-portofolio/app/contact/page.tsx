@@ -1,19 +1,13 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -632,7 +626,6 @@ const CookiesPopup = ({
 
 // ===== CONTACT PAGE =====
 export default function ContactPage() {
-  const router = useRouter();
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
   const rightTextRef = useRef<HTMLSpanElement>(null);
@@ -650,15 +643,6 @@ export default function ContactPage() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
-
-  // ==== FORM STATE ====
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formMessage, setFormMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -684,38 +668,6 @@ export default function ContactPage() {
       localStorage.setItem("cookies-consent", "declined");
     } catch {}
     setShowCookies(false);
-  };
-
-  // ==== SUBMIT FORM KE FIRESTORE ====
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!db) {
-      setSubmitStatus("error");
-      return;
-    }
-    if (!formName.trim() || !formEmail.trim() || !formMessage.trim()) {
-      setSubmitStatus("error");
-      return;
-    }
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
-    try {
-      await addDoc(collection(db, "contactMessages"), {
-        name: formName.trim(),
-        email: formEmail.trim().toLowerCase(),
-        message: formMessage.trim(),
-        createdAt: serverTimestamp(),
-      });
-      setFormName("");
-      setFormEmail("");
-      setFormMessage("");
-      setSubmitStatus("success");
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   useEffect(() => {
@@ -1156,7 +1108,7 @@ export default function ContactPage() {
         </>
       )}
 
-      {/* ===== KONTEN UTAMA CONTACT ===== */}
+      {/* ===== KONTEN UTAMA CONTACT — KOSONG ===== */}
       <div
         style={{
           minHeight: "100vh",
@@ -1171,219 +1123,8 @@ export default function ContactPage() {
           position: "relative",
         }}
       >
-        <div
-          style={{
-            padding: "0 40px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "16px",
-            maxWidth: "1600px",
-            margin: "0 auto",
-            width: "100%",
-            marginBottom: "200px",
-          }}
-        >
-          {/* Judul Contact */}
-          <span
-            style={{
-              fontSize: "140px",
-              fontFamily: FONT_FAMILY,
-              fontWeight: 400,
-              color: BLUE,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-            }}
-          >
-            Contact
-          </span>
-
-          {/* Deskripsi */}
-          <p
-            style={{
-              fontSize: "24px",
-              fontFamily: FONT_FAMILY,
-              fontWeight: 400,
-              color: BLACK,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.6,
-              maxWidth: "800px",
-              margin: 0,
-              marginBottom: "20px",
-            }}
-          >
-            Apakah kamu mengalami sesuatu? Kirim pesan kepada saya melalui form
-            di bawah ini, dan saya akan segera merespons.
-          </p>
-
-          {/* Form */}
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "24px",
-              width: "100%",
-              maxWidth: "720px",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <label
-                style={{
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                value={formName}
-                onChange={(e) => setFormName(e.target.value)}
-                placeholder="Your name"
-                style={{
-                  width: "100%",
-                  padding: "18px 22px",
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLACK,
-                  backgroundColor: "#F4F6FF",
-                  border: `2px solid ${BLUE}30`,
-                  borderRadius: "14px",
-                  outline: "none",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <label
-                style={{
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                value={formEmail}
-                onChange={(e) => setFormEmail(e.target.value)}
-                placeholder="you@example.com"
-                style={{
-                  width: "100%",
-                  padding: "18px 22px",
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLACK,
-                  backgroundColor: "#F4F6FF",
-                  border: `2px solid ${BLUE}30`,
-                  borderRadius: "14px",
-                  outline: "none",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <label
-                style={{
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Message
-              </label>
-              <textarea
-                value={formMessage}
-                onChange={(e) => setFormMessage(e.target.value)}
-                placeholder="Tell me what happened..."
-                rows={6}
-                style={{
-                  width: "100%",
-                  padding: "18px 22px",
-                  fontSize: "20px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLACK,
-                  backgroundColor: "#F4F6FF",
-                  border: `2px solid ${BLUE}30`,
-                  borderRadius: "14px",
-                  outline: "none",
-                  resize: "vertical",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-
-            {/* Status */}
-            {submitStatus === "success" && (
-              <div
-                style={{
-                  padding: "14px 20px",
-                  backgroundColor: "#DCFCE7",
-                  color: "#065F46",
-                  borderRadius: "12px",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  fontFamily: FONT_FAMILY,
-                }}
-              >
-                Pesan berhasil terkirim. Terima kasih!
-              </div>
-            )}
-            {submitStatus === "error" && (
-              <div
-                style={{
-                  padding: "14px 20px",
-                  backgroundColor: "#FEE2E2",
-                  color: "#991B1B",
-                  borderRadius: "12px",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  fontFamily: FONT_FAMILY,
-                }}
-              >
-                Gagal mengirim. Pastikan semua field terisi dan coba lagi.
-              </div>
-            )}
-
-            {/* Tombol Submit */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              style={{
-                padding: "18px 36px",
-                backgroundColor: isSubmitting ? "#94A3B8" : BLUE,
-                color: WHITE,
-                border: "none",
-                borderRadius: "14px",
-                fontSize: "20px",
-                fontWeight: 700,
-                fontFamily: FONT_FAMILY,
-                letterSpacing: "-0.01em",
-                cursor: isSubmitting ? "not-allowed" : "pointer",
-                boxShadow: isSubmitting
-                  ? "none"
-                  : "0 8px 28px rgba(13,60,252,0.35)",
-                alignSelf: "flex-start",
-              }}
-            >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </button>
-          </form>
-        </div>
+        {/* Isi konten dihapus — hanya spacer kosong */}
+        <div style={{ height: "400px" }} />
 
         {/* ===== FOOTER ===== */}
         <FooterSection refreshKey="contact" />
