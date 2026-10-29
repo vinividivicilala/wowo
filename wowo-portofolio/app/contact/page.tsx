@@ -1123,36 +1123,38 @@ export default function ContactPage() {
           position: "relative",
         }}
       >
+        {/* Container teks Contact & Messages — rata kiri atas di bawah navbar */}
         <div
           style={{
             padding: "0 40px",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "16px",
+            gap: "0px",
             maxWidth: "1600px",
-            margin: "0 auto",
+            margin: "0",
             width: "100%",
             marginBottom: "200px",
           }}
         >
-          {/* ===== TEKS "Contact" 450px ===== */}
+          {/* ===== TEKS "Contact" 450px — TIDAK TEBAL ===== */}
           <span
             style={{
               fontSize: "450px",
               fontFamily: FONT_FAMILY,
               fontWeight: 400,
               color: BLUE,
-              letterSpacing: "-0.04em",
-              lineHeight: 1,
+              letterSpacing: "-0.05em",
+              lineHeight: "0.85",
               display: "block",
               whiteSpace: "nowrap",
+              margin: 0,
             }}
           >
             Contact
           </span>
 
-          {/* ===== TEKS "Messages" 90px ===== */}
+          {/* ===== TEKS "Messages" 90px — di bawah Contact ===== */}
           <span
             style={{
               fontSize: "90px",
@@ -1162,7 +1164,7 @@ export default function ContactPage() {
               letterSpacing: "-0.03em",
               lineHeight: 1.1,
               display: "block",
-              marginTop: "8px",
+              marginTop: "16px",
             }}
           >
             Messages
