@@ -229,6 +229,13 @@ function timeAgo(ts: any): string {
   return `${Math.floor(month / 12)} tahun lalu`;
 }
 
+// ===== FORMAT JAM =====
+function formatJam(ts: any): string {
+  if (!ts) return "";
+  const date = ts.toDate ? ts.toDate() : new Date(ts);
+  return date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+}
+
 // ===== FOOTER =====
 const footerColumns = [
   {
@@ -1071,7 +1078,7 @@ const LiveChatSection = () => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          borderRadius: "40px",
+          borderRadius: "60px", // Melengkung seperti teks Menuru
           backgroundColor: BLUE,
           padding: "24px",
           gap: "20px",
@@ -1088,7 +1095,7 @@ const LiveChatSection = () => {
             minWidth: "320px",
             maxWidth: "100%",
             backgroundColor: WHITE,
-            borderRadius: "32px",
+            borderRadius: "50px 50px 50px 20px",
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
@@ -1179,7 +1186,7 @@ const LiveChatSection = () => {
                       border: isActive
                         ? `1.5px solid ${BLUE}`
                         : `1.5px solid ${BLUE}15`,
-                      borderRadius: "24px",
+                      borderRadius: "30px 30px 30px 10px",
                       cursor: "pointer",
                       textAlign: "left",
                       width: "100%",
@@ -1191,7 +1198,7 @@ const LiveChatSection = () => {
                       style={{
                         width: "48px",
                         height: "48px",
-                        borderRadius: "14px",
+                        borderRadius: "16px",
                         backgroundColor: isActive ? WHITE : BLUE,
                         display: "flex",
                         alignItems: "center",
@@ -1259,7 +1266,7 @@ const LiveChatSection = () => {
             flex: 1,
             minWidth: "340px",
             backgroundColor: BLUE,
-            borderRadius: "32px",
+            borderRadius: "50px 20px 50px 50px",
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
@@ -1280,7 +1287,7 @@ const LiveChatSection = () => {
                 padding: "80px 20px",
                 textAlign: "center",
                 backgroundColor: WHITE,
-                borderRadius: "24px",
+                borderRadius: "40px",
               }}
             >
               <EmailIcon size={100} color={`${BLUE}30`} open={false} />
@@ -1301,7 +1308,7 @@ const LiveChatSection = () => {
               <div
                 style={{
                   backgroundColor: WHITE,
-                  borderRadius: "24px",
+                  borderRadius: "40px 40px 40px 15px",
                   padding: "20px 28px",
                   display: "flex",
                   alignItems: "center",
@@ -1339,7 +1346,7 @@ const LiveChatSection = () => {
               <div
                 style={{
                   backgroundColor: WHITE,
-                  borderRadius: "24px",
+                  borderRadius: "40px 15px 40px 40px",
                   padding: "28px",
                   display: "flex",
                   flexDirection: "column",
@@ -1497,7 +1504,7 @@ const LiveChatSection = () => {
               <div
                 style={{
                   backgroundColor: BLUE,
-                  borderRadius: "24px",
+                  borderRadius: "30px 30px 30px 10px",
                   padding: "6px",
                   border: `1.5px solid ${BLUE}`,
                 }}
@@ -1505,7 +1512,7 @@ const LiveChatSection = () => {
                 <div
                   style={{
                     backgroundColor: WHITE,
-                    borderRadius: "20px",
+                    borderRadius: "24px",
                     padding: "20px 28px",
                     display: "flex",
                     alignItems: "center",
@@ -1538,21 +1545,22 @@ const LiveChatSection = () => {
                 </div>
               </div>
 
-              {/* 4. ISI PESAN */}
+              {/* 4. ISI PESAN + STATUS & JAM */}
               <div
                 style={{
                   backgroundColor: BLUE,
-                  borderRadius: "24px",
+                  borderRadius: "30px 10px 30px 30px",
                   padding: "6px",
                   border: `1.5px solid ${BLUE}`,
                   flex: 1,
                   display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
                     backgroundColor: WHITE,
-                    borderRadius: "20px",
+                    borderRadius: "24px",
                     padding: "24px 28px",
                     fontSize: "20px",
                     color: BLUE,
@@ -1560,10 +1568,39 @@ const LiveChatSection = () => {
                     whiteSpace: "pre-wrap",
                     wordBreak: "break-word",
                     width: "100%",
-                    minHeight: "160px",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {selected.message || "(empty message)"}
+                  <div>{selected.message || "(empty message)"}</div>
+                  
+                  {/* Status & Jam Otomatis di Bawah Isi Pesan */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      gap: "8px",
+                      marginTop: "20px",
+                      paddingTop: "16px",
+                      borderTop: `1.5px solid ${BLUE}15`,
+                    }}
+                  >
+                    <span style={{ fontSize: "14px", color: BLUE, opacity: 0.75, fontWeight: 600 }}>
+                      {selected.status === "read"
+                        ? "Dibaca"
+                        : selected.status === "delivered"
+                        ? "Terkirim"
+                        : selected.status === "failed"
+                        ? "Gagal Terkirim"
+                        : "Terkirim"}
+                    </span>
+                    <span style={{ fontSize: "14px", color: BLUE, opacity: 0.75 }}>
+                      {formatJam(selected.createdAt)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </>
