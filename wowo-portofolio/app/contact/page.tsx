@@ -10,11 +10,9 @@ import { getAuth } from "firebase/auth";
 import {
   getFirestore,
   collection,
-  addDoc,
   onSnapshot,
   query,
   orderBy,
-  serverTimestamp,
 } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
@@ -156,25 +154,17 @@ const WindowsIcon = ({
   </svg>
 );
 
-// ===== GMAIL-STYLE ICONS =====
-const GmailIcon = ({ size = 24, color = "#ffffff" }: { size?: number; color?: string }) => (
+// ===== EMAIL INBOX ICON =====
+const EmailInboxIcon = ({
+  size = 20,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect x="2" y="5" width="20" height="14" rx="2" stroke={color} strokeWidth="2" />
-    <path d="M2 7L12 14L22 7" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const SendIcon = ({ size = 20, color = "#ffffff" }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path d="M22 2L11 13" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const CheckDoubleIcon = ({ size = 14, color = "#0D3CFC" }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path d="M2 12L6 16L14 8" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M10 12L14 16L22 8" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <rect x="2" y="5" width="20" height="14" rx="2" stroke={color} strokeWidth="1.8" />
+    <path d="M2 7L12 13L22 7" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -671,19 +661,34 @@ const CookiesPopup = ({
   );
 };
 
-// ===== GMAIL-STYLE CONTACT FORM =====
-const ContactForm = () => {
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formSubject, setFormSubject] = useState("");
-  const [formMessage, setFormMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
-  const [messages, setMessages] = useState<any[]>([]);
+// ===== FORMAT TIME AGO =====
+function timeAgo(ts: any): string {
+  if (!ts) return "0 detik lalu";
+  const date = ts.toDate ? ts.toDate() : new Date(ts);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  if (diffMs < 0) return "baru saja";
+  const sec = Math.floor(diffMs / 1000);
+  if (sec < 60) return `${sec} detik lalu`;
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} menit lalu`;
+  const hour = Math.floor(min / 60);
+  if (hour < 24) return `${hour} jam lalu`;
+  const day = Math.floor(hour / 24);
+  if (day < 30) return `${day} hari lalu`;
+  const month = Math.floor(day / 30);
+  if (month < 12) return `${month} bulan lalu`;
+  const year = Math.floor(month / 12);
+  return `${year} tahun lalu`;
+}
 
-  // Real-time listener: pesan masuk langsung muncul
+// ===== LIVE CHAT SECTION =====
+const LiveChatSection = () => {
+  const [messages, setMessages] = useState<any[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [now, setNow] = useState(Date.now());
+
+  // Real-time listener dari Firestore
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const q = query(
@@ -698,406 +703,84 @@ const ContactForm = () => {
           list.push({ id: docSnap.id, ...docSnap.data() });
         });
         setMessages(list);
+        // Auto-select pesan terbaru jika belum ada
+        setSelectedId((prev) => {
+          if (prev && list.some((m) => m.id === prev)) return prev;
+          return list.length > 0 ? list[0].id : null;
+        });
       },
-      (err: any) => {
-        console.error("Snapshot error:", err);
-      }
+      (err: any) => console.error("Snapshot error:", err)
     );
     return () => unsub();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!db) {
-      setSubmitStatus("error");
-      return;
-    }
-    if (!formName.trim() || !formEmail.trim() || !formMessage.trim()) {
-      setSubmitStatus("error");
-      return;
-    }
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
-    try {
-      await addDoc(collection(db, "contactMessages"), {
-        name: formName.trim(),
-        email: formEmail.trim().toLowerCase(),
-        subject: formSubject.trim() || "(no subject)",
-        message: formMessage.trim(),
-        to: ADMIN_EMAIL,
-        from: formEmail.trim().toLowerCase(),
-        status: "sent", // sent → delivered → read
-        createdAt: serverTimestamp(),
-      });
-      setFormName("");
-      setFormEmail("");
-      setFormSubject("");
-      setFormMessage("");
-      setSubmitStatus("success");
-      setTimeout(() => setSubmitStatus("idle"), 4000);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  // Update "time ago" tiap 30 detik
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 30000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const formatTime = (ts: any) => {
-    if (!ts) return "just now";
-    const date = ts.toDate ? ts.toDate() : new Date(ts);
-    return date.toLocaleString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getStatusIcon = (status: string) => {
-    if (status === "read") return <CheckDoubleIcon size={14} color={BLUE} />;
-    if (status === "delivered") return <CheckDoubleIcon size={14} color="#94A3B8" />;
-    return <SendIcon size={12} color="#94A3B8" />;
-  };
+  const selected = messages.find((m) => m.id === selectedId) || null;
 
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         width: "100%",
-        maxWidth: "1200px",
+        maxWidth: "1400px",
         marginTop: "60px",
         borderRadius: "20px",
         overflow: "hidden",
-        boxShadow: "0 24px 64px rgba(13,60,252,0.25)",
+        boxShadow: "0 24px 64px rgba(13,60,252,0.2)",
         fontFamily: FONT_FAMILY,
+        border: `1.5px solid ${BLUE}20`,
+        minHeight: "600px",
+        flexWrap: "wrap",
       }}
     >
-      {/* ===== HEADER BIRU ===== */}
+      {/* ===== LEFT PANEL: LIST PESAN MASUK ===== */}
       <div
         style={{
+          flex: "0 0 360px",
+          minWidth: "280px",
+          maxWidth: "100%",
           backgroundColor: BLUE,
-          padding: "24px 32px",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <GmailIcon size={28} color={WHITE} />
-          <span
-            style={{
-              fontSize: "22px",
-              fontWeight: 700,
-              color: WHITE,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            New Message
-          </span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "6px 14px",
-            backgroundColor: "rgba(255,255,255,0.18)",
-            borderRadius: "999px",
-            fontSize: "13px",
-            color: WHITE,
-            fontWeight: 600,
-          }}
-        >
-          <span
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              backgroundColor: "#4ADE80",
-              animation: "blink-dot 1s ease-in-out infinite",
-            }}
-          />
-          Real-time
-        </div>
-      </div>
-
-      {/* ===== BODY PUTIH ===== */}
-      <div
-        style={{
-          backgroundColor: WHITE,
-          padding: "32px",
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
+          borderRight: `1.5px solid ${BLUE}`,
         }}
       >
-        {/* To: faridardiansyah061@gmail.com (disabled) */}
+        {/* Header list */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "12px",
-            paddingBottom: "14px",
-            borderBottom: `1.5px solid ${BLUE}15`,
-          }}
-        >
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: BLUE,
-              minWidth: "60px",
-            }}
-          >
-            To:
-          </span>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "6px 14px",
-              backgroundColor: `${BLUE}10`,
-              borderRadius: "999px",
-              fontSize: "14px",
-              color: BLUE,
-              fontWeight: 600,
-            }}
-          >
-            {ADMIN_EMAIL}
-            <VerifiedBadgeBlue size={14} />
-          </span>
-        </div>
-
-        {/* From: name + email */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "12px",
-            paddingBottom: "14px",
-            borderBottom: `1.5px solid ${BLUE}15`,
-          }}
-        >
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: BLUE,
-              minWidth: "60px",
-            }}
-          >
-            From:
-          </span>
-          <input
-            type="text"
-            value={formName}
-            onChange={(e) => setFormName(e.target.value)}
-            placeholder="Your name"
-            style={{
-              flex: "1 1 160px",
-              padding: "10px 14px",
-              fontSize: "15px",
-              fontFamily: FONT_FAMILY,
-              color: BLUE,
-              backgroundColor: "transparent",
-              border: "none",
-              outline: "none",
-              borderBottom: `1px solid ${BLUE}30`,
-            }}
-          />
-          <input
-            type="email"
-            value={formEmail}
-            onChange={(e) => setFormEmail(e.target.value)}
-            placeholder="you@example.com"
-            style={{
-              flex: "1 1 200px",
-              padding: "10px 14px",
-              fontSize: "15px",
-              fontFamily: FONT_FAMILY,
-              color: BLUE,
-              backgroundColor: "transparent",
-              border: "none",
-              outline: "none",
-              borderBottom: `1px solid ${BLUE}30`,
-            }}
-          />
-        </div>
-
-        {/* Subject */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "12px",
-            paddingBottom: "14px",
-            borderBottom: `1.5px solid ${BLUE}15`,
-          }}
-        >
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: BLUE,
-              minWidth: "60px",
-            }}
-          >
-            Subject:
-          </span>
-          <input
-            type="text"
-            value={formSubject}
-            onChange={(e) => setFormSubject(e.target.value)}
-            placeholder="Subject"
-            style={{
-              flex: "1 1 auto",
-              padding: "10px 14px",
-              fontSize: "15px",
-              fontFamily: FONT_FAMILY,
-              color: BLUE,
-              backgroundColor: "transparent",
-              border: "none",
-              outline: "none",
-              borderBottom: `1px solid ${BLUE}30`,
-            }}
-          />
-        </div>
-
-        {/* Message body */}
-        <textarea
-          value={formMessage}
-          onChange={(e) => setFormMessage(e.target.value)}
-          placeholder="Write your message..."
-          rows={8}
-          style={{
-            width: "100%",
-            padding: "16px 20px",
-            fontSize: "16px",
-            fontFamily: FONT_FAMILY,
-            color: BLUE,
-            backgroundColor: `${BLUE}05`,
-            border: `1.5px solid ${BLUE}25`,
-            borderRadius: "12px",
-            outline: "none",
-            resize: "vertical",
-            lineHeight: 1.6,
-            boxSizing: "border-box",
-          }}
-        />
-
-        {/* Status */}
-        {submitStatus === "success" && (
-          <div
-            style={{
-              padding: "14px 20px",
-              backgroundColor: "#DCFCE7",
-              color: "#065F46",
-              borderRadius: "12px",
-              fontSize: "15px",
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <CheckDoubleIcon size={16} color="#065F46" />
-            Pesan berhasil terkirim ke {ADMIN_EMAIL}
-          </div>
-        )}
-        {submitStatus === "error" && (
-          <div
-            style={{
-              padding: "14px 20px",
-              backgroundColor: "#FEE2E2",
-              color: "#991B1B",
-              borderRadius: "12px",
-              fontSize: "15px",
-              fontWeight: 700,
-            }}
-          >
-            Gagal mengirim. Pastikan semua field wajib terisi.
-          </div>
-        )}
-
-        {/* Send Button */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: "8px",
-          }}
-        >
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "14px 32px",
-              backgroundColor: isSubmitting ? "#94A3B8" : BLUE,
-              color: WHITE,
-              border: "none",
-              borderRadius: "12px",
-              fontSize: "16px",
-              fontWeight: 700,
-              fontFamily: FONT_FAMILY,
-              letterSpacing: "-0.01em",
-              cursor: isSubmitting ? "not-allowed" : "pointer",
-              boxShadow: isSubmitting
-                ? "none"
-                : "0 8px 28px rgba(13,60,252,0.4)",
-            }}
-          >
-            <SendIcon size={18} color={WHITE} />
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
-        </div>
-      </div>
-
-      {/* ===== INBOX REAL-TIME ===== */}
-      <div
-        style={{
-          backgroundColor: "#F4F6FF",
-          padding: "24px 32px 32px",
-          borderTop: `1.5px solid ${BLUE}15`,
-        }}
-      >
-        <div
-          style={{
+            padding: "20px 24px",
+            backgroundColor: BLUE,
+            borderBottom: `1px solid rgba(255,255,255,0.18)`,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "16px",
-            flexWrap: "wrap",
             gap: "8px",
           }}
         >
-          <span
-            style={{
-              fontSize: "18px",
-              fontWeight: 700,
-              color: BLUE,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Sent Messages
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <EmailInboxIcon size={22} color={WHITE} />
+            <span
+              style={{
+                fontSize: "16px",
+                fontWeight: 700,
+                color: WHITE,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Inbox
+            </span>
+          </div>
           <span
             style={{
               padding: "4px 12px",
-              backgroundColor: BLUE,
-              color: WHITE,
+              backgroundColor: WHITE,
+              color: BLUE,
               borderRadius: "999px",
               fontSize: "12px",
               fontWeight: 700,
@@ -1107,160 +790,316 @@ const ContactForm = () => {
           </span>
         </div>
 
-        {messages.length === 0 ? (
+        {/* List */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "8px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+          }}
+        >
+          {messages.length === 0 ? (
+            <div
+              style={{
+                padding: "40px 20px",
+                textAlign: "center",
+                fontSize: "13px",
+                color: WHITE,
+                opacity: 0.65,
+                fontStyle: "italic",
+              }}
+            >
+              Belum ada pesan masuk.
+            </div>
+          ) : (
+            messages.map((m) => {
+              const isActive = m.id === selectedId;
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => setSelectedId(m.id)}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "12px 14px",
+                    backgroundColor: isActive
+                      ? WHITE
+                      : "rgba(255,255,255,0.08)",
+                    border: "none",
+                    borderRadius: "10px",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    width: "100%",
+                    transition: "background-color 0.2s ease",
+                  }}
+                >
+                  {/* Icon email masuk */}
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "10px",
+                      backgroundColor: isActive ? `${BLUE}15` : WHITE,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <EmailInboxIcon size={18} color={BLUE} />
+                  </div>
+
+                  {/* Info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: isActive ? BLUE : WHITE,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      {m.name || "Unknown"}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: isActive ? BLUE : WHITE,
+                        opacity: isActive ? 0.7 : 0.75,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        marginTop: "2px",
+                      }}
+                    >
+                      {m.subject || m.email || "(no subject)"}
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      color: isActive ? BLUE : WHITE,
+                      opacity: isActive ? 0.6 : 0.7,
+                      fontWeight: 600,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {timeAgo(m.createdAt)}
+                  </span>
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {/* ===== RIGHT PANEL: DETAIL PESAN ===== */}
+      <div
+        style={{
+          flex: 1,
+          minWidth: "300px",
+          backgroundColor: WHITE,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {!selected ? (
           <div
             style={{
-              padding: "32px 0",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "16px",
+              padding: "60px 20px",
               textAlign: "center",
-              fontSize: "14px",
-              color: BLUE,
-              opacity: 0.6,
-              fontStyle: "italic",
             }}
           >
-            Belum ada pesan terkirim.
+            <EmailInboxIcon size={64} color={`${BLUE}40`} />
+            <span
+              style={{
+                fontSize: "16px",
+                color: BLUE,
+                fontWeight: 600,
+                opacity: 0.6,
+              }}
+            >
+              Pilih pesan di sisi kiri untuk melihat detail
+            </span>
           </div>
         ) : (
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "12px",
-              maxHeight: "480px",
+              gap: "20px",
+              padding: "32px",
               overflowY: "auto",
+              flex: 1,
             }}
           >
-            {messages.map((m) => (
-              <div
-                key={m.id}
+            {/* Judul / Subject */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <span
                 style={{
-                  backgroundColor: WHITE,
-                  border: `1.5px solid ${BLUE}20`,
-                  borderRadius: "14px",
-                  padding: "16px 20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                  boxShadow: "0 4px 16px rgba(13,60,252,0.06)",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: BLUE,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  opacity: 0.7,
                 }}
               >
-                {/* Header: from → to, status, time */}
+                Subject
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  fontWeight: 700,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                  wordBreak: "break-word",
+                }}
+              >
+                {selected.subject || "(no subject)"}
+              </span>
+            </div>
+
+            {/* Nama pengirim + email */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "12px",
+                padding: "16px 20px",
+                backgroundColor: `${BLUE}08`,
+                border: `1.5px solid ${BLUE}15`,
+                borderRadius: "14px",
+              }}
+            >
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "50%",
+                  backgroundColor: BLUE,
+                  color: WHITE,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "18px",
+                  fontWeight: 800,
+                  flexShrink: 0,
+                }}
+              >
+                {(selected.name || "U").charAt(0).toUpperCase()}
+              </div>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      minWidth: 0,
-                      flex: 1,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 700,
-                        color: BLUE,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {m.name} &lt;{m.email}&gt;
-                    </span>
-                    <span style={{ fontSize: "12px", color: BLUE, opacity: 0.5 }}>
-                      →
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: BLUE,
-                        opacity: 0.8,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {m.to || ADMIN_EMAIL}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {getStatusIcon(m.status)}
-                    <span
-                      style={{
-                        fontSize: "11px",
-                        color: BLUE,
-                        opacity: 0.7,
-                        fontFamily: FONT_FAMILY,
-                      }}
-                    >
-                      {formatTime(m.createdAt)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Subject */}
-                <div
-                  style={{
-                    fontSize: "15px",
+                    gap: "4px",
+                    fontSize: "16px",
                     fontWeight: 700,
                     color: BLUE,
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  {m.subject || "(no subject)"}
+                  {selected.name || "Unknown"}
+                  <VerifiedBadgeBlue size={16} />
                 </div>
-
-                {/* Message */}
                 <div
                   style={{
-                    fontSize: "14px",
+                    fontSize: "13px",
                     color: BLUE,
-                    lineHeight: 1.6,
-                    whiteSpace: "pre-wrap",
-                    wordBreak: "break-word",
+                    opacity: 0.75,
+                    marginTop: "2px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {m.message}
-                </div>
-
-                {/* Status text */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    fontSize: "11px",
-                    color: BLUE,
-                    opacity: 0.6,
-                    fontWeight: 600,
-                    marginTop: "4px",
-                  }}
-                >
-                  {getStatusIcon(m.status)}
-                  {m.status === "read"
-                    ? "Read"
-                    : m.status === "delivered"
-                    ? "Delivered"
-                    : "Sent"}
+                  {selected.email || "no-email@example.com"}
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Tanggal (time ago) */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                fontSize: "13px",
+                color: BLUE,
+                opacity: 0.75,
+                fontWeight: 600,
+              }}
+            >
+              <span
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: BLUE,
+                }}
+              />
+              Dikirim {timeAgo(selected.createdAt)}
+            </div>
+
+            {/* Deskripsi */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+                paddingTop: "12px",
+                borderTop: `1.5px solid ${BLUE}15`,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: BLUE,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  opacity: 0.7,
+                }}
+              >
+                Message
+              </span>
+              <div
+                style={{
+                  fontSize: "16px",
+                  color: BLUE,
+                  lineHeight: 1.7,
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  padding: "20px 22px",
+                  backgroundColor: `${BLUE}05`,
+                  border: `1.5px solid ${BLUE}15`,
+                  borderRadius: "14px",
+                  minHeight: "120px",
+                }}
+              >
+                {selected.message || "(empty message)"}
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -1813,8 +1652,8 @@ export default function ContactPage() {
             Messages
           </span>
 
-          {/* ===== GMAIL-STYLE FORM (di bawah Messages) ===== */}
-          <ContactForm />
+          {/* ===== LIVE CHAT (di bawah Messages) ===== */}
+          <LiveChatSection />
         </div>
 
         {/* ===== FOOTER ===== */}
@@ -1959,11 +1798,6 @@ export default function ContactPage() {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
           }
-        }
-
-        @keyframes blink-dot {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.3; transform: scale(0.75); }
         }
 
         html,
