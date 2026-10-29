@@ -60,10 +60,17 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
+const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== VERIFIED BADGES =====
-const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
+// ===== VERIFIED BADGE — INSTAGRAM REAL (SVG resmi) =====
+const VerifiedBadgeInstagram = ({
+  size = 16,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
   <svg
     width={size}
     height={size}
@@ -71,26 +78,13 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
     style={{ display: "inline-block", verticalAlign: "middle" }}
   >
     <path
-      fill="#FFFFFF"
+      fill={color}
       d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
     />
   </svg>
 );
 
-const VerifiedBadgeBlue = ({ size = 16 }: { size?: number }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 40 40"
-    style={{ display: "inline-block", verticalAlign: "middle" }}
-  >
-    <path
-      fill="#0D3CFC"
-      d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
-    />
-  </svg>
-);
-
+// ===== MICROSOFT STORE ICON =====
 const MicrosoftStoreIcon = ({
   size = 32,
   color = "#ffffff",
@@ -126,6 +120,7 @@ const MicrosoftStoreIcon = ({
   </svg>
 );
 
+// ===== WINDOWS ICON =====
 const WindowsIcon = ({
   size = 20,
   color = "#ffffff",
@@ -141,6 +136,7 @@ const WindowsIcon = ({
   </svg>
 );
 
+// ===== EMAIL ICON — ANIMASI BUKA/TUTUP SEKALI SAAT DIPILIH =====
 const EmailIcon = ({
   size = 22,
   color = "#0D3CFC",
@@ -151,6 +147,7 @@ const EmailIcon = ({
   open?: boolean;
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    {/* Body amplop */}
     <rect
       x="2"
       y="5"
@@ -160,6 +157,7 @@ const EmailIcon = ({
       stroke={color}
       strokeWidth="1.8"
     />
+    {/* Flap — animasi buka (ke atas) / tutup (ke bawah) SEKALI */}
     <motion.path
       d={open ? "M2 5L12 2L22 5" : "M2 7L12 13L22 7"}
       stroke={color}
@@ -168,23 +166,12 @@ const EmailIcon = ({
       strokeLinejoin="round"
       initial={false}
       animate={{ d: open ? "M2 5L12 2L22 5" : "M2 7L12 13L22 7" }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
     />
-    {open && (
-      <motion.path
-        d="M2 5L12 10L22 5"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, delay: 0.15 }}
-      />
-    )}
   </svg>
 );
 
+// ===== GOOGLE LOGO =====
 const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 48 48">
     <path
@@ -206,6 +193,7 @@ const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
+// ===== SEND ICON =====
 const SendIcon = ({
   size = 18,
   color = "#ffffff",
@@ -723,7 +711,6 @@ const CookiesPopup = ({
 const LiveChatSection = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [, setNowTick] = useState(0);
 
   const [user, setUser] = useState<any>(null);
   const [showCompose, setShowCompose] = useState(false);
@@ -736,7 +723,6 @@ const LiveChatSection = () => {
   );
 
   const detailRef = useRef<HTMLDivElement>(null);
-  const composeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!auth) return;
@@ -767,11 +753,6 @@ const LiveChatSection = () => {
   }, []);
 
   useEffect(() => {
-    const int = setInterval(() => setNowTick((t) => t + 1), 30000);
-    return () => clearInterval(int);
-  }, []);
-
-  useEffect(() => {
     if (!detailRef.current || !selectedId) return;
     gsap.fromTo(
       detailRef.current,
@@ -779,24 +760,6 @@ const LiveChatSection = () => {
       { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }
     );
   }, [selectedId]);
-
-  useEffect(() => {
-    if (!composeRef.current) return;
-    if (showCompose) {
-      gsap.fromTo(
-        composeRef.current,
-        { opacity: 0, height: 0 },
-        { opacity: 1, height: "auto", duration: 0.4, ease: "power2.out" }
-      );
-    } else {
-      gsap.to(composeRef.current, {
-        opacity: 0,
-        height: 0,
-        duration: 0.3,
-        ease: "power2.in",
-      });
-    }
-  }, [showCompose]);
 
   const handleGoogleSignIn = async () => {
     if (!auth) return;
@@ -827,8 +790,12 @@ const LiveChatSection = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
     try {
+      const senderName =
+        user.displayName ||
+        user.email?.split("@")[0] ||
+        "Anonymous";
       await addDoc(collection(db, "contactMessages"), {
-        name: user.displayName || user.email?.split("@")[0] || "User",
+        name: senderName,
         email: user.email || "",
         photoURL: user.photoURL || "",
         subject: formSubject.trim(),
@@ -952,14 +919,18 @@ const LiveChatSection = () => {
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               ) : (
-                <span style={{ color: WHITE, fontSize: "14px", fontWeight: 800 }}>
+                <span
+                  style={{ color: WHITE, fontSize: "14px", fontWeight: 800 }}
+                >
                   {(user.displayName || user.email || "U")
                     .charAt(0)
                     .toUpperCase()}
                 </span>
               )}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
+            >
               <span
                 style={{
                   fontSize: "13px",
@@ -969,9 +940,13 @@ const LiveChatSection = () => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "160px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
+                <VerifiedBadgeInstagram size={12} color={BLUE} />
               </span>
               <span
                 style={{
@@ -1008,7 +983,7 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* Compose */}
+      {/* Compose panel */}
       <AnimatePresence>
         {showCompose && (
           <motion.div
@@ -1050,7 +1025,9 @@ const LiveChatSection = () => {
                   gap: "16px",
                 }}
               >
-                <span style={{ fontSize: "15px", color: BLUE, fontWeight: 600 }}>
+                <span
+                  style={{ fontSize: "15px", color: BLUE, fontWeight: 600 }}
+                >
                   Sign in with Google first to send a message.
                 </span>
                 <button
@@ -1098,9 +1075,15 @@ const LiveChatSection = () => {
                   }}
                 >
                   <span>To:</span>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
                     {ADMIN_EMAIL}
-                    <VerifiedBadgeBlue size={14} />
+                    <VerifiedBadgeInstagram size={14} color={BLUE} />
                   </span>
                 </div>
 
@@ -1236,7 +1219,7 @@ const LiveChatSection = () => {
           flexWrap: "wrap",
         }}
       >
-        {/* KIRI */}
+        {/* ===== KIRI: LIST PESAN ===== */}
         <div
           style={{
             flex: "0 0 420px",
@@ -1324,34 +1307,38 @@ const LiveChatSection = () => {
                       alignItems: "center",
                       gap: "14px",
                       padding: "16px 18px",
-                      backgroundColor: isActive
-                        ? WHITE
-                        : "rgba(255,255,255,0.08)",
+                      // ✅ BG BIRU (default) → PUTIH (aktif)
+                      backgroundColor: isActive ? WHITE : BLUE,
+                      // ✅ Teks PUTIH (default) → BIRU (aktif)
+                      color: isActive ? BLUE : WHITE,
                       border: isActive
                         ? `1.5px solid ${BLUE}30`
-                        : "1.5px solid transparent",
+                        : `1.5px solid rgba(255,255,255,0.15)`,
                       borderRadius: "14px",
                       cursor: "pointer",
                       textAlign: "left",
                       width: "100%",
-                      transition: "background-color 0.2s ease",
+                      transition: "background-color 0.25s ease, color 0.25s ease",
                     }}
                   >
+                    {/* Icon email: animasi buka/tutup SEKALI saat item dipilih */}
                     <div
                       style={{
                         width: "44px",
                         height: "44px",
                         borderRadius: "12px",
-                        backgroundColor: isActive
-                          ? `${BLUE}15`
-                          : "rgba(255,255,255,0.18)",
+                        backgroundColor: isActive ? `${BLUE}15` : "rgba(255,255,255,0.15)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         flexShrink: 0,
                       }}
                     >
-                      <EmailIcon size={22} color={BLUE} open={isActive} />
+                      <EmailIcon
+                        size={22}
+                        color={isActive ? BLUE : WHITE}
+                        open={isActive}
+                      />
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -1366,20 +1353,20 @@ const LiveChatSection = () => {
                           letterSpacing: "-0.01em",
                         }}
                       >
-                        {m.name || "Unknown"}
+                        {m.name || "Anonymous"}
                       </div>
                       <div
                         style={{
                           fontSize: "13px",
                           color: isActive ? BLUE : WHITE,
-                          opacity: isActive ? 0.75 : 0.8,
+                          opacity: isActive ? 0.75 : 0.85,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                           marginTop: "2px",
                         }}
                       >
-                        {m.subject || m.email || "(no subject)"}
+                        {m.email || m.subject || "(no subject)"}
                       </div>
                     </div>
 
@@ -1387,7 +1374,7 @@ const LiveChatSection = () => {
                       style={{
                         fontSize: "11px",
                         color: isActive ? BLUE : WHITE,
-                        opacity: isActive ? 0.65 : 0.75,
+                        opacity: isActive ? 0.65 : 0.8,
                         fontWeight: 600,
                         flexShrink: 0,
                         textAlign: "right",
@@ -1402,7 +1389,7 @@ const LiveChatSection = () => {
           </div>
         </div>
 
-        {/* KANAN */}
+        {/* ===== KANAN: DETAIL ===== */}
         <div
           ref={detailRef}
           style={{
@@ -1450,7 +1437,10 @@ const LiveChatSection = () => {
                 flex: 1,
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {/* Subject */}
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+              >
                 <span
                   style={{
                     fontSize: "12px",
@@ -1477,6 +1467,7 @@ const LiveChatSection = () => {
                 </span>
               </div>
 
+              {/* Pengirim + Verified di nama email pemilik */}
               <div
                 style={{
                   display: "flex",
@@ -1508,13 +1499,18 @@ const LiveChatSection = () => {
                     <img
                       src={selected.photoURL}
                       alt={selected.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   ) : (
                     (selected.name || "U").charAt(0).toUpperCase()
                   )}
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
+                  {/* Nama pengirim */}
                   <div
                     style={{
                       display: "flex",
@@ -1525,25 +1521,39 @@ const LiveChatSection = () => {
                       color: BLUE,
                     }}
                   >
-                    {selected.name || "Unknown"}
-                    <VerifiedBadgeBlue size={16} />
+                    {selected.name || "Anonymous"}
                   </div>
+                  {/* Email + Verified Badge Instagram */}
                   <div
                     style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
                       fontSize: "13px",
                       color: BLUE,
-                      opacity: 0.75,
-                      marginTop: "2px",
+                      opacity: 0.85,
+                      marginTop: "4px",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {selected.email || "no-email@example.com"}
+                    <span
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {selected.email || "no-email@example.com"}
+                    </span>
+                    {/* ✅ Verified Badge di email pemilik */}
+                    <VerifiedBadgeInstagram size={14} color={BLUE} />
                   </div>
                 </div>
               </div>
 
+              {/* Tanggal */}
               <div
                 style={{
                   display: "flex",
@@ -1566,6 +1576,7 @@ const LiveChatSection = () => {
                 Dikirim {timeAgo(selected.createdAt)}
               </div>
 
+              {/* Message */}
               <div
                 style={{
                   display: "flex",
@@ -1656,7 +1667,6 @@ export default function ContactPage() {
     setShowCookies(false);
   };
 
-  // ==== PRELOADER (PERBAIKAN: cleanup return void) ====
   useEffect(() => {
     if (typeof window === "undefined") return;
     const preloader = preloaderRef.current;
@@ -1702,7 +1712,6 @@ export default function ContactPage() {
         },
       });
 
-    // ✅ FIX: cleanup harus return void, bukan Timeline
     return () => {
       tl.kill();
     };
@@ -1894,7 +1903,9 @@ export default function ContactPage() {
           }}
         >
           <span style={{ color: BLACK }}>Bersponsor</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+          <span
+            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+          >
             Kunjungi website{" "}
             <a
               href="https://menuru-studio.netlify.app/notes"
@@ -1910,7 +1921,7 @@ export default function ContactPage() {
               }}
             >
               Menuru
-              <VerifiedBadgeWhite size={14} />
+              <VerifiedBadgeInstagram size={14} color={WHITE} />
             </a>
           </span>
         </span>
@@ -1966,7 +1977,10 @@ export default function ContactPage() {
           >
             <span
               ref={menuLabelRef}
-              style={{ display: "inline-block", willChange: "transform, opacity" }}
+              style={{
+                display: "inline-block",
+                willChange: "transform, opacity",
+              }}
             >
               {menuOpen ? "Close" : "Menu"}
             </span>
