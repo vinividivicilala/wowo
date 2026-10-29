@@ -19,7 +19,6 @@ const RED = "#DC2626";
 const BLACK = "#000000";
 
 const PRIVACY_POLICY_URL = "/privacy-policy";
-const CONTACT_URL = "/contact";
 
 // ===== VERIFIED BADGE (WHITE) =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
@@ -44,29 +43,6 @@ const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
       />
     </svg>
   </span>
-);
-
-// ===== PESAN ICON — LEBIH DETAIL (chat bubble + ekor + 2 dot) =====
-const PesanIcon = ({
-  size = 28,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 3.5C7.02944 3.5 3 7.02944 3 11.5C3 13.2207 3.58242 14.8102 4.55385 16.0937L3.5 20.5L7.90633 19.4462C9.18977 20.4176 10.7793 21 12.5 21C17.1944 21 21 17.1944 21 12.5C21 7.80558 17.1944 3.5 12 3.5Z"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-    <circle cx="8.5" cy="12" r="1.2" fill={color} />
-    <circle cx="12" cy="12" r="1.2" fill={color} />
-    <circle cx="15.5" cy="12" r="1.2" fill={color} />
-  </svg>
 );
 
 // ===== MICROSOFT STORE ICON =====
@@ -792,8 +768,8 @@ const CookiesPopup = ({
           letterSpacing: "-0.01em",
         }}
       >
-        We use cookies to improve your experience on this site. By continuing,
-        you agree to the use of cookies in accordance with our{" "}
+        We use cookies to improve your experience on this website. By
+        continuing, you agree to the use of cookies in accordance with our{" "}
         <a
           href={PRIVACY_POLICY_URL}
           target="_blank"
@@ -1382,7 +1358,7 @@ export default function Home() {
             marginBottom: "200px",
           }}
         >
-          {/* ===== Founder And Developer Brand + Menuru (bg biru) ===== */}
+          {/* ===== Founder And Developer Brand ===== */}
           <div
             style={{
               display: "flex",
@@ -1407,22 +1383,31 @@ export default function Home() {
             </span>
             <span
               style={{
-                backgroundColor: BLUE,
-                color: WHITE,
+                backgroundColor: "#0D3CFC",
                 padding: "10px 28px",
-                borderRadius: "28px",
-                display: "inline-flex",
-                alignItems: "center",
+                borderRadius: "6px 28px 28px 28px",
+                display: "inline-block",
                 boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-                fontSize: "50px",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontWeight: 400,
-                letterSpacing: "-0.02em",
-                lineHeight: "1.1",
-                textTransform: "capitalize",
+                border: "2px solid #0D3CFC",
               }}
             >
-              Menuru
+              <span
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  padding: "6px 22px",
+                  borderRadius: "24px 4px 24px 24px",
+                  display: "inline-block",
+                  fontSize: "50px",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontWeight: 400,
+                  letterSpacing: "-0.02em",
+                  lineHeight: "1.1",
+                  color: "#0D3CFC",
+                  textTransform: "capitalize",
+                }}
+              >
+                Menuru
+              </span>
             </span>
           </div>
 
@@ -1441,41 +1426,6 @@ export default function Home() {
           >
             Based In Indonesia
           </span>
-
-          {/* ===== KOTAK BORDER "Pesan" di bawah Menuru ===== */}
-          <a
-            href={CONTACT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "14px",
-              padding: "14px 28px",
-              backgroundColor: "transparent",
-              border: `2px solid ${BLUE}`,
-              borderRadius: "14px",
-              boxShadow: "0 4px 20px rgba(13,60,252,0.15)",
-              textDecoration: "none",
-              cursor: "pointer",
-              marginTop: "8px",
-              transition: "background-color 0.2s ease, box-shadow 0.2s ease",
-            }}
-          >
-            <PesanIcon size={28} color={BLUE} />
-            <span
-              style={{
-                fontSize: "28px",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontWeight: 700,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-              }}
-            >
-              Pesan
-            </span>
-          </a>
 
           {/* ===== JUDUL SECTION: Merancang Produk ===== */}
           <span
@@ -1580,7 +1530,7 @@ export default function Home() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Building a consistent, scalable, and easy-to-use design system
+                Building consistent, scalable, and easy-to-use design systems
                 for the entire product team.
               </p>
             </div>
@@ -1620,8 +1570,8 @@ export default function Home() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Conducting in-depth research that generates real insights to
-                change product decisions for the better.
+                Conducting deep research that generates real insights to shift
+                product decisions for the better.
               </p>
             </div>
           </div>
@@ -1696,8 +1646,8 @@ export default function Home() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  User data is protected with end-to-end encryption, so only
-                  authorized users can access it.
+                  User data is protected with end-to-end encryption, ensuring
+                  that only authorized users can access it.
                 </p>
               </div>
 
@@ -1948,6 +1898,42 @@ export default function Home() {
                   Productivity
                 </span>
               </div>
+
+              {/* ===== TAMBAHAN: TEKS PESAN + LINK /contact DI BAWAH MENURU ===== */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  marginTop: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Have a project in mind or want to collaborate?{" "}
+                  <a
+                    href="/contact"
+                    style={{
+                      color: BLUE,
+                      fontWeight: 700,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Send me a message
+                  </a>
+                  .
+                </span>
+              </div>
             </div>
           ) : (
             <div
@@ -2062,9 +2048,11 @@ export default function Home() {
           )}
         </div>
 
+        {/* ===== FOOTER ===== */}
         <FooterSection refreshKey={activeView} />
       </div>
 
+      {/* ===== FOTO PREVIEW HOVER ===== */}
       {hoverImage && (
         <img
           src={hoverImage}
@@ -2085,6 +2073,7 @@ export default function Home() {
         />
       )}
 
+      {/* ===== COOKIES POPUP ===== */}
       {showCookies && (
         <CookiesPopup
           onAccept={handleAcceptCookies}
