@@ -59,8 +59,6 @@ const RED = "#DC2626";
 const BLACK = "#000000";
 const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
 const ADMIN_NAME = "Farid Ardiansyah";
-const ADMIN_PHOTO =
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== VERIFIED =====
@@ -1295,7 +1293,7 @@ const LiveChatSection = () => {
             </div>
           ) : (
             <>
-              {/* ===== HEADER BIRU + PUTIH TAMBAHAN ===== */}
+              {/* ===== HEADER CARD KANAN ===== */}
               <div
                 style={{
                   backgroundColor: BLUE,
@@ -1307,32 +1305,36 @@ const LiveChatSection = () => {
                   borderTopRightRadius: "32px",
                 }}
               >
-                {/* Bagian atas: judul kecil "Pesan" + badge */}
+                {/* PESAN MASUK + JAM (BESAR + BG PUTIH MELENGKUNG) */}
                 <div
                   style={{
+                    backgroundColor: WHITE,
+                    padding: "20px 28px",
+                    borderRadius: "24px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: "12px",
                     marginBottom: "16px",
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: WHITE,
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      color: BLUE,
                       textTransform: "uppercase",
                       letterSpacing: "0.1em",
-                      opacity: 0.85,
                     }}
                   >
                     Pesan Masuk
                   </span>
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: WHITE,
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      color: BLUE,
                       opacity: 0.85,
                     }}
                   >
@@ -1340,7 +1342,7 @@ const LiveChatSection = () => {
                   </span>
                 </div>
 
-                {/* Bagian putih tambahan di dalam header biru */}
+                {/* PUTIH TAMBAHAN: SUBJECT + PENGIRIM + PENERIMA */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1445,7 +1447,7 @@ const LiveChatSection = () => {
                     </div>
                   </div>
 
-                  {/* Penerima: foto profil pemilik + nama */}
+                  {/* Penerima: teks saja (tanpa foto) */}
                   <div
                     style={{
                       display: "flex",
@@ -1466,30 +1468,6 @@ const LiveChatSection = () => {
                     >
                       To:
                     </span>
-                    <div
-                      style={{
-                        width: "36px",
-                        height: "36px",
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                        backgroundColor: BLUE,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                        border: `2px solid ${BLUE}`,
-                      }}
-                    >
-                      <img
-                        src={ADMIN_PHOTO}
-                        alt={ADMIN_NAME}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </div>
                     <div
                       style={{
                         display: "flex",
@@ -1524,7 +1502,7 @@ const LiveChatSection = () => {
                 </div>
               </div>
 
-              {/* ===== BODY EMAIL: BG BIRU DULU, LALU PUTIH ===== */}
+              {/* ===== BODY EMAIL ===== */}
               <div
                 style={{
                   flex: 1,
@@ -1534,110 +1512,116 @@ const LiveChatSection = () => {
                   backgroundColor: WHITE,
                 }}
               >
-                {/* Bagian BIRU (label pesan) */}
+                {/* MESSAGE + JAM (BESAR + BG PUTIH MELENGKUNG) */}
                 <div
                   style={{
-                    backgroundColor: BLUE,
+                    backgroundColor: WHITE,
                     padding: "20px 28px",
+                    borderRadius: "24px",
                     display: "flex",
-                    flexDirection: "column",
-                    gap: "6px",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: "12px",
+                    margin: "16px 28px 0 28px",
+                    border: `1.5px solid ${BLUE}15`,
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: WHITE,
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      color: BLUE,
                       textTransform: "uppercase",
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.1em",
                     }}
                   >
                     Message
                   </span>
                   <span
                     style={{
-                      fontSize: "13px",
-                      color: WHITE,
-                      opacity: 0.8,
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      color: BLUE,
+                      opacity: 0.85,
                     }}
                   >
                     Dikirim {timeAgo(selected.createdAt)}
                   </span>
                 </div>
 
-                {/* Bagian PUTIH (isi pesan) */}
+                {/* BG BIRU DULU, LALU BG PUTIH DI DALAMNYA */}
                 <div
                   style={{
-                    padding: "32px 28px",
+                    backgroundColor: BLUE,
+                    padding: "24px 28px",
+                    borderRadius: "24px",
+                    margin: "16px 28px 28px 28px",
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
-                    gap: "20px",
-                    flex: 1,
                   }}
                 >
                   <div
                     style={{
+                      backgroundColor: WHITE,
+                      borderRadius: "20px",
+                      padding: "24px 28px",
                       fontSize: "20px",
                       color: BLUE,
                       lineHeight: 1.75,
                       whiteSpace: "pre-wrap",
                       wordBreak: "break-word",
-                      padding: "24px 28px",
-                      backgroundColor: `${BLUE}05`,
-                      border: `1.5px solid ${BLUE}15`,
-                      borderRadius: "20px",
                       minHeight: "160px",
                     }}
                   >
                     {selected.message || "(empty message)"}
                   </div>
+                </div>
 
-                  {/* Footer meta: status */}
-                  <div
+                {/* Footer meta: status */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 28px 28px 28px",
+                    flexWrap: "wrap",
+                    gap: "12px",
+                  }}
+                >
+                  <span
                     style={{
-                      display: "flex",
-                      flexDirection: "row",
+                      fontSize: "13px",
+                      color: BLUE,
+                      opacity: 0.75,
+                      fontWeight: 600,
+                      display: "inline-flex",
                       alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingTop: "16px",
-                      borderTop: `1.5px solid ${BLUE}15`,
-                      flexWrap: "wrap",
-                      gap: "12px",
+                      gap: "6px",
                     }}
                   >
                     <span
                       style={{
-                        fontSize: "13px",
-                        color: BLUE,
-                        opacity: 0.75,
-                        fontWeight: 600,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
+                        width: "8px",
+                        height: "8px",
+                        borderRadius: "50%",
+                        backgroundColor: BLUE,
                       }}
-                    >
-                      <span
-                        style={{
-                          width: "8px",
-                          height: "8px",
-                          borderRadius: "50%",
-                          backgroundColor: BLUE,
-                        }}
-                      />
-                      Sent
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: BLUE,
-                        opacity: 0.6,
-                        fontWeight: 600,
-                      }}
-                    >
-                      {timeAgo(selected.createdAt)}
-                    </span>
-                  </div>
+                    />
+                    Sent
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: BLUE,
+                      opacity: 0.6,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {timeAgo(selected.createdAt)}
+                  </span>
                 </div>
               </div>
             </>
