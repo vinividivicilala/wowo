@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, SplitText);
 }
 
-// ===== FIREBASE CONFIG =====
+// ===== FIREBASE =====
 const firebaseConfig = {
   apiKey: "AIzaSyD_htQZ1TClnXKZGRJ4izbMQ02y6V3aNAQ",
   authDomain: "wawa44-58d1e.firebaseapp.com",
@@ -40,11 +40,9 @@ const firebaseConfig = {
   appId: "1:836899520599:web:b346e4370ecfa9bb89e312",
   measurementId: "G-8LMP7F4BE9",
 };
-
 let app: any = null;
 let auth: any = null;
 let db: any = null;
-
 if (typeof window !== "undefined") {
   app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   auth = getAuth(app);
@@ -60,11 +58,10 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
-const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== VERIFIED BADGE — INSTAGRAM REAL (SVG resmi) =====
-const VerifiedBadgeInstagram = ({
+// ===== VERIFIED =====
+const VerifiedBadge = ({
   size = 16,
   color = "#0D3CFC",
 }: {
@@ -84,7 +81,6 @@ const VerifiedBadgeInstagram = ({
   </svg>
 );
 
-// ===== MICROSOFT STORE ICON =====
 const MicrosoftStoreIcon = ({
   size = 32,
   color = "#ffffff",
@@ -120,7 +116,6 @@ const MicrosoftStoreIcon = ({
   </svg>
 );
 
-// ===== WINDOWS ICON =====
 const WindowsIcon = ({
   size = 20,
   color = "#ffffff",
@@ -136,7 +131,6 @@ const WindowsIcon = ({
   </svg>
 );
 
-// ===== EMAIL ICON — ANIMASI BUKA/TUTUP SEKALI SAAT DIPILIH =====
 const EmailIcon = ({
   size = 22,
   color = "#0D3CFC",
@@ -147,7 +141,6 @@ const EmailIcon = ({
   open?: boolean;
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    {/* Body amplop */}
     <rect
       x="2"
       y="5"
@@ -157,7 +150,6 @@ const EmailIcon = ({
       stroke={color}
       strokeWidth="1.8"
     />
-    {/* Flap — animasi buka (ke atas) / tutup (ke bawah) SEKALI */}
     <motion.path
       d={open ? "M2 5L12 2L22 5" : "M2 7L12 13L22 7"}
       stroke={color}
@@ -171,7 +163,6 @@ const EmailIcon = ({
   </svg>
 );
 
-// ===== GOOGLE LOGO =====
 const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 48 48">
     <path
@@ -193,7 +184,6 @@ const GoogleLogo = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// ===== SEND ICON =====
 const SendIcon = ({
   size = 18,
   color = "#ffffff",
@@ -277,16 +267,8 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
     let ctx: any = null;
 
     const setup = () => {
-      split = new SplitText(title, {
-        type: "chars",
-        charsClass: "footer-farid-char",
-      });
-      if (aEl) {
-        splitA = new SplitText(aEl, {
-          type: "chars",
-          charsClass: "footer-a-char",
-        });
-      }
+      split = new SplitText(title, { type: "chars", charsClass: "footer-farid-char" });
+      if (aEl) splitA = new SplitText(aEl, { type: "chars", charsClass: "footer-a-char" });
 
       ctx = gsap.context(() => {
         gsap.set(split.chars, {
@@ -373,11 +355,9 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
       ref={containerRef}
       style={{
         width: "100%",
-        margin: 0,
         backgroundColor: RED,
         borderRadius: "60px 60px 0 0",
-        padding: "60px 40px 40px 40px",
-        position: "relative",
+        padding: "60px 40px 40px",
         overflow: "hidden",
         boxSizing: "border-box",
         fontFamily: FONT_FAMILY,
@@ -390,22 +370,12 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start",
-          position: "relative",
-          zIndex: 1,
-          marginBottom: "40px",
           flexWrap: "wrap",
           gap: "40px",
+          marginBottom: "40px",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            gap: "60px",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ display: "flex", gap: "60px", flexWrap: "wrap" }}>
           {footerColumns.map((col) => (
             <div
               key={col.title}
@@ -417,16 +387,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                 minWidth: "180px",
               }}
             >
-              <span
-                style={{
-                  fontFamily: FONT_FAMILY,
-                  fontSize: "50px",
-                  fontWeight: 400,
-                  color: WHITE,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.1,
-                }}
-              >
+              <span style={{ fontSize: "50px", color: WHITE, fontWeight: 400 }}>
                 {col.title}
               </span>
               {col.links.map((link) => (
@@ -434,15 +395,11 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                   key={link.label}
                   href={link.href}
                   style={{
-                    fontFamily: FONT_FAMILY,
                     fontSize: "50px",
-                    fontWeight: 400,
                     color: WHITE,
                     textDecoration: "none",
                     opacity: 0.9,
                     lineHeight: 1.15,
-                    letterSpacing: "-0.02em",
-                    cursor: "pointer",
                   }}
                 >
                   {link.label}
@@ -460,41 +417,21 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
             display: "inline-flex",
             alignItems: "center",
             gap: "10px",
-            textDecoration: "none",
-            cursor: "pointer",
             padding: "14px 22px",
             backgroundColor: WHITE,
             borderRadius: "12px",
+            textDecoration: "none",
             boxShadow: "0 6px 24px rgba(255,255,255,0.25)",
-            pointerEvents: "auto",
-            flexShrink: 0,
           }}
         >
           <WindowsIcon size={24} color={RED} />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: "18px",
-              fontWeight: 700,
-              color: RED,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.2,
-              whiteSpace: "nowrap",
-            }}
-          >
+          <span style={{ fontSize: "18px", fontWeight: 700, color: RED }}>
             Download for Windows
           </span>
         </a>
       </div>
 
-      <div
-        style={{
-          marginTop: "40px",
-          marginBottom: "24px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <div style={{ marginTop: "40px", marginBottom: "24px" }}>
         <a
           href="#"
           target="_blank"
@@ -503,72 +440,36 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
             display: "inline-flex",
             alignItems: "center",
             gap: "12px",
-            textDecoration: "none",
-            cursor: "pointer",
             padding: "14px 22px",
             backgroundColor: BLUE,
             borderRadius: "14px",
-            boxShadow: "0 6px 24px rgba(13,60,252,0.35)",
-            pointerEvents: "auto",
+            textDecoration: "none",
           }}
         >
           <MicrosoftStoreIcon size={36} color={WHITE} />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: "24px",
-              fontWeight: 700,
-              color: WHITE,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
-            }}
-          >
+          <span style={{ fontSize: "24px", fontWeight: 700, color: WHITE }}>
             Unduh Menuru
           </span>
         </a>
       </div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            gap: "12px",
-            flexWrap: "nowrap",
-            overflow: "hidden",
-          }}
-        >
+      <div>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "12px" }}>
           <span
             ref={titleRef}
             style={{
-              fontFamily: FONT_FAMILY,
               fontSize: "600px",
-              fontWeight: 400,
               color: WHITE,
               letterSpacing: "-0.05em",
               lineHeight: "0.85",
               display: "block",
-              WebkitFontSmoothing: "antialiased",
-              MozOsxFontSmoothing: "grayscale",
-              willChange: "transform, opacity",
               whiteSpace: "nowrap",
-              margin: 0,
-              padding: 0,
-              overflow: "visible",
-              position: "relative",
               pointerEvents: "none",
             }}
           >
             Farid
           </span>
-
-          <span
-            style={{
-              display: "inline-block",
-              overflow: "hidden",
-              lineHeight: "0.85",
-            }}
-          >
+          <span style={{ display: "inline-block", lineHeight: "0.85" }}>
             <span
               ref={aRef}
               style={{
@@ -580,43 +481,30 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                 display: "inline-block",
                 letterSpacing: "-0.06em",
                 textTransform: "uppercase",
-                willChange: "transform, opacity",
-                pointerEvents: "none",
                 marginLeft: "4px",
+                pointerEvents: "none",
               }}
             >
               A
             </span>
           </span>
         </div>
-
-        <div
+        <span
           style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-start",
+            fontSize: "16px",
+            color: WHITE,
+            opacity: 0.9,
             marginTop: "10px",
+            display: "block",
           }}
         >
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: "16px",
-              fontWeight: 400,
-              color: WHITE,
-              letterSpacing: "0.01em",
-              opacity: 0.9,
-            }}
-          >
-            2024 - 2026 Menuru. All rights reserved.
-          </span>
-        </div>
+          2024 - 2026 Menuru. All rights reserved.
+        </span>
       </div>
     </div>
   );
 };
 
-// ===== COOKIES =====
 const CookiesPopup = ({
   onAccept,
   onDecline,
@@ -645,18 +533,9 @@ const CookiesPopup = ({
       justifyContent: "space-between",
       gap: "24px",
       flexWrap: "wrap",
-      boxSizing: "border-box",
     }}
   >
-    <p
-      style={{
-        flex: "1 1 320px",
-        margin: 0,
-        fontSize: "15px",
-        color: BLACK,
-        lineHeight: 1.6,
-      }}
-    >
+    <p style={{ flex: "1 1 320px", margin: 0, fontSize: "15px", color: BLACK, lineHeight: 1.6 }}>
       We use cookies to improve your experience on this website. By continuing,
       you agree to the use of cookies in accordance with our{" "}
       <a
@@ -669,7 +548,7 @@ const CookiesPopup = ({
       </a>
       .
     </p>
-    <div style={{ display: "flex", gap: "12px", flexShrink: 0 }}>
+    <div style={{ display: "flex", gap: "12px" }}>
       <button
         onClick={onDecline}
         style={{
@@ -681,7 +560,6 @@ const CookiesPopup = ({
           fontSize: "14px",
           fontWeight: 700,
           cursor: "pointer",
-          fontFamily: FONT_FAMILY,
         }}
       >
         Decline
@@ -697,8 +575,6 @@ const CookiesPopup = ({
           fontSize: "14px",
           fontWeight: 700,
           cursor: "pointer",
-          fontFamily: FONT_FAMILY,
-          boxShadow: "0 4px 16px rgba(13,60,252,0.35)",
         }}
       >
         Accept
@@ -711,44 +587,31 @@ const CookiesPopup = ({
 const LiveChatSection = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
   const [user, setUser] = useState<any>(null);
   const [showCompose, setShowCompose] = useState(false);
-
   const [formSubject, setFormSubject] = useState("");
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
-
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!auth) return;
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
-    return () => unsub();
+    return onAuthStateChanged(auth, (u) => setUser(u));
   }, []);
 
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
-    const q = query(
-      collection(db, "contactMessages"),
-      orderBy("createdAt", "desc")
-    );
-    const unsub = onSnapshot(
-      q,
-      (snap: any) => {
-        const list: any[] = [];
-        snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
-        setMessages(list);
-        setSelectedId((prev) => {
-          if (prev && list.some((m) => m.id === prev)) return prev;
-          return list.length > 0 ? list[0].id : null;
-        });
-      },
-      (err: any) => console.error("Snapshot:", err)
-    );
+    const q = query(collection(db, "contactMessages"), orderBy("createdAt", "desc"));
+    const unsub = onSnapshot(q, (snap: any) => {
+      const list: any[] = [];
+      snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
+      setMessages(list);
+      setSelectedId((prev) => {
+        if (prev && list.some((m) => m.id === prev)) return prev;
+        return list.length > 0 ? list[0].id : null;
+      });
+    });
     return () => unsub();
   }, []);
 
@@ -764,10 +627,9 @@ const LiveChatSection = () => {
   const handleGoogleSignIn = async () => {
     if (!auth) return;
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, new GoogleAuthProvider());
     } catch (e) {
-      console.error("Google sign-in error:", e);
+      console.error(e);
     }
   };
 
@@ -776,7 +638,7 @@ const LiveChatSection = () => {
     try {
       await signOut(auth);
     } catch (e) {
-      console.error("Sign out error:", e);
+      console.error(e);
     }
   };
 
@@ -790,12 +652,8 @@ const LiveChatSection = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
     try {
-      const senderName =
-        user.displayName ||
-        user.email?.split("@")[0] ||
-        "Anonymous";
       await addDoc(collection(db, "contactMessages"), {
-        name: senderName,
+        name: user.displayName || user.email?.split("@")[0] || "Anonymous",
         email: user.email || "",
         photoURL: user.photoURL || "",
         subject: formSubject.trim(),
@@ -821,47 +679,28 @@ const LiveChatSection = () => {
   const selected = messages.find((m) => m.id === selectedId) || null;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        maxWidth: "1400px",
-        marginTop: "60px",
-        gap: "20px",
-        fontFamily: FONT_FAMILY,
-      }}
-    >
-      {/* Top bar: Kirim Pesan + Login */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-          flexWrap: "wrap",
-        }}
-      >
+    <div style={{ display: "flex", flexDirection: "column", width: "100%", maxWidth: "1500px", marginTop: "60px", gap: "20px" }}>
+      {/* Top bar */}
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
         <button
           onClick={() => setShowCompose((v) => !v)}
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "10px",
-            padding: "14px 24px",
+            padding: "16px 28px",
             backgroundColor: BLUE,
             color: WHITE,
             border: "none",
             borderRadius: "12px",
-            fontSize: "16px",
+            fontSize: "18px",
             fontWeight: 700,
             fontFamily: FONT_FAMILY,
             cursor: "pointer",
             boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
           }}
         >
-          <SendIcon size={18} color={WHITE} />
+          <SendIcon size={20} color={WHITE} />
           Kirim Pesan
         </button>
 
@@ -872,19 +711,19 @@ const LiveChatSection = () => {
               display: "inline-flex",
               alignItems: "center",
               gap: "10px",
-              padding: "12px 22px",
+              padding: "14px 24px",
               backgroundColor: WHITE,
               color: BLACK,
               border: `1.5px solid ${BLUE}30`,
               borderRadius: "12px",
-              fontSize: "15px",
+              fontSize: "16px",
               fontWeight: 700,
               fontFamily: FONT_FAMILY,
               cursor: "pointer",
               boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
             }}
           >
-            <GoogleLogo size={20} />
+            <GoogleLogo size={22} />
             Sign in with Google
           </button>
         ) : (
@@ -901,64 +740,39 @@ const LiveChatSection = () => {
           >
             <div
               style={{
-                width: "36px",
-                height: "36px",
+                width: "40px",
+                height: "40px",
                 borderRadius: "50%",
                 backgroundColor: BLUE,
                 overflow: "hidden",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                flexShrink: 0,
               }}
             >
               {user.photoURL ? (
-                <img
-                  src={user.photoURL}
-                  alt={user.displayName || "User"}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={user.photoURL} alt={user.displayName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               ) : (
-                <span
-                  style={{ color: WHITE, fontSize: "14px", fontWeight: 800 }}
-                >
-                  {(user.displayName || user.email || "U")
-                    .charAt(0)
-                    .toUpperCase()}
+                <span style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}>
+                  {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
                 </span>
               )}
             </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
-            >
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <span
                 style={{
-                  fontSize: "13px",
+                  fontSize: "15px",
                   fontWeight: 700,
                   color: BLUE,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "160px",
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "4px",
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                <VerifiedBadgeInstagram size={12} color={BLUE} />
+                <VerifiedBadge size={14} color={BLUE} />
               </span>
-              <span
-                style={{
-                  fontSize: "11px",
-                  color: BLUE,
-                  opacity: 0.7,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "160px",
-                }}
-              >
+              <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
                 {user.email}
               </span>
             </div>
@@ -966,15 +780,14 @@ const LiveChatSection = () => {
               onClick={handleSignOut}
               style={{
                 marginLeft: "8px",
-                padding: "6px 12px",
+                padding: "8px 14px",
                 backgroundColor: "transparent",
                 color: BLUE,
                 border: `1.5px solid ${BLUE}`,
                 borderRadius: "999px",
-                fontSize: "11px",
+                fontSize: "12px",
                 fontWeight: 700,
                 cursor: "pointer",
-                fontFamily: FONT_FAMILY,
               }}
             >
               Logout
@@ -983,14 +796,14 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* Compose panel */}
+      {/* Compose */}
       <AnimatePresence>
         {showCompose && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
+            transition={{ duration: 0.35 }}
             style={{
               overflow: "hidden",
               borderRadius: "20px",
@@ -999,35 +812,16 @@ const LiveChatSection = () => {
               boxShadow: "0 16px 48px rgba(13,60,252,0.15)",
             }}
           >
-            <div
-              style={{
-                backgroundColor: BLUE,
-                padding: "18px 28px",
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <SendIcon size={20} color={WHITE} />
-              <span style={{ fontSize: "18px", fontWeight: 700, color: WHITE }}>
+            <div style={{ backgroundColor: BLUE, padding: "20px 28px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <SendIcon size={22} color={WHITE} />
+              <span style={{ fontSize: "20px", fontWeight: 700, color: WHITE }}>
                 New Message
               </span>
             </div>
 
             {!user ? (
-              <div
-                style={{
-                  padding: "40px 28px",
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "16px",
-                }}
-              >
-                <span
-                  style={{ fontSize: "15px", color: BLUE, fontWeight: 600 }}
-                >
+              <div style={{ padding: "40px 28px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                <span style={{ fontSize: "16px", color: BLUE, fontWeight: 600 }}>
                   Sign in with Google first to send a message.
                 </span>
                 <button
@@ -1036,54 +830,27 @@ const LiveChatSection = () => {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "10px",
-                    padding: "12px 22px",
+                    padding: "14px 24px",
                     backgroundColor: BLUE,
                     color: WHITE,
                     border: "none",
                     borderRadius: "12px",
-                    fontSize: "15px",
+                    fontSize: "16px",
                     fontWeight: 700,
                     cursor: "pointer",
                   }}
                 >
-                  <GoogleLogo size={20} />
+                  <GoogleLogo size={22} />
                   Sign in with Google
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={handleSend}
-                style={{
-                  padding: "28px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "18px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "12px 16px",
-                    backgroundColor: `${BLUE}08`,
-                    border: `1.5px solid ${BLUE}15`,
-                    borderRadius: "12px",
-                    fontSize: "13px",
-                    color: BLUE,
-                    fontWeight: 600,
-                  }}
-                >
+              <form onSubmit={handleSend} style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "18px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", backgroundColor: `${BLUE}08`, border: `1.5px solid ${BLUE}15`, borderRadius: "12px", fontSize: "15px", color: BLUE, fontWeight: 600 }}>
                   <span>To:</span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
                     {ADMIN_EMAIL}
-                    <VerifiedBadgeInstagram size={14} color={BLUE} />
+                    <VerifiedBadge size={16} color={BLUE} />
                   </span>
                 </div>
 
@@ -1092,18 +859,7 @@ const LiveChatSection = () => {
                   placeholder="Subject"
                   value={formSubject}
                   onChange={(e) => setFormSubject(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "14px 18px",
-                    fontSize: "15px",
-                    fontFamily: FONT_FAMILY,
-                    color: BLUE,
-                    backgroundColor: `${BLUE}05`,
-                    border: `1.5px solid ${BLUE}20`,
-                    borderRadius: "12px",
-                    outline: "none",
-                    boxSizing: "border-box",
-                  }}
+                  style={{ width: "100%", padding: "16px 20px", fontSize: "16px", color: BLUE, backgroundColor: `${BLUE}05`, border: `1.5px solid ${BLUE}20`, borderRadius: "12px", outline: "none", boxSizing: "border-box", fontFamily: FONT_FAMILY }}
                 />
 
                 <textarea
@@ -1111,70 +867,25 @@ const LiveChatSection = () => {
                   value={formMessage}
                   onChange={(e) => setFormMessage(e.target.value)}
                   rows={6}
-                  style={{
-                    width: "100%",
-                    padding: "14px 18px",
-                    fontSize: "15px",
-                    fontFamily: FONT_FAMILY,
-                    color: BLUE,
-                    backgroundColor: `${BLUE}05`,
-                    border: `1.5px solid ${BLUE}20`,
-                    borderRadius: "12px",
-                    outline: "none",
-                    resize: "vertical",
-                    boxSizing: "border-box",
-                  }}
+                  style={{ width: "100%", padding: "16px 20px", fontSize: "16px", color: BLUE, backgroundColor: `${BLUE}05`, border: `1.5px solid ${BLUE}20`, borderRadius: "12px", outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: FONT_FAMILY }}
                 />
 
                 {submitStatus === "success" && (
-                  <div
-                    style={{
-                      padding: "12px 18px",
-                      backgroundColor: "#DCFCE7",
-                      color: "#065F46",
-                      borderRadius: "10px",
-                      fontSize: "14px",
-                      fontWeight: 700,
-                    }}
-                  >
+                  <div style={{ padding: "14px 20px", backgroundColor: "#DCFCE7", color: "#065F46", borderRadius: "10px", fontSize: "15px", fontWeight: 700 }}>
                     Pesan berhasil dikirim.
                   </div>
                 )}
                 {submitStatus === "error" && (
-                  <div
-                    style={{
-                      padding: "12px 18px",
-                      backgroundColor: "#FEE2E2",
-                      color: "#991B1B",
-                      borderRadius: "10px",
-                      fontSize: "14px",
-                      fontWeight: 700,
-                    }}
-                  >
+                  <div style={{ padding: "14px 20px", backgroundColor: "#FEE2E2", color: "#991B1B", borderRadius: "10px", fontSize: "15px", fontWeight: 700 }}>
                     Gagal. Pastikan semua field terisi.
                   </div>
                 )}
 
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    gap: "12px",
-                  }}
-                >
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
                   <button
                     type="button"
                     onClick={() => setShowCompose(false)}
-                    style={{
-                      padding: "12px 22px",
-                      backgroundColor: "transparent",
-                      color: BLUE,
-                      border: `1.5px solid ${BLUE}`,
-                      borderRadius: "10px",
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                    }}
+                    style={{ padding: "14px 26px", backgroundColor: "transparent", color: BLUE, border: `1.5px solid ${BLUE}`, borderRadius: "10px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
                   >
                     Cancel
                   </button>
@@ -1185,17 +896,17 @@ const LiveChatSection = () => {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: "8px",
-                      padding: "12px 24px",
+                      padding: "14px 28px",
                       backgroundColor: isSubmitting ? "#94A3B8" : BLUE,
                       color: WHITE,
                       border: "none",
                       borderRadius: "10px",
-                      fontSize: "14px",
+                      fontSize: "15px",
                       fontWeight: 700,
                       cursor: isSubmitting ? "not-allowed" : "pointer",
                     }}
                   >
-                    <SendIcon size={16} color={WHITE} />
+                    <SendIcon size={18} color={WHITE} />
                     {isSubmitting ? "Sending..." : "Send"}
                   </button>
                 </div>
@@ -1205,7 +916,7 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* Main: KIRI + KANAN */}
+      {/* MAIN 2 KOLOM */}
       <div
         style={{
           display: "flex",
@@ -1215,50 +926,44 @@ const LiveChatSection = () => {
           overflow: "hidden",
           boxShadow: "0 24px 64px rgba(13,60,252,0.22)",
           border: `1.5px solid ${BLUE}20`,
-          minHeight: "720px",
+          minHeight: "780px",
           flexWrap: "wrap",
         }}
       >
         {/* ===== KIRI: LIST PESAN ===== */}
         <div
           style={{
-            flex: "0 0 420px",
-            minWidth: "300px",
+            flex: "0 0 440px",
+            minWidth: "320px",
             maxWidth: "100%",
             backgroundColor: BLUE,
             display: "flex",
             flexDirection: "column",
           }}
         >
+          {/* Header Inbox */}
           <div
             style={{
-              padding: "24px 28px",
+              padding: "28px 32px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               borderBottom: `1px solid rgba(255,255,255,0.18)`,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <EmailIcon size={24} color={WHITE} open={false} />
-              <span
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 700,
-                  color: WHITE,
-                  letterSpacing: "-0.01em",
-                }}
-              >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <EmailIcon size={28} color={WHITE} open={false} />
+              <span style={{ fontSize: "24px", fontWeight: 700, color: WHITE, letterSpacing: "-0.01em" }}>
                 Inbox
               </span>
             </div>
             <span
               style={{
-                padding: "4px 12px",
+                padding: "6px 16px",
                 backgroundColor: WHITE,
                 color: BLUE,
                 borderRadius: "999px",
-                fontSize: "12px",
+                fontSize: "15px",
                 fontWeight: 700,
               }}
             >
@@ -1266,27 +971,10 @@ const LiveChatSection = () => {
             </span>
           </div>
 
-          <div
-            style={{
-              flex: 1,
-              overflowY: "auto",
-              padding: "12px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "6px",
-            }}
-          >
+          {/* List */}
+          <div style={{ flex: 1, overflowY: "auto", padding: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
             {messages.length === 0 ? (
-              <div
-                style={{
-                  padding: "48px 20px",
-                  textAlign: "center",
-                  fontSize: "14px",
-                  color: WHITE,
-                  opacity: 0.65,
-                  fontStyle: "italic",
-                }}
-              >
+              <div style={{ padding: "48px 20px", textAlign: "center", fontSize: "16px", color: WHITE, opacity: 0.65, fontStyle: "italic" }}>
                 Belum ada pesan masuk.
               </div>
             ) : (
@@ -1306,14 +994,10 @@ const LiveChatSection = () => {
                       flexDirection: "row",
                       alignItems: "center",
                       gap: "14px",
-                      padding: "16px 18px",
-                      // ✅ BG BIRU (default) → PUTIH (aktif)
+                      padding: "18px 20px",
                       backgroundColor: isActive ? WHITE : BLUE,
-                      // ✅ Teks PUTIH (default) → BIRU (aktif)
                       color: isActive ? BLUE : WHITE,
-                      border: isActive
-                        ? `1.5px solid ${BLUE}30`
-                        : `1.5px solid rgba(255,255,255,0.15)`,
+                      border: isActive ? `1.5px solid ${BLUE}30` : `1.5px solid rgba(255,255,255,0.15)`,
                       borderRadius: "14px",
                       cursor: "pointer",
                       textAlign: "left",
@@ -1321,11 +1005,10 @@ const LiveChatSection = () => {
                       transition: "background-color 0.25s ease, color 0.25s ease",
                     }}
                   >
-                    {/* Icon email: animasi buka/tutup SEKALI saat item dipilih */}
                     <div
                       style={{
-                        width: "44px",
-                        height: "44px",
+                        width: "48px",
+                        height: "48px",
                         borderRadius: "12px",
                         backgroundColor: isActive ? `${BLUE}15` : "rgba(255,255,255,0.15)",
                         display: "flex",
@@ -1334,30 +1017,25 @@ const LiveChatSection = () => {
                         flexShrink: 0,
                       }}
                     >
-                      <EmailIcon
-                        size={22}
-                        color={isActive ? BLUE : WHITE}
-                        open={isActive}
-                      />
+                      <EmailIcon size={24} color={isActive ? BLUE : WHITE} open={isActive} />
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div
                         style={{
-                          fontSize: "15px",
+                          fontSize: "17px",
                           fontWeight: 700,
                           color: isActive ? BLUE : WHITE,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
-                          letterSpacing: "-0.01em",
                         }}
                       >
                         {m.name || "Anonymous"}
                       </div>
                       <div
                         style={{
-                          fontSize: "13px",
+                          fontSize: "14px",
                           color: isActive ? BLUE : WHITE,
                           opacity: isActive ? 0.75 : 0.85,
                           overflow: "hidden",
@@ -1372,12 +1050,11 @@ const LiveChatSection = () => {
 
                     <span
                       style={{
-                        fontSize: "11px",
+                        fontSize: "12px",
                         color: isActive ? BLUE : WHITE,
                         opacity: isActive ? 0.65 : 0.8,
                         fontWeight: 600,
                         flexShrink: 0,
-                        textAlign: "right",
                       }}
                     >
                       {timeAgo(m.createdAt)}
@@ -1389,12 +1066,12 @@ const LiveChatSection = () => {
           </div>
         </div>
 
-        {/* ===== KANAN: DETAIL ===== */}
+        {/* ===== KANAN: DETAIL GAYA GMAIL ===== */}
         <div
           ref={detailRef}
           style={{
             flex: 1,
-            minWidth: "320px",
+            minWidth: "340px",
             backgroundColor: WHITE,
             display: "flex",
             flexDirection: "column",
@@ -1409,213 +1086,197 @@ const LiveChatSection = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "20px",
-                padding: "60px 20px",
+                gap: "24px",
+                padding: "80px 20px",
                 textAlign: "center",
               }}
             >
-              <EmailIcon size={80} color={`${BLUE}30`} open={false} />
-              <span
-                style={{
-                  fontSize: "16px",
-                  color: BLUE,
-                  fontWeight: 600,
-                  opacity: 0.55,
-                }}
-              >
+              <EmailIcon size={100} color={`${BLUE}30`} open={false} />
+              <span style={{ fontSize: "18px", color: BLUE, fontWeight: 600, opacity: 0.55 }}>
                 Pilih pesan di sisi kiri untuk melihat detail
               </span>
             </div>
           ) : (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "24px",
-                padding: "36px",
-                overflowY: "auto",
-                flex: 1,
-              }}
-            >
-              {/* Subject */}
+            <>
+              {/* ===== HEADER BIRU (gaya Gmail) ===== */}
               <div
-                style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+                style={{
+                  padding: "32px 36px",
+                  backgroundColor: BLUE,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}
               >
+                {/* Subject besar */}
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "40px",
                     fontWeight: 700,
-                    color: BLUE,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    opacity: 0.7,
-                  }}
-                >
-                  Subject
-                </span>
-                <span
-                  style={{
-                    fontSize: "32px",
-                    fontWeight: 700,
-                    color: BLUE,
+                    color: WHITE,
                     letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
+                    lineHeight: 1.15,
                     wordBreak: "break-word",
                   }}
                 >
                   {selected.subject || "(no subject)"}
                 </span>
-              </div>
 
-              {/* Pengirim + Verified di nama email pemilik */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "14px",
-                  padding: "18px 22px",
-                  backgroundColor: `${BLUE}08`,
-                  border: `1.5px solid ${BLUE}15`,
-                  borderRadius: "14px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "50%",
-                    backgroundColor: BLUE,
-                    color: WHITE,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "20px",
-                    fontWeight: 800,
-                    flexShrink: 0,
-                    overflow: "hidden",
-                  }}
-                >
-                  {selected.photoURL ? (
-                    <img
-                      src={selected.photoURL}
-                      alt={selected.name}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    (selected.name || "U").charAt(0).toUpperCase()
-                  )}
-                </div>
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  {/* Nama pengirim */}
+                {/* From: nama + email + verified */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px", flexWrap: "wrap" }}>
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontSize: "17px",
-                      fontWeight: 700,
-                      color: BLUE,
-                    }}
-                  >
-                    {selected.name || "Anonymous"}
-                  </div>
-                  {/* Email + Verified Badge Instagram */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontSize: "13px",
-                      color: BLUE,
-                      opacity: 0.85,
-                      marginTop: "4px",
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "50%",
+                      backgroundColor: WHITE,
                       overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
                     }}
                   >
+                    {selected.photoURL ? (
+                      <img src={selected.photoURL} alt={selected.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <span style={{ color: BLUE, fontSize: "22px", fontWeight: 800 }}>
+                        {(selected.name || "U").charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
                     <span
                       style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
+                        fontSize: "22px",
+                        fontWeight: 700,
+                        color: WHITE,
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      {selected.name || "Anonymous"}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        color: WHITE,
+                        opacity: 0.9,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "4px",
                       }}
                     >
                       {selected.email || "no-email@example.com"}
+                      <VerifiedBadge size={16} color={WHITE} />
                     </span>
-                    {/* ✅ Verified Badge di email pemilik */}
-                    <VerifiedBadgeInstagram size={14} color={BLUE} />
                   </div>
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      color: WHITE,
+                      opacity: 0.8,
+                      marginLeft: "auto",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {timeAgo(selected.createdAt)}
+                  </span>
                 </div>
               </div>
 
-              {/* Tanggal */}
+              {/* ===== BODY PUTIH (isi pesan) ===== */}
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  fontSize: "13px",
-                  color: BLUE,
-                  opacity: 0.75,
-                  fontWeight: 600,
-                }}
-              >
-                <span
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    backgroundColor: BLUE,
-                  }}
-                />
-                Dikirim {timeAgo(selected.createdAt)}
-              </div>
-
-              {/* Message */}
-              <div
-                style={{
+                  flex: 1,
+                  overflowY: "auto",
+                  padding: "36px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "8px",
-                  paddingTop: "16px",
-                  borderTop: `1.5px solid ${BLUE}15`,
+                  gap: "20px",
+                  backgroundColor: WHITE,
                 }}
               >
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "14px",
                     fontWeight: 700,
                     color: BLUE,
                     textTransform: "uppercase",
-                    letterSpacing: "0.06em",
+                    letterSpacing: "0.08em",
                     opacity: 0.7,
                   }}
                 >
                   Message
                 </span>
+
                 <div
                   style={{
-                    fontSize: "16px",
+                    fontSize: "20px",
                     color: BLUE,
-                    lineHeight: 1.75,
+                    lineHeight: 1.7,
                     whiteSpace: "pre-wrap",
                     wordBreak: "break-word",
-                    padding: "22px 24px",
+                    padding: "24px 28px",
                     backgroundColor: `${BLUE}05`,
                     border: `1.5px solid ${BLUE}15`,
-                    borderRadius: "14px",
-                    minHeight: "140px",
+                    borderRadius: "16px",
+                    minHeight: "180px",
                   }}
                 >
                   {selected.message || "(empty message)"}
                 </div>
+
+                {/* Meta: To admin + status */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingTop: "16px",
+                    borderTop: `1.5px solid ${BLUE}15`,
+                    flexWrap: "wrap",
+                    gap: "12px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      color: BLUE,
+                      opacity: 0.75,
+                      fontWeight: 600,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    To: {ADMIN_EMAIL}
+                    <VerifiedBadge size={14} color={BLUE} />
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: BLUE,
+                      opacity: 0.75,
+                      fontWeight: 600,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "8px",
+                        height: "8px",
+                        borderRadius: "50%",
+                        backgroundColor: BLUE,
+                      }}
+                    />
+                    Sent
+                  </span>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
@@ -1628,10 +1289,8 @@ export default function ContactPage() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
   const rightTextRef = useRef<HTMLSpanElement>(null);
-
   const menuLabelRef = useRef<HTMLSpanElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-
   const wrapperRef = useRef<HTMLDivElement>(null);
   const buttonBgRef = useRef<HTMLDivElement>(null);
   const panelBgRef = useRef<HTMLDivElement>(null);
@@ -1679,29 +1338,10 @@ export default function ContactPage() {
     gsap.set(preloader, { opacity: 1, display: "flex" });
 
     const tl = gsap.timeline();
-
-    tl.to(
-      [leftText, rightText],
-      { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 },
-      0
-    )
+    tl.to([leftText, rightText], { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 }, 0)
       .to({}, { duration: 1 })
-      .to(leftText, {
-        xPercent: -220,
-        opacity: 0,
-        duration: 2.4,
-        ease: "power2.inOut",
-      })
-      .to(
-        rightText,
-        {
-          xPercent: 220,
-          opacity: 0,
-          duration: 2.4,
-          ease: "power2.inOut",
-        },
-        "<"
-      )
+      .to(leftText, { xPercent: -220, opacity: 0, duration: 2.4, ease: "power2.inOut" })
+      .to(rightText, { xPercent: 220, opacity: 0, duration: 2.4, ease: "power2.inOut" }, "<")
       .to(preloader, {
         opacity: 0,
         duration: 0.8,
@@ -1726,37 +1366,12 @@ export default function ContactPage() {
     if (menuOpen) {
       gsap.set(overlay, { display: "flex" });
       const tl = gsap.timeline();
-      tl.fromTo(
-        overlay,
-        { clipPath: `inset(0 0 100% 0)`, opacity: 0 },
-        {
-          clipPath: `inset(0 0 0% 0)`,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.inOut",
-        }
-      ).fromTo(
-        label,
-        { opacity: 0, y: 20, scale: 0.85 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
-        "-=0.5"
-      );
+      tl.fromTo(overlay, { clipPath: `inset(0 0 100% 0)`, opacity: 0 }, { clipPath: `inset(0 0 0% 0)`, opacity: 1, duration: 1.2, ease: "power3.inOut" })
+        .fromTo(label, { opacity: 0, y: 20, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, "-=0.5");
     } else {
       const tl = gsap.timeline();
-      tl.to(overlay, {
-        clipPath: `inset(0 0 100% 0)`,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.inOut",
-        onComplete: () => {
-          if (overlay) overlay.style.display = "none";
-        },
-      }).fromTo(
-        label,
-        { opacity: 0, y: 20, scale: 0.85 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
-        "-=0.4"
-      );
+      tl.to(overlay, { clipPath: `inset(0 0 100% 0)`, opacity: 0, duration: 1, ease: "power3.inOut", onComplete: () => { if (overlay) overlay.style.display = "none"; } })
+        .fromTo(label, { opacity: 0, y: 20, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, "-=0.4");
     }
   }, [menuOpen]);
 
@@ -1772,53 +1387,15 @@ export default function ContactPage() {
       const buttonRect = buttonBg.getBoundingClientRect();
       const BANNER_HEIGHT = 40;
       const BANNER_MARGIN = 12;
-      const targetHeight = Math.max(
-        buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN,
-        200
-      );
-
+      const targetHeight = Math.max(buttonRect.top - BANNER_HEIGHT - BANNER_MARGIN, 200);
       gsap.set(panelBg, { display: "block" });
-      gsap.fromTo(
-        panelBg,
-        { height: 0, opacity: 0 },
-        {
-          height: `${targetHeight}px`,
-          opacity: 1,
-          duration: 0.9,
-          ease: "power3.out",
-        }
-      );
-      if (panelInner) {
-        gsap.to(panelInner, {
-          opacity: 1,
-          duration: 0.5,
-          delay: 0.2,
-          ease: "power2.out",
-        });
-      }
-      if (plusIcon) {
-        gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
-      }
+      gsap.fromTo(panelBg, { height: 0, opacity: 0 }, { height: `${targetHeight}px`, opacity: 1, duration: 0.9, ease: "power3.out" });
+      if (panelInner) gsap.to(panelInner, { opacity: 1, duration: 0.5, delay: 0.2, ease: "power2.out" });
+      if (plusIcon) gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
     } else {
-      gsap.to(panelBg, {
-        height: 0,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power3.inOut",
-        onComplete: () => {
-          if (panelBg) panelBg.style.display = "none";
-        },
-      });
-      if (panelInner) {
-        gsap.to(panelInner, {
-          opacity: 0,
-          duration: 0.3,
-          ease: "power2.in",
-        });
-      }
-      if (plusIcon) {
-        gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
-      }
+      gsap.to(panelBg, { height: 0, opacity: 0, duration: 0.6, ease: "power3.inOut", onComplete: () => { if (panelBg) panelBg.style.display = "none"; } });
+      if (panelInner) gsap.to(panelInner, { opacity: 0, duration: 0.3, ease: "power2.in" });
+      if (plusIcon) gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
     }
   }, [expandOpen]);
 
@@ -1835,44 +1412,18 @@ export default function ContactPage() {
           backgroundColor: WHITE,
           zIndex: 999999,
           display: "flex",
-          flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
           gap: "24px",
           overflow: "hidden",
           fontFamily: FONT_FAMILY,
           padding: "20px",
-          boxSizing: "border-box",
         }}
       >
-        <span
-          ref={leftTextRef}
-          style={{
-            fontSize: "90px",
-            fontWeight: 400,
-            color: BLUE,
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-            display: "inline-block",
-            willChange: "transform, opacity",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <span ref={leftTextRef} style={{ fontSize: "90px", color: BLUE, lineHeight: 1, whiteSpace: "nowrap" }}>
           Farid
         </span>
-        <span
-          ref={rightTextRef}
-          style={{
-            fontSize: "90px",
-            fontWeight: 400,
-            color: BLUE,
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-            display: "inline-block",
-            willChange: "transform, opacity",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <span ref={rightTextRef} style={{ fontSize: "90px", color: BLUE, lineHeight: 1, whiteSpace: "nowrap" }}>
           By Founder And Developer Menuru
         </span>
       </div>
@@ -1893,35 +1444,18 @@ export default function ContactPage() {
           zIndex: 10000,
         }}
       >
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "10px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
           <span style={{ color: BLACK }}>Bersponsor</span>
-          <span
-            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
-          >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
             Kunjungi website{" "}
             <a
               href="https://menuru-studio.netlify.app/notes"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                color: WHITE,
-                textDecoration: "none",
-                fontWeight: 700,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "2px",
-              }}
+              style={{ color: WHITE, textDecoration: "none", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "2px" }}
             >
               Menuru
-              <VerifiedBadgeInstagram size={14} color={WHITE} />
+              <VerifiedBadge size={14} color={WHITE} />
             </a>
           </span>
         </span>
@@ -1943,20 +1477,13 @@ export default function ContactPage() {
               transition: "color 0.3s ease",
             }}
           >
-            <span
-              style={{
-                fontSize: navFontSize,
-                fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-              }}
-            >
+            <span style={{ fontSize: navFontSize, fontWeight: 400, lineHeight: 1 }}>
               Farid Ardiansyah
             </span>
           </Link>
 
           <button
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => setMenuOpen((v) => !v)}
             style={{
               position: "fixed",
               top: "60px",
@@ -1969,26 +1496,17 @@ export default function ContactPage() {
               fontSize: navFontSize,
               fontWeight: 400,
               fontFamily: FONT_FAMILY,
-              letterSpacing: "-0.03em",
               cursor: "pointer",
               lineHeight: 1,
-              transition: "color 0.3s ease",
             }}
           >
-            <span
-              ref={menuLabelRef}
-              style={{
-                display: "inline-block",
-                willChange: "transform, opacity",
-              }}
-            >
+            <span ref={menuLabelRef} style={{ display: "inline-block" }}>
               {menuOpen ? "Close" : "Menu"}
             </span>
           </button>
         </>
       )}
 
-      {/* OVERLAY MENU */}
       <div
         ref={overlayRef}
         style={{
@@ -2004,7 +1522,6 @@ export default function ContactPage() {
         }}
       />
 
-      {/* NAVBAR TENGAH & KANAN */}
       {preloaderDone && (
         <>
           <div
@@ -2019,7 +1536,6 @@ export default function ContactPage() {
               gap: "40px",
               fontFamily: FONT_FAMILY,
               color: menuOpen ? WHITE : BLUE,
-              transition: "color 0.3s ease",
             }}
           >
             {[
@@ -2034,12 +1550,9 @@ export default function ContactPage() {
                 style={{
                   fontSize: navFontSize,
                   fontWeight: 400,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1,
                   textTransform: "capitalize",
                   color: "inherit",
                   textDecoration: "none",
-                  cursor: "pointer",
                 }}
               >
                 {txt.label}
@@ -2058,7 +1571,6 @@ export default function ContactPage() {
               gap: "40px",
               fontFamily: FONT_FAMILY,
               color: menuOpen ? WHITE : BLUE,
-              transition: "color 0.3s ease",
             }}
           >
             <Link
@@ -2066,12 +1578,9 @@ export default function ContactPage() {
               style={{
                 fontSize: navFontSize,
                 fontWeight: 400,
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
                 textTransform: "capitalize",
                 color: "inherit",
                 textDecoration: "none",
-                cursor: "pointer",
               }}
             >
               Messages
@@ -2086,7 +1595,7 @@ export default function ContactPage() {
           minHeight: "100vh",
           backgroundColor: WHITE,
           fontFamily: FONT_FAMILY,
-          padding: "200px 0 0 0",
+          padding: "200px 0 0",
           boxSizing: "border-box",
           overflow: "hidden",
           display: "flex",
@@ -2142,15 +1651,10 @@ export default function ContactPage() {
         <FooterSection refreshKey="contact" />
       </div>
 
-      {/* COOKIES */}
       {showCookies && (
-        <CookiesPopup
-          onAccept={handleAcceptCookies}
-          onDecline={handleDeclineCookies}
-        />
+        <CookiesPopup onAccept={handleAcceptCookies} onDecline={handleDeclineCookies} />
       )}
 
-      {/* TOMBOL BG FIXED */}
       {preloaderDone && !menuOpen && (
         <div
           style={{
@@ -2234,8 +1738,7 @@ export default function ContactPage() {
                 Farid Ardiansyah
               </span>
               <button
-                onClick={() => setExpandOpen((prev) => !prev)}
-                aria-label={expandOpen ? "Tutup panel" : "Buka panel"}
+                onClick={() => setExpandOpen((v) => !v)}
                 style={{
                   background: "transparent",
                   border: "none",
@@ -2254,7 +1757,6 @@ export default function ContactPage() {
                     fontWeight: 300,
                     lineHeight: 1,
                     color: WHITE,
-                    willChange: "transform",
                   }}
                 >
                   +
@@ -2280,12 +1782,7 @@ export default function ContactPage() {
           width: 0 !important;
           height: 0 !important;
         }
-        .footer-farid-char {
-          display: inline-block;
-          will-change: transform, opacity;
-          color: #ffffff !important;
-          transform-origin: 50% 100%;
-        }
+        .footer-farid-char,
         .footer-a-char {
           display: inline-block;
           will-change: transform, opacity;
