@@ -556,13 +556,13 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           gap: "40px",
         }}
       >
-        {/* Kolom Link — font 80px */}
+        {/* Kolom Link — font 50px */}
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "flex-start",
-            gap: "80px",
+            gap: "60px",
             flexWrap: "wrap",
           }}
         >
@@ -573,17 +573,17 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                gap: "16px",
-                minWidth: "260px",
+                gap: "10px",
+                minWidth: "180px",
               }}
             >
               <span
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: "80px",
+                  fontSize: "50px",
                   fontWeight: 400,
                   color: WHITE,
-                  letterSpacing: "-0.03em",
+                  letterSpacing: "-0.02em",
                   lineHeight: 1.1,
                 }}
               >
@@ -595,13 +595,13 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
                   href={link.href}
                   style={{
                     fontFamily: FONT_FAMILY,
-                    fontSize: "80px",
+                    fontSize: "50px",
                     fontWeight: 400,
                     color: WHITE,
                     textDecoration: "none",
                     opacity: 0.9,
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.03em",
+                    lineHeight: 1.15,
+                    letterSpacing: "-0.02em",
                     cursor: "pointer",
                   }}
                 >
@@ -1959,7 +1959,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* ===== TEKS: "Apakah kamu mengalami sesuatu?" + link Hubungi saya — 70px ===== */}
+              {/* ===== TEKS PESAN + LINK /contact — 70px ===== */}
               <div
                 style={{
                   display: "flex",
