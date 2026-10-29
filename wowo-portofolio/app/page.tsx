@@ -18,7 +18,6 @@ const WHITE = "#FFFFFF";
 const RED = "#DC2626";
 const BLACK = "#000000";
 
-// Tautan Privacy Policy (bisa diganti)
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== VERIFIED BADGE (WHITE) =====
@@ -396,7 +395,9 @@ const AntiBotIcon = ({
 );
 
 // ===== FOOTER SECTION =====
-const FooterSection = () => {
+// Dipindah keluar dari parent agar render stabil di kedua view.
+// Refresh ScrollTrigger dipanggil ulang saat `activeView` berubah.
+const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLSpanElement>(null);
   const aRef = useRef<HTMLSpanElement>(null);
@@ -440,8 +441,8 @@ const FooterSection = () => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 90%",
-            end: "top 40%",
+            start: "top 95%",
+            end: "top 45%",
             scrub: 1,
             toggleActions: "play none none reverse",
             invalidateOnRefresh: true,
@@ -466,8 +467,8 @@ const FooterSection = () => {
             ease: "expo.out",
             scrollTrigger: {
               trigger: containerRef.current,
-              start: "top 90%",
-              end: "top 40%",
+              start: "top 95%",
+              end: "top 45%",
               scrub: 1,
               toggleActions: "play none none reverse",
               invalidateOnRefresh: true,
@@ -488,7 +489,7 @@ const FooterSection = () => {
       if (split && split.revert) split.revert();
       if (splitA && splitA.revert) splitA.revert();
     };
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -723,7 +724,7 @@ const FooterSection = () => {
   );
 };
 
-// ===== COOKIES POPUP COMPONENT =====
+// ===== COOKIES POPUP =====
 const CookiesPopup = ({
   onAccept,
   onDecline,
@@ -757,7 +758,6 @@ const CookiesPopup = ({
         animation: "cookies-slide-up 0.4s ease-out",
       }}
     >
-      {/* Teks + link privacy policy (tanpa icon cookies) */}
       <p
         style={{
           flex: "1 1 320px",
@@ -787,7 +787,6 @@ const CookiesPopup = ({
         .
       </p>
 
-      {/* Tombol Accept / Decline */}
       <div
         style={{
           display: "flex",
@@ -874,13 +873,11 @@ export default function Home() {
   // ==== STATE COOKIES POPUP ====
   const [showCookies, setShowCookies] = useState(false);
 
-  // Cek localStorage saat mount
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const consent = localStorage.getItem("cookies-consent");
       if (!consent) {
-        // Tampilkan setelah preloader selesai + delay sedikit
         setTimeout(() => setShowCookies(true), 1500);
       }
     } catch {
@@ -901,6 +898,17 @@ export default function Home() {
     } catch {}
     setShowCookies(false);
   };
+
+  // ==== REFRESH SCROLLTRIGGER SAAT VIEW BERUBAH ====
+  // Ini yang memastikan animasi footer "Farid A" tetap jalan di kedua view.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Delay sedikit agar layout reflow selesai dulu
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
+    return () => clearTimeout(t);
+  }, [activeView]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -2012,7 +2020,8 @@ export default function Home() {
           )}
         </div>
 
-        <FooterSection />
+        {/* ===== FOOTER SELALU DI-RENDER DI KEDUA VIEW ===== */}
+        <FooterSection refreshKey={activeView} />
       </div>
 
       {/* ===== FOTO PREVIEW HOVER ===== */}
