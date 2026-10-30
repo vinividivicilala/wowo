@@ -28,6 +28,7 @@ import {
   where,
   doc,
   updateDoc,
+  limit
 } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
@@ -611,6 +612,114 @@ const CookiesPopup = ({
     </div>
   </div>
 );
+// ===== LIVE ACTIVITY BANNER (REAL-TIME) =====
+const LiveActivityBanner = () => {
+  const [latest, setLatest] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !db) return;
+    // Real-time listener: ambil 5 pesan terbaru dari Firestore
+    const q = query(
+      collection(db, "contactMessages"),
+      orderBy("createdAt", "desc"),
+      limit(5)
+    );
+    const unsub = onSnapshot(
+      q,
+      (snap: any) => {
+        const list: any[] = [];
+        snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
+        setLatest(list);
+      },
+      () => setLatest([])
+    );
+    return () => unsub();
+  }, []);
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "1500px",
+        marginTop: "40px",
+        backgroundColor: BLUE,
+        borderRadius: "28px",
+        padding: "20px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        boxShadow: "0 12px 40px rgba(13,60,252,0.35)",
+        boxSizing: "border-box",
+        fontFamily: FONT_FAMILY,
+      }}
+    >
+      {/* Header dengan icon pesan */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          marginBottom: "4px",
+        }}
+      >
+        <EmailIcon size={22} color={WHITE} open={true} />
+        <span
+          style={{
+            fontSize: "14px",
+            fontWeight: 700,
+            color: WHITE,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            opacity: 0.9,
+          }}
+        >
+          Aktivitas Terbaru
+        </span>
+      </div>
+
+      {latest.length === 0 ? (
+        <span style={{ fontSize: "16px", color: WHITE, opacity: 0.75 }}>
+          Belum ada aktivitas pesan.
+        </span>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+          }}
+        >
+          {latest.map((m) => {
+            // Tentukan label pengirim & penerima
+            const senderName = m.name || "Anonymous";
+            const isGlobal = m.isBroadcast || m.isAnnouncement || m.userId === "all";
+            const targetName = isGlobal
+              ? "Semua User"
+              : m.to === ADMIN_EMAIL || m.userId !== "all"
+              ? ADMIN_NAME
+              : m.to || "User";
+
+            return (
+              <span
+                key={m.id}
+                style={{
+                  fontSize: "16px",
+                  color: WHITE,
+                  lineHeight: 1.6,
+                  opacity: 0.95,
+                  wordBreak: "break-word",
+                }}
+              >
+                {senderName} dikirimkan ke {targetName}
+              </span>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 // ===== LIVE CHAT =====
 const LiveChatSection = () => {
@@ -2470,6 +2579,10 @@ export default function ContactPage() {
             Messages
           </span>
 
+      <LiveActivityBanner />
+
+
+          
           <LiveChatSection />
         </div>
 
