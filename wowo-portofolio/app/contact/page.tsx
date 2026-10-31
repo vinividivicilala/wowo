@@ -216,7 +216,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER BARU =====
+// ===== REAL-TIME TICKER BANNER (PRIVATE, TANPA EMOTICON, FORMAT PRESISI) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
 
@@ -230,15 +230,25 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
 
   if (!messages || messages.length === 0) {
     return (
-      <span style={{ fontSize: "13px", opacity: 0.9 }}>
-        Belum ada pesan terbaru
-      </span>
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "8px",
+          height: "22px",
+          verticalAlign: "middle",
+        }}
+      >
+        <EmailIcon size={16} color="#FFFFFF" open={true} />
+        <span style={{ fontSize: "13px", opacity: 0.9 }}>
+          Belum ada pesan terbaru
+        </span>
+      </div>
     );
   }
 
   const currentMsg = messages[index];
   const senderName = currentMsg?.name || "Anonymous";
-  const userMessage = currentMsg?.message || "";
 
   return (
     <div
@@ -255,10 +265,10 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentMsg.id || index}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -271,11 +281,8 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {ADMIN_NAME}
           </span>
-          <span style={{ opacity: 0.8 }}>💬 {userMessage}</span>
-          <span style={{ opacity: 0.6, fontSize: "12px" }}>
-            ➔ dikirimkan ke
-          </span>
-          <span style={{ fontWeight: 700, color: "#FFD700" }}>
+          <span style={{ opacity: 0.9 }}>dikirimkan pesan</span>
+          <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {senderName}
           </span>
         </motion.div>
@@ -2089,7 +2096,7 @@ export default function ContactPage() {
   const [showCookies, setShowCookies] = useState(false);
   const [tickerMessages, setTickerMessages] = useState<any[]>([]);
 
-  // Realtime Messages untuk Ticker Banner Atas
+  // Listener Realtime Firestore untuk Ticker Banner Atas
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const q = query(
@@ -2312,7 +2319,7 @@ export default function ContactPage() {
         </span>
       </div>
 
-      {/* Top Banner Biru Navbar dengan Ticker Realtime di Kiri */}
+      {/* Top Banner Biru Navbar */}
       <div
         style={{
           position: "fixed",
@@ -2331,6 +2338,7 @@ export default function ContactPage() {
           boxSizing: "border-box",
         }}
       >
+        {/* Sisi Kiri: Realtime Private Message Ticker (Sesuai Format) */}
         <div
           style={{
             display: "flex",
@@ -2343,6 +2351,7 @@ export default function ContactPage() {
           <RealtimeMessageTicker messages={tickerMessages} />
         </div>
 
+        {/* Sisi Kanan: Bersponsor & Link Menuru */}
         <span
           style={{
             display: "inline-flex",
