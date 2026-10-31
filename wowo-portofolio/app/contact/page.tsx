@@ -28,7 +28,6 @@ import {
   where,
   doc,
   updateDoc,
-  limit
 } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
@@ -216,6 +215,74 @@ const SendIcon = ({
     />
   </svg>
 );
+
+// ===== REAL-TIME TICKER BANNER BARU =====
+const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!messages || messages.length === 0) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % messages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [messages]);
+
+  if (!messages || messages.length === 0) {
+    return (
+      <span style={{ fontSize: "13px", opacity: 0.9 }}>
+        Belum ada pesan terbaru
+      </span>
+    );
+  }
+
+  const currentMsg = messages[index];
+  const senderName = currentMsg?.name || "Anonymous";
+  const userMessage = currentMsg?.message || "";
+
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        overflow: "hidden",
+        height: "22px",
+        verticalAlign: "middle",
+      }}
+    >
+      <EmailIcon size={16} color="#FFFFFF" open={true} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentMsg.id || index}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            whiteSpace: "nowrap",
+            fontSize: "13px",
+            fontWeight: 500,
+          }}
+        >
+          <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
+            {ADMIN_NAME}
+          </span>
+          <span style={{ opacity: 0.8 }}>💬 {userMessage}</span>
+          <span style={{ opacity: 0.6, fontSize: "12px" }}>
+            ➔ dikirimkan ke
+          </span>
+          <span style={{ fontWeight: 700, color: "#FFD700" }}>
+            {senderName}
+          </span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
 
 // ===== TIME AGO =====
 function timeAgo(ts: any): string {
@@ -612,114 +679,6 @@ const CookiesPopup = ({
     </div>
   </div>
 );
-// ===== LIVE ACTIVITY BANNER (REAL-TIME) =====
-const LiveActivityBanner = () => {
-  const [latest, setLatest] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !db) return;
-    // Real-time listener: ambil 5 pesan terbaru dari Firestore
-    const q = query(
-      collection(db, "contactMessages"),
-      orderBy("createdAt", "desc"),
-      limit(5)
-    );
-    const unsub = onSnapshot(
-      q,
-      (snap: any) => {
-        const list: any[] = [];
-        snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
-        setLatest(list);
-      },
-      () => setLatest([])
-    );
-    return () => unsub();
-  }, []);
-
-  return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "1500px",
-        marginTop: "40px",
-        backgroundColor: BLUE,
-        borderRadius: "28px",
-        padding: "20px 28px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        boxShadow: "0 12px 40px rgba(13,60,252,0.35)",
-        boxSizing: "border-box",
-        fontFamily: FONT_FAMILY,
-      }}
-    >
-      {/* Header dengan icon pesan */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          marginBottom: "4px",
-        }}
-      >
-        <EmailIcon size={22} color={WHITE} open={true} />
-        <span
-          style={{
-            fontSize: "14px",
-            fontWeight: 700,
-            color: WHITE,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            opacity: 0.9,
-          }}
-        >
-          Aktivitas Terbaru
-        </span>
-      </div>
-
-      {latest.length === 0 ? (
-        <span style={{ fontSize: "16px", color: WHITE, opacity: 0.75 }}>
-          Belum ada aktivitas pesan.
-        </span>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "6px",
-          }}
-        >
-          {latest.map((m) => {
-            // Tentukan label pengirim & penerima
-            const senderName = m.name || "Anonymous";
-            const isGlobal = m.isBroadcast || m.isAnnouncement || m.userId === "all";
-            const targetName = isGlobal
-              ? "Semua User"
-              : m.to === ADMIN_EMAIL || m.userId !== "all"
-              ? ADMIN_NAME
-              : m.to || "User";
-
-            return (
-              <span
-                key={m.id}
-                style={{
-                  fontSize: "16px",
-                  color: WHITE,
-                  lineHeight: 1.6,
-                  opacity: 0.95,
-                  wordBreak: "break-word",
-                }}
-              >
-                {senderName} dikirimkan ke {targetName}
-              </span>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
-
 
 // ===== LIVE CHAT =====
 const LiveChatSection = () => {
@@ -961,15 +920,12 @@ const LiveChatSection = () => {
     return Array.from(map.values());
   }, [messages]);
 
-  // ==== LOGIKA DINAMIS UNTUK HEADER ====
   let headerTitle = "";
   if (selected?.isBroadcast) headerTitle = "Broadcast";
   else if (selected?.isAnnouncement) headerTitle = "Pengumuman";
   else if (isAdmin) {
-    // Jika admin melihat pesan dari user -> Masuk, jika balasan admin sendiri -> Kirim
     headerTitle = selected?.isAdminReply ? "Pesan Kirim" : "Pesan Masuk";
   } else {
-    // Jika user melihat pesan dari admin -> Masuk, jika pesan user sendiri -> Kirim
     headerTitle = selected?.isAdminReply ? "Pesan Masuk" : "Pesan Kirim";
   }
 
@@ -984,7 +940,6 @@ const LiveChatSection = () => {
         gap: "20px",
       }}
     >
-      {/* Top bar - Menu Admin & User */}
       <div
         style={{
           display: "flex",
@@ -1180,7 +1135,6 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* Compose Form */}
       <AnimatePresence>
         {showCompose && user && (
           <motion.div
@@ -1392,7 +1346,6 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* MAIN AREA */}
       {!user ? (
         <div
           style={{
@@ -1427,7 +1380,6 @@ const LiveChatSection = () => {
             dahulu untuk melihat pesan dan mengirim pesan ke Farid Ardiansyah.
           </p>
 
-          {/* Manual Auth Panel */}
           <div
             style={{
               backgroundColor: WHITE,
@@ -1550,7 +1502,6 @@ const LiveChatSection = () => {
             minHeight: "900px",
           }}
         >
-          {/* ===== CARD KIRI: LIST PESAN ===== */}
           <div
             style={{
               flex: "0 0 440px",
@@ -1754,7 +1705,6 @@ const LiveChatSection = () => {
             </div>
           </div>
 
-          {/* ===== CARD KANAN: DETAIL PESAN ===== */}
           <div
             ref={detailRef}
             style={{
@@ -2137,6 +2087,22 @@ export default function ContactPage() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
+  const [tickerMessages, setTickerMessages] = useState<any[]>([]);
+
+  // Realtime Messages untuk Ticker Banner Atas
+  useEffect(() => {
+    if (typeof window === "undefined" || !db) return;
+    const q = query(
+      collection(db, "contactMessages"),
+      orderBy("createdAt", "desc")
+    );
+    const unsub = onSnapshot(q, (snap) => {
+      const list: any[] = [];
+      snap.forEach((d) => list.push({ id: d.id, ...d.data() }));
+      setTickerMessages(list);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -2346,6 +2312,7 @@ export default function ContactPage() {
         </span>
       </div>
 
+      {/* Top Banner Biru Navbar dengan Ticker Realtime di Kiri */}
       <div
         style={{
           position: "fixed",
@@ -2354,23 +2321,39 @@ export default function ContactPage() {
           right: 0,
           backgroundColor: "#0000EE",
           color: WHITE,
-          padding: "10px 20px",
-          textAlign: "center",
+          padding: "8px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           fontSize: "14px",
           fontFamily: FONT_FAMILY,
           zIndex: 10000,
+          boxSizing: "border-box",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            overflow: "hidden",
+            maxWidth: "60%",
+          }}
+        >
+          <RealtimeMessageTicker messages={tickerMessages} />
+        </div>
+
         <span
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "10px",
-            flexWrap: "wrap",
-            justifyContent: "center",
+            flexWrap: "nowrap",
+            justifyContent: "flex-end",
+            fontSize: "13px",
           }}
         >
-          <span style={{ color: BLACK }}>Bersponsor</span>
+          <span style={{ color: BLACK, fontWeight: 600 }}>Bersponsor</span>
           <span
             style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
           >
@@ -2579,10 +2562,6 @@ export default function ContactPage() {
             Messages
           </span>
 
-      <LiveActivityBanner />
-
-
-          
           <LiveChatSection />
         </div>
 
