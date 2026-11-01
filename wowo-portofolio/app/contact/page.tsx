@@ -216,17 +216,40 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (PRIVATE, TANPA EMOTICON, FORMAT PRESISI) =====
+// ===== REAL-TIME TICKER BANNER (ANIMASI AMBLOP BUKA TUTUP OTOMATIS & ALUR PRESISI) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const tickerContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!messages || messages.length === 0) return;
+
+    // Interval gonta-ganti pesan & animasi amplop buka-tutup
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % messages.length);
-    }, 4000);
+      setIsOpen(true); // Amplop membuka saat berganti
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % messages.length);
+      }, 300);
+
+      setTimeout(() => {
+        setIsOpen(false); // Amplop menutup kembali
+      }, 1500);
+    }, 4500);
+
     return () => clearInterval(interval);
   }, [messages]);
+
+  // Efek GSAP halus saat komponen tampil
+  useEffect(() => {
+    if (tickerContainerRef.current) {
+      gsap.fromTo(
+        tickerContainerRef.current,
+        { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }
+      );
+    }
+  }, [index]);
 
   if (!messages || messages.length === 0) {
     return (
@@ -239,7 +262,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           verticalAlign: "middle",
         }}
       >
-        <EmailIcon size={16} color="#FFFFFF" open={true} />
+        <EmailIcon size={16} color="#FFFFFF" open={false} />
         <span style={{ fontSize: "13px", opacity: 0.9 }}>
           Belum ada pesan terbaru
         </span>
@@ -250,8 +273,18 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const currentMsg = messages[index];
   const senderName = currentMsg?.name || "Anonymous";
 
+  // Penentuan alur pesan: Mengirimkan atau Dikirimkan
+  const isFromAdmin =
+    currentMsg?.isAdminReply ||
+    currentMsg?.isBroadcast ||
+    currentMsg?.isAnnouncement ||
+    currentMsg?.email === ADMIN_EMAIL;
+  
+  const actionText = isFromAdmin ? "mengirimkan pesan" : "dikirimkan pesan";
+
   return (
     <div
+      ref={tickerContainerRef}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -261,14 +294,14 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
         verticalAlign: "middle",
       }}
     >
-      <EmailIcon size={16} color="#FFFFFF" open={true} />
+      <EmailIcon size={16} color="#FFFFFF" open={isOpen} />
       <AnimatePresence mode="wait">
         <motion.div
           key={currentMsg.id || index}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -281,7 +314,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {ADMIN_NAME}
           </span>
-          <span style={{ opacity: 0.9 }}>dikirimkan pesan</span>
+          <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {senderName}
           </span>
@@ -2096,7 +2129,7 @@ export default function ContactPage() {
   const [showCookies, setShowCookies] = useState(false);
   const [tickerMessages, setTickerMessages] = useState<any[]>([]);
 
-  // Listener Realtime Firestore untuk Ticker Banner Atas
+  // Realtime Firestore Listener untuk Banner Pesan Atas
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const q = query(
@@ -2338,7 +2371,7 @@ export default function ContactPage() {
           boxSizing: "border-box",
         }}
       >
-        {/* Sisi Kiri: Realtime Private Message Ticker (Sesuai Format) */}
+        {/* Sisi Kiri: Realtime Ticker Pesan Alur + Icon Email Animasi Buka/Tutup */}
         <div
           style={{
             display: "flex",
@@ -2351,7 +2384,7 @@ export default function ContactPage() {
           <RealtimeMessageTicker messages={tickerMessages} />
         </div>
 
-        {/* Sisi Kanan: Bersponsor & Link Menuru */}
+        {/* Sisi Kanan: Bersponsor */}
         <span
           style={{
             display: "inline-flex",
