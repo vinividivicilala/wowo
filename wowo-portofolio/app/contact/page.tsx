@@ -70,13 +70,17 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== ICONS =====
 
-// 1. REAL INSTAGRAM VERIFIED BADGE (Solid Blue Circle with White Check)
+// 1. REAL INSTAGRAM VERIFIED BADGE (Solid Circle with Check)
+// - isOnBlueBackground: jika true, lingkaran warna PUTIH dan centang warna BIRU.
+// - Jika false, lingkaran warna BIRU (atau custom color) dan centang warna PUTIH.
 const InstagramVerifiedBadge = ({
   size = 16,
-  color = "#0095F6", // Instagram Blue
+  color = "#0095F6",
+  isOnBlueBackground = false,
 }: {
   size?: number;
   color?: string;
+  isOnBlueBackground?: boolean;
 }) => (
   <svg
     aria-label="Verified"
@@ -91,14 +95,14 @@ const InstagramVerifiedBadge = ({
     }}
     role="img"
   >
-    {/* Blue Circle Background */}
+    {/* Background Circle */}
     <path
-      fill={color}
+      fill={isOnBlueBackground ? "#FFFFFF" : color}
       d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"
     />
-    {/* White Checkmark */}
+    {/* Checkmark */}
     <path
-      fill="#FFFFFF"
+      fill={isOnBlueBackground ? BLUE : "#FFFFFF"}
       d="m15.5 24.5-4.5-4.5 2.12-2.12 2.38 2.38 8.88-8.88 2.12 2.12-11 11z"
     />
   </svg>
@@ -327,7 +331,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
-          {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
+          {isFromAdmin && <InstagramVerifiedBadge size={14} isOnBlueBackground={true} />}
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {secondEntity}
@@ -1809,6 +1813,7 @@ const LiveChatSection = () => {
                               <InstagramVerifiedBadge
                                 size={14}
                                 color={isActive ? WHITE : BLUE}
+                                isOnBlueBackground={isActive}
                               />
                             )}
                           </div>
@@ -2574,7 +2579,7 @@ export default function ContactPage() {
               }}
             >
               Menuru
-              <InstagramVerifiedBadge size={14} color={WHITE} />
+              <InstagramVerifiedBadge size={14} isOnBlueBackground={true} />
             </a>
           </span>
         </span>
@@ -2840,7 +2845,8 @@ export default function ContactPage() {
                     }}
                   >
                     Farid Ardiansyah
-                    <InstagramVerifiedBadge size={16} color={WHITE} />
+                    {/* Lingkaran putih, checklist biru karena berada di atas bg biru */}
+                    <InstagramVerifiedBadge size={16} isOnBlueBackground={true} />
                   </span>
                   <span
                     style={{
@@ -2892,7 +2898,8 @@ export default function ContactPage() {
                 }}
               >
                 Farid Ardiansyah
-                <InstagramVerifiedBadge size={16} color={WHITE} />
+                {/* Lingkaran putih, checklist biru karena berada di atas bg biru */}
+                <InstagramVerifiedBadge size={16} isOnBlueBackground={true} />
               </span>
               
               <span
