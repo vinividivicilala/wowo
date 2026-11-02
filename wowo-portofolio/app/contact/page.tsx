@@ -67,7 +67,7 @@ const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
 const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== REAL INSTAGRAM VERIFIED BADGE (Hanya untuk Pemilik) =====
+// ===== REAL INSTAGRAM VERIFIED BADGE (Digunakan Pemilik & User Sesuai Request) =====
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -220,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (DUA SISTEM: MENGIRIMKAN & DI KIRIMKAN PESAN) =====
+// ===== SINGLE CLEAN TICKER BANNER (MENGIRIMKAN & DI KIRIMKAN) TANPA DOUBLE/GANDA =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -229,15 +229,14 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   useEffect(() => {
     if (!messages || messages.length === 0) return;
 
-    // Durasi perlambatan (6.5 detik per pesan) agar nyaman dibaca
     const interval = setInterval(() => {
-      setIsOpen(true); // Amplop membuka
+      setIsOpen(true);
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % messages.length);
       }, 400);
 
       setTimeout(() => {
-        setIsOpen(false); // Amplop menutup kembali
+        setIsOpen(false);
       }, 2500);
     }, 6500);
 
@@ -275,10 +274,6 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
 
   const currentMsg = messages[index];
   const userName = currentMsg?.name || "Anonymous";
-
-  // Membedakan kedua sistem alur pesan:
-  // 1. Jika Pemilik mengirim/membalas: sistem "di kirimkan pesan" kepada user
-  // 2. Jika User mengirim pesan ke Pemilik: sistem "mengirimkan pesan" kepada pemilik
   const isFromAdmin =
     currentMsg?.isAdminReply ||
     currentMsg?.isBroadcast ||
@@ -291,11 +286,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
 
   if (isFromAdmin) {
     firstEntity = ADMIN_NAME;
-    actionText = "di kirimkan pesan"; // Sistem kedua (pesan masuk di sisi user / dikirimkan oleh pemilik)
+    actionText = "di kirimkan pesan";
     secondEntity = userName;
   } else {
     firstEntity = userName;
-    actionText = "mengirimkan pesan"; // Sistem pertama (pesan dikirim dari user ke pemilik)
+    actionText = "mengirimkan pesan";
     secondEntity = ADMIN_NAME;
   }
 
@@ -331,11 +326,12 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
-          {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
+          <InstagramVerifiedBadge size={14} color="#FFFFFF" />
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {secondEntity}
           </span>
+          <InstagramVerifiedBadge size={14} color="#FFFFFF" />
         </motion.div>
       </AnimatePresence>
     </div>
@@ -978,15 +974,6 @@ const LiveChatSection = () => {
     return Array.from(map.values());
   }, [messages]);
 
-  let headerTitle = "";
-  if (selected?.isBroadcast) headerTitle = "Broadcast";
-  else if (selected?.isAnnouncement) headerTitle = "Pengumuman";
-  else if (isAdmin) {
-    headerTitle = selected?.isAdminReply ? "Pesan Kirim" : "Pesan Masuk";
-  } else {
-    headerTitle = selected?.isAdminReply ? "Pesan Masuk" : "Pesan Kirim";
-  }
-
   return (
     <div
       style={{
@@ -1167,7 +1154,7 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                {user.email === ADMIN_EMAIL && <InstagramVerifiedBadge size={14} color={BLUE} />}
+                <InstagramVerifiedBadge size={14} color={BLUE} />
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
                 {user.email}
@@ -1282,7 +1269,7 @@ const LiveChatSection = () => {
                     {composeMode === "broadcast" || composeMode === "announcement" 
                       ? "Semua User" 
                       : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
-                    {isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
+                    <InstagramVerifiedBadge size={16} color={BLUE} />
                   </span>
                 </div>
               )}
@@ -1638,7 +1625,6 @@ const LiveChatSection = () => {
                 messages.map((m) => {
                   const isActive = m.id === selectedId;
                   const isBroadcast = m.isBroadcast;
-                  const mIsAdmin = m.isAdminReply || m.isBroadcast || m.isAnnouncement || m.email === ADMIN_EMAIL;
                   const isAnnouncement = m.isAnnouncement;
                   
                   let bgColor = isActive ? BLUE : `${BLUE}08`;
@@ -1716,7 +1702,7 @@ const LiveChatSection = () => {
                             }}
                           >
                             {m.name || "Anonymous"}
-                            {mIsAdmin && <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />}
+                            <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />
                           </div>
                           <div
                             style={{
@@ -1828,14 +1814,16 @@ const LiveChatSection = () => {
                 >
                   <span
                     style={{
-                      fontSize: "50px",
+                      fontSize: "35px",
                       fontWeight: 400,
                       color: BLUE,
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {headerTitle}
+                    {selected.email === ADMIN_EMAIL || selected.isAdminReply
+                      ? "Di Kirimkan Pesan"
+                      : "Mengirimkan Pesan"}
                   </span>
                   <span
                     style={{
@@ -1939,9 +1927,7 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.name || "Anonymous"}
-                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply || selected.isBroadcast || selected.isAnnouncement) && (
-                          <InstagramVerifiedBadge size={16} color={BLUE} />
-                        )}
+                        <InstagramVerifiedBadge size={16} color={BLUE} />
                       </span>
                       <span
                         style={{
@@ -1955,9 +1941,7 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.email || selected.name}
-                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
-                          <InstagramVerifiedBadge size={14} color={BLUE} />
-                        )}
+                        <InstagramVerifiedBadge size={14} color={BLUE} />
                       </span>
                     </div>
                   </div>
@@ -2000,7 +1984,7 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.isBroadcast || selected.isAnnouncement ? "Semua User" : (isAdmin ? selected.name : ADMIN_NAME)}
-                        {!isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
+                        <InstagramVerifiedBadge size={16} color={BLUE} />
                       </span>
                       <span
                         style={{
@@ -2115,8 +2099,6 @@ const LiveChatSection = () => {
                           ? "Dibaca"
                           : selected.status === "delivered"
                           ? "Terkirim"
-                          : selected.status === "failed"
-                          ? "Gagal Terkirim"
                           : "Terkirim"}
                       </span>
                       <span
