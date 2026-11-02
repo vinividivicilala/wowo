@@ -70,7 +70,32 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== ICONS =====
 
-// 1. EXACT INSTAGRAM VERIFIED BADGE (Bentuk SVG presisi sesuai foto referensi)
+// 1. VERIFIED BADGE (WHITE - Sesuai kode Anda)
+const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
+  <span
+    style={{
+      position: "relative",
+      display: "inline-block",
+      marginLeft: "4px",
+      verticalAlign: "middle",
+    }}
+  >
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "inline-block", verticalAlign: "middle" }}
+    >
+      <path
+        fill="#FFFFFF"
+        d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
+      />
+    </svg>
+  </span>
+);
+
+// 2. VERIFIED BADGE (BLUE - Penyesuaian agar bisa menyesuaikan background terang/gelap)
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -79,32 +104,34 @@ const InstagramVerifiedBadge = ({
   size?: number;
   color?: string;
   isOnBlueBackground?: boolean;
-}) => (
-  <svg
-    aria-label="Verified"
-    width={size}
-    height={size}
-    viewBox="0 0 512 512"
-    style={{ 
-      display: "inline-block", 
-      verticalAlign: "middle", 
-      marginLeft: "4px",
-      fill: "currentColor" 
-    }}
-    role="img"
-  >
-    {/* Badge Shape Persis Seperti Foto */}
-    <path
-      fill={isOnBlueBackground ? "#FFFFFF" : color}
-      d="M256,0l45.6,22.8l47.9-19.8l27.1,41.9l50.3,5l5.2,50.4l42.4,27.5l-11.4,49.2l30.9,40.1l-25.2,44.1l17.7,47.4l-38.3,32.3l4.3,50.5l-45.7,22.7l-9.8,49.6l-50.1,5.2l-22.7,45.6l-49.2-11.4l-40.1,30.9l-44.1-25.2l-47.4,17.7l-32.3-38.3l-50.5,4.3l-22.7-45.7l-49.6-9.8l-5.2-50.1l-45.6-22.7l11.4-49.2l-30.9-40.1l25.2-44.1l-17.7-47.4l38.3-32.3l-4.3-50.5l45.7-22.7l9.8-49.6l50.1-5.2l22.7-45.6l49.2,11.4l40.1-30.9l44.1,25.2l47.4-17.7l32.3,38.3L256,0z"
-    />
-    {/* Checkmark Persis Seperti Foto */}
-    <path
-      fill={isOnBlueBackground ? BLUE : "#FFFFFF"}
-      d="M221.7,330.4c-5.9,0-11.8-2.2-16.3-6.7l-90.9-90.9c-9-9-9-23.6,0-32.6c9-9,23.6-9,32.6,0l74.6,74.6l155-155c9-9,23.6-9,32.6,0c9,9,9,23.6,0,32.6l-171.3,171.3C233.5,328.2,227.6,330.4,221.7,330.4z"
-    />
-  </svg>
-);
+}) => {
+  if (isOnBlueBackground) {
+    return <VerifiedBadgeWhite size={size} />;
+  }
+  return (
+    <span
+      style={{
+        position: "relative",
+        display: "inline-block",
+        marginLeft: "4px",
+        verticalAlign: "middle",
+      }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 40 40"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ display: "inline-block", verticalAlign: "middle" }}
+      >
+        <path
+          fill={color}
+          d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
+        />
+      </svg>
+    </span>
+  );
+};
 
 const MicrosoftStoreIcon = ({
   size = 32,
