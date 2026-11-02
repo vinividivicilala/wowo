@@ -220,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (BERLAKU UNTUK PEMILIK & USER) =====
+// ===== REAL-TIME TICKER BANNER (AKURAT: "mengirimkan pesan" saat kirim, "di kirimkan pesan" saat dibaca) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -280,7 +280,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  // Logika real-time: "di kirimkan pesan" jika sudah dibaca, "mengirimkan pesan" jika baru dikirim
+  // Logika akurat: "di kirimkan pesan" jika sudah dibaca penerima (status === 'read'), jika belum/baru dikirim -> "mengirimkan pesan"
   const isRead = currentMsg?.status === "read";
 
   let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
@@ -790,14 +790,23 @@ const LiveChatSection = () => {
     return () => unsub();
   }, [user]);
 
+  // Logika pembacaan pesan secara real-time:
+  // - Jika yang login adalah user biasa, otomatis update status pesan dari pemilik ke user menjadi "read"
+  // - Jika yang login adalah pemilik (admin), otomatis update status pesan dari user menjadi "read" ketika dipilih
   useEffect(() => {
     if (!db || !selectedId || !user) return;
+    const msgRef = doc(db, "contactMessages", selectedId);
+    const selectedMsg = messages.find(m => m.id === selectedId);
+    if (!selectedMsg) return;
+
     const isAdmin = user?.email === ADMIN_EMAIL;
-    if (isAdmin) {
-      const msgRef = doc(db, "contactMessages", selectedId);
-      updateDoc(msgRef, { status: "read" }).catch(() => {});
+    // Jika pemilik membaca pesan dari user, atau user membaca pesan dari pemilik
+    if ((isAdmin && !selectedMsg.isAdminReply) || (!isAdmin && selectedMsg.isAdminReply)) {
+      if (selectedMsg.status !== "read") {
+        updateDoc(msgRef, { status: "read" }).catch(() => {});
+      }
     }
-  }, [selectedId, user]);
+  }, [selectedId, user, messages]);
 
   useEffect(() => {
     if (!detailRef.current || !selectedId) return;
