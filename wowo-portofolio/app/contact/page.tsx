@@ -220,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (OTOMATIS MENGIRIMKAN & DI KIRIMKAN PESAN) =====
+// ===== REAL-TIME TICKER BANNER (LOGIKA AKURAT: KIRIM & BACA) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -280,11 +280,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  // Logika otomatis: Ketika dibaca/masuk -> "di kirimkan pesan", Ketika dikirim -> "mengirimkan pesan"
-  const isReadOrReceived = currentMsg?.status === "read" || isFromAdmin;
+  // Aturan: Jika penerima membaca pesan (status === 'read'), tampilkan "di kirimkan pesan". Jika pengirim kirim, "mengirimkan pesan".
+  const isRead = currentMsg?.status === "read";
 
   let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
-  let actionText = isReadOrReceived ? "di kirimkan pesan" : "mengirimkan pesan";
+  let actionText = isRead ? "di kirimkan pesan" : "mengirimkan pesan";
   let secondEntity = isFromAdmin ? userName : ADMIN_NAME;
 
   return (
@@ -1146,10 +1146,10 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                {isAdmin ? <InstagramVerifiedBadge size={14} color={BLUE} /> : null}
+                {isAdmin && <InstagramVerifiedBadge size={14} color={BLUE} />}
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
-                {isAdmin ? `pemilik [gmail]` : `user [email]`} ({user.email})
+                {isAdmin ? "pemilik [gmail]" : "user [email]"} ({user.email})
               </span>
             </div>
             <button
@@ -1815,9 +1815,9 @@ const LiveChatSection = () => {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {selected.email === ADMIN_EMAIL || selected.isAdminReply || selected.status === "read"
-                      ? "Di Kirimkan Pesan"
-                      : "Mengirimkan Pesan"}
+                    {selected.status === "read"
+                      ? "di kirimkan pesan"
+                      : "mengirimkan pesan"}
                   </span>
                   <span
                     style={{
