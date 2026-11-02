@@ -216,7 +216,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (DUA ARAH: PEMILIK & USER) =====
+// ===== REAL-TIME TICKER BANNER (SESUAI FORMAT DUA ARAH) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -226,13 +226,13 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     if (!messages || messages.length === 0) return;
 
     const interval = setInterval(() => {
-      setIsOpen(true); // Buka amplop
+      setIsOpen(true); // Amplop buka
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % messages.length);
       }, 300);
 
       setTimeout(() => {
-        setIsOpen(false); // Tutup amplop kembali
+        setIsOpen(false); // Amplop tutup kembali
       }, 1500);
     }, 4500);
 
@@ -271,22 +271,29 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const currentMsg = messages[index];
   const userName = currentMsg?.name || "Anonymous";
 
-  // Penentuan alur dua arah:
-  // 1. Jika admin/pemilik yang membalas/mengirim: "Farid Ardiansyah mengirimkan pesan ke [User]"
-  // 2. Jika user yang mengirim: "Farid Ardiansyah dikirimkan pesan oleh [User]" (atau sesuai format: "[User] mengirimkan pesan ke Farid Ardiansyah" / "Farid Ardiansyah dikirimkan pesan [User]")
+  // Penentuan Format Alur:
+  // 1. Jika Pemilik mengirimkan pesan ke User:
+  //    Format: [Pemilik] di kirimkan pesan [User]
+  // 2. Jika User mengirimkan pesan ke Pemilik:
+  //    Format: [User] mengirimkan pesan [Pemilik]
   const isFromAdmin =
     currentMsg?.isAdminReply ||
     currentMsg?.isBroadcast ||
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  let textDisplay = "";
+  let firstEntity = "";
+  let actionText = "";
+  let secondEntity = "";
+
   if (isFromAdmin) {
-    // Pemilik mengirimkan pesan ke user
-    textDisplay = `${ADMIN_NAME} mengirimkan pesan ke ${userName}`;
+    firstEntity = ADMIN_NAME;
+    actionText = "di kirimkan pesan";
+    secondEntity = userName;
   } else {
-    // User mengirimkan pesan ke pemilik -> Pemilik dikirimkan pesan oleh user
-    textDisplay = `${ADMIN_NAME} dikirimkan pesan oleh ${userName}`;
+    firstEntity = userName;
+    actionText = "mengirimkan pesan";
+    secondEntity = ADMIN_NAME;
   }
 
   return (
@@ -319,7 +326,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           }}
         >
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
-            {textDisplay}
+            {firstEntity}
+          </span>
+          <span style={{ opacity: 0.9 }}>{actionText}</span>
+          <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
+            {secondEntity}
           </span>
         </motion.div>
       </AnimatePresence>
