@@ -220,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (LOGIKA AKURAT: KIRIM & BACA) =====
+// ===== REAL-TIME TICKER BANNER (BERLAKU UNTUK PEMILIK & USER) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -280,7 +280,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  // Aturan: Jika penerima membaca pesan (status === 'read'), tampilkan "di kirimkan pesan". Jika pengirim kirim, "mengirimkan pesan".
+  // Logika real-time: "di kirimkan pesan" jika sudah dibaca, "mengirimkan pesan" jika baru dikirim
   const isRead = currentMsg?.status === "read";
 
   let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
