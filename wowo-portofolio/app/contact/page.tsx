@@ -70,7 +70,7 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== ICONS =====
 
-// 1. REAL INSTAGRAM VERIFIED BADGE (Sesuai bentuk ikon pada gambar referensi)
+// 1. EXACT INSTAGRAM VERIFIED BADGE (Bentuk SVG presisi sesuai foto referensi)
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -84,7 +84,7 @@ const InstagramVerifiedBadge = ({
     aria-label="Verified"
     width={size}
     height={size}
-    viewBox="0 0 24 24"
+    viewBox="0 0 512 512"
     style={{ 
       display: "inline-block", 
       verticalAlign: "middle", 
@@ -93,15 +93,15 @@ const InstagramVerifiedBadge = ({
     }}
     role="img"
   >
-    {/* Badge Shape (Bergerigi/Starburst) */}
+    {/* Badge Shape Persis Seperti Foto */}
     <path
       fill={isOnBlueBackground ? "#FFFFFF" : color}
-      d="M12 2l1.35 1.15 1.77-.47.95 1.57 1.83.18.52 1.76 1.62.77-.07 1.84 1.25 1.36-1.07 1.49.46 1.78-1.72.67-.32 1.81-1.84.14-.95 1.57-1.77-.48L12 22l-1.35-1.15-1.77.48-.95-1.57-1.84-.14-.32-1.81-1.72-.67.46-1.78-1.07-1.49 1.25-1.36-.07-1.84 1.62-.77.52-1.76 1.83-.18.95-1.57 1.77.47L12 2z"
+      d="M256,0l45.6,22.8l47.9-19.8l27.1,41.9l50.3,5l5.2,50.4l42.4,27.5l-11.4,49.2l30.9,40.1l-25.2,44.1l17.7,47.4l-38.3,32.3l4.3,50.5l-45.7,22.7l-9.8,49.6l-50.1,5.2l-22.7,45.6l-49.2-11.4l-40.1,30.9l-44.1-25.2l-47.4,17.7l-32.3-38.3l-50.5,4.3l-22.7-45.7l-49.6-9.8l-5.2-50.1l-45.6-22.7l11.4-49.2l-30.9-40.1l25.2-44.1l-17.7-47.4l38.3-32.3l-4.3-50.5l45.7-22.7l9.8-49.6l50.1-5.2l22.7-45.6l49.2,11.4l40.1-30.9l44.1,25.2l47.4-17.7l32.3,38.3L256,0z"
     />
-    {/* Checkmark */}
+    {/* Checkmark Persis Seperti Foto */}
     <path
       fill={isOnBlueBackground ? BLUE : "#FFFFFF"}
-      d="m9.5 16-3.5-3.5 1.41-1.41L9.5 13.17l6.59-6.59L17.5 8z"
+      d="M221.7,330.4c-5.9,0-11.8-2.2-16.3-6.7l-90.9-90.9c-9-9-9-23.6,0-32.6c9-9,23.6-9,32.6,0l74.6,74.6l155-155c9-9,23.6-9,32.6,0c9,9,9,23.6,0,32.6l-171.3,171.3C233.5,328.2,227.6,330.4,221.7,330.4z"
     />
   </svg>
 );
