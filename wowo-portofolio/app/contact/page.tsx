@@ -70,9 +70,7 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== ICONS =====
 
-// 1. REAL INSTAGRAM VERIFIED BADGE (Solid Circle with Check)
-// - isOnBlueBackground: jika true, lingkaran warna PUTIH dan centang warna BIRU.
-// - Jika false, lingkaran warna BIRU (atau custom color) dan centang warna PUTIH.
+// 1. REAL INSTAGRAM VERIFIED BADGE (Sesuai bentuk ikon pada gambar referensi)
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -86,7 +84,7 @@ const InstagramVerifiedBadge = ({
     aria-label="Verified"
     width={size}
     height={size}
-    viewBox="0 0 40 40"
+    viewBox="0 0 24 24"
     style={{ 
       display: "inline-block", 
       verticalAlign: "middle", 
@@ -95,15 +93,15 @@ const InstagramVerifiedBadge = ({
     }}
     role="img"
   >
-    {/* Background Circle */}
+    {/* Badge Shape (Bergerigi/Starburst) */}
     <path
       fill={isOnBlueBackground ? "#FFFFFF" : color}
-      d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"
+      d="M12 2l1.35 1.15 1.77-.47.95 1.57 1.83.18.52 1.76 1.62.77-.07 1.84 1.25 1.36-1.07 1.49.46 1.78-1.72.67-.32 1.81-1.84.14-.95 1.57-1.77-.48L12 22l-1.35-1.15-1.77.48-.95-1.57-1.84-.14-.32-1.81-1.72-.67.46-1.78-1.07-1.49 1.25-1.36-.07-1.84 1.62-.77.52-1.76 1.83-.18.95-1.57 1.77.47L12 2z"
     />
     {/* Checkmark */}
     <path
       fill={isOnBlueBackground ? BLUE : "#FFFFFF"}
-      d="m15.5 24.5-4.5-4.5 2.12-2.12 2.38 2.38 8.88-8.88 2.12 2.12-11 11z"
+      d="m9.5 16-3.5-3.5 1.41-1.41L9.5 13.17l6.59-6.59L17.5 8z"
     />
   </svg>
 );
@@ -2824,7 +2822,6 @@ export default function ContactPage() {
                   overflowY: "auto",
                 }}
               >
-                {/* TAMBAHAN KONTEN DI DALAM EXPAND PANEL BG BIRU */}
                 <div
                   style={{
                     display: "flex",
@@ -2845,7 +2842,6 @@ export default function ContactPage() {
                     }}
                   >
                     Farid Ardiansyah
-                    {/* Lingkaran putih, checklist biru karena berada di atas bg biru */}
                     <InstagramVerifiedBadge size={16} isOnBlueBackground={true} />
                   </span>
                   <span
@@ -2898,7 +2894,6 @@ export default function ContactPage() {
                 }}
               >
                 Farid Ardiansyah
-                {/* Lingkaran putih, checklist biru karena berada di atas bg biru */}
                 <InstagramVerifiedBadge size={16} isOnBlueBackground={true} />
               </span>
               
