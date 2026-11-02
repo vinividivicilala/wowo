@@ -67,7 +67,7 @@ const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
 const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== REAL INSTAGRAM VERIFIED BADGE (Digunakan Pemilik & User Sesuai Request) =====
+// ===== REAL INSTAGRAM VERIFIED BADGE (Untuk Pemilik) =====
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -220,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== SINGLE CLEAN TICKER BANNER (MENGIRIMKAN & DI KIRIMKAN) TANPA DOUBLE/GANDA =====
+// ===== REAL-TIME TICKER BANNER (OTOMATIS MENGIRIMKAN & DI KIRIMKAN PESAN) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -280,19 +280,12 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  let firstEntity = "";
-  let actionText = "";
-  let secondEntity = "";
+  // Logika otomatis: Ketika dibaca/masuk -> "di kirimkan pesan", Ketika dikirim -> "mengirimkan pesan"
+  const isReadOrReceived = currentMsg?.status === "read" || isFromAdmin;
 
-  if (isFromAdmin) {
-    firstEntity = ADMIN_NAME;
-    actionText = "di kirimkan pesan";
-    secondEntity = userName;
-  } else {
-    firstEntity = userName;
-    actionText = "mengirimkan pesan";
-    secondEntity = ADMIN_NAME;
-  }
+  let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
+  let actionText = isReadOrReceived ? "di kirimkan pesan" : "mengirimkan pesan";
+  let secondEntity = isFromAdmin ? userName : ADMIN_NAME;
 
   return (
     <div
@@ -326,12 +319,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
-          <InstagramVerifiedBadge size={14} color="#FFFFFF" />
+          {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {secondEntity}
           </span>
-          <InstagramVerifiedBadge size={14} color="#FFFFFF" />
         </motion.div>
       </AnimatePresence>
     </div>
@@ -1154,10 +1146,10 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                <InstagramVerifiedBadge size={14} color={BLUE} />
+                {isAdmin ? <InstagramVerifiedBadge size={14} color={BLUE} /> : null}
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
-                {user.email}
+                {isAdmin ? `pemilik [gmail]` : `user [email]`} ({user.email})
               </span>
             </div>
             <button
@@ -1269,7 +1261,7 @@ const LiveChatSection = () => {
                     {composeMode === "broadcast" || composeMode === "announcement" 
                       ? "Semua User" 
                       : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
-                    <InstagramVerifiedBadge size={16} color={BLUE} />
+                    {isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
                   </span>
                 </div>
               )}
@@ -1702,7 +1694,9 @@ const LiveChatSection = () => {
                             }}
                           >
                             {m.name || "Anonymous"}
-                            <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />
+                            {(m.email === ADMIN_EMAIL || m.isAdminReply) && (
+                              <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />
+                            )}
                           </div>
                           <div
                             style={{
@@ -1821,7 +1815,7 @@ const LiveChatSection = () => {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {selected.email === ADMIN_EMAIL || selected.isAdminReply
+                    {selected.email === ADMIN_EMAIL || selected.isAdminReply || selected.status === "read"
                       ? "Di Kirimkan Pesan"
                       : "Mengirimkan Pesan"}
                   </span>
@@ -1927,7 +1921,9 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.name || "Anonymous"}
-                        <InstagramVerifiedBadge size={16} color={BLUE} />
+                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
+                          <InstagramVerifiedBadge size={16} color={BLUE} />
+                        )}
                       </span>
                       <span
                         style={{
@@ -1941,7 +1937,9 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.email || selected.name}
-                        <InstagramVerifiedBadge size={14} color={BLUE} />
+                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
+                          <InstagramVerifiedBadge size={14} color={BLUE} />
+                        )}
                       </span>
                     </div>
                   </div>
