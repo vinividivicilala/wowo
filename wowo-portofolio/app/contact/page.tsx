@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import gsap from "gsap";
@@ -34,7 +33,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, SplitText);
 }
 
-// ===== FIREBASE =====
+// ===== FIREBASE CONFIG =====
 const firebaseConfig = {
   apiKey: "AIzaSyD_htQZ1TClnXKZGRJ4izbMQ02y6V3aNAQ",
   authDomain: "wawa44-58d1e.firebaseapp.com",
@@ -46,9 +45,11 @@ const firebaseConfig = {
   appId: "1:836899520599:web:b346e4370ecfa9bb89e312",
   measurementId: "G-8LMP7F4BE9",
 };
+
 let app: any = null;
 let auth: any = null;
 let db: any = null;
+
 if (typeof window !== "undefined") {
   app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   auth = getAuth(app);
@@ -67,7 +68,9 @@ const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
 const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== REAL INSTAGRAM VERIFIED BADGE (Untuk Pemilik) =====
+// ===== ICONS =====
+
+// 1. VERIFIED BADGE (Hanya untuk Admin)
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6",
@@ -220,7 +223,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (AKURAT: "mengirimkan pesan" saat kirim, "di kirimkan pesan" saat dibaca) =====
+// ===== REAL-TIME TICKER BANNER =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -228,18 +231,15 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
 
   useEffect(() => {
     if (!messages || messages.length === 0) return;
-
     const interval = setInterval(() => {
       setIsOpen(true);
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % messages.length);
       }, 400);
-
       setTimeout(() => {
         setIsOpen(false);
       }, 2500);
     }, 6500);
-
     return () => clearInterval(interval);
   }, [messages]);
 
@@ -280,9 +280,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  // Logika akurat: "di kirimkan pesan" jika sudah dibaca penerima (status === 'read'), jika belum/baru dikirim -> "mengirimkan pesan"
+  // LOGIKA STATUS:
+  // Jika status 'read' -> "di kirimkan pesan" (Passive)
+  // Jika status lain -> "mengirimkan pesan" (Active)
   const isRead = currentMsg?.status === "read";
-
+  
   let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
   let actionText = isRead ? "di kirimkan pesan" : "mengirimkan pesan";
   let secondEntity = isFromAdmin ? userName : ADMIN_NAME;
@@ -319,6 +321,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
+          {/* Badge hanya muncul jika pengirimnya Admin */}
           {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
@@ -330,7 +333,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   );
 };
 
-// ===== TIME AGO =====
+// ===== UTILS =====
 function timeAgo(ts: any): string {
   if (!ts) return "0 detik lalu";
   const date = ts.toDate ? ts.toDate() : new Date(ts);
@@ -349,14 +352,16 @@ function timeAgo(ts: any): string {
   return `${Math.floor(month / 12)} tahun lalu`;
 }
 
-// ===== FORMAT JAM =====
 function formatJam(ts: any): string {
   if (!ts) return "";
   const date = ts.toDate ? ts.toDate() : new Date(ts);
-  return date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
-// ===== FOOTER =====
+// ===== FOOTER SECTION =====
 const footerColumns = [
   {
     title: "Attention",
@@ -429,7 +434,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
             invalidateOnRefresh: true,
           },
         });
-
         if (splitA && splitA.chars.length > 0) {
           gsap.set(splitA.chars, {
             yPercent: 100,
@@ -543,7 +547,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
             </div>
           ))}
         </div>
-
         <a
           href="#"
           target="_blank"
@@ -565,7 +568,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           </span>
         </a>
       </div>
-
       <div style={{ marginTop: "40px", marginBottom: "24px" }}>
         <a
           href="#"
@@ -587,7 +589,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           </span>
         </a>
       </div>
-
       <div>
         <div style={{ display: "flex", alignItems: "flex-end", gap: "12px" }}>
           <span
@@ -726,46 +727,44 @@ const CookiesPopup = ({
   </div>
 );
 
-// ===== LIVE CHAT =====
+// ===== LIVE CHAT SECTION =====
 const LiveChatSection = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [showCompose, setShowCompose] = useState(false);
-  const [composeMode, setComposeMode] = useState<"reply" | "broadcast" | "announcement">("reply");
+  const [composeMode, setComposeMode] = useState<
+    "reply" | "broadcast" | "announcement"
+  >("reply");
   const [formSubject, setFormSubject] = useState("");
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
-  
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const [selectedUserToReply, setSelectedUserToReply] = useState<string>("");
-
-  const [authMode, setAuthMode] = useState<"login" | "register" | "google">("google");
+  const [authMode, setAuthMode] = useState<"login" | "register" | "google">(
+    "google"
+  );
   const [authName, setAuthName] = useState("");
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authError, setAuthError] = useState("");
-
   const detailRef = useRef<HTMLDivElement>(null);
 
+  // Auth State Listener
   useEffect(() => {
     if (!auth) return;
     return onAuthStateChanged(auth, (u) => setUser(u));
   }, []);
 
+  // Fetch Messages
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
-
     const isAdmin = user?.email === ADMIN_EMAIL;
     let q;
-
     if (isAdmin) {
-      q = query(
-        collection(db, "contactMessages"),
-        orderBy("createdAt", "desc")
-      );
+      q = query(collection(db, "contactMessages"), orderBy("createdAt", "desc"));
     } else if (user) {
       q = query(
         collection(db, "contactMessages"),
@@ -777,7 +776,6 @@ const LiveChatSection = () => {
       setSelectedId(null);
       return;
     }
-
     const unsub = onSnapshot(q, (snap: any) => {
       const list: any[] = [];
       snap.forEach((d: any) => list.push({ id: d.id, ...d.data() }));
@@ -790,18 +788,22 @@ const LiveChatSection = () => {
     return () => unsub();
   }, [user]);
 
-  // Logika pembacaan pesan secara real-time:
-  // - Jika yang login adalah user biasa, otomatis update status pesan dari pemilik ke user menjadi "read"
-  // - Jika yang login adalah pemilik (admin), otomatis update status pesan dari user menjadi "read" ketika dipilih
+  // Auto Mark as Read Logic
   useEffect(() => {
     if (!db || !selectedId || !user) return;
     const msgRef = doc(db, "contactMessages", selectedId);
-    const selectedMsg = messages.find(m => m.id === selectedId);
+    const selectedMsg = messages.find((m) => m.id === selectedId);
     if (!selectedMsg) return;
 
     const isAdmin = user?.email === ADMIN_EMAIL;
-    // Jika pemilik membaca pesan dari user, atau user membaca pesan dari pemilik
-    if ((isAdmin && !selectedMsg.isAdminReply) || (!isAdmin && selectedMsg.isAdminReply)) {
+    
+    // Update status to 'read' if:
+    // 1. Admin reads a user message (!isAdminReply)
+    // 2. User reads an admin reply (isAdminReply)
+    if (
+      (isAdmin && !selectedMsg.isAdminReply) ||
+      (!isAdmin && selectedMsg.isAdminReply)
+    ) {
       if (selectedMsg.status !== "read") {
         updateDoc(msgRef, { status: "read" }).catch(() => {});
       }
@@ -837,11 +839,14 @@ const LiveChatSection = () => {
       setAuthError("Nama wajib diisi untuk mendaftar.");
       return;
     }
-
     try {
       setAuthError("");
       if (authMode === "register") {
-        const userCredential = await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          authEmail,
+          authPassword
+        );
         await updateProfile(userCredential.user, { displayName: authName });
       } else {
         await signInWithEmailAndPassword(auth, authEmail, authPassword);
@@ -871,10 +876,10 @@ const LiveChatSection = () => {
     setSubmitStatus("idle");
     try {
       const isAdmin = user?.email === ADMIN_EMAIL;
-      
       if (isAdmin && composeMode === "reply") {
-        const targetUser = messages.find(m => m.userId === selectedUserToReply || m.email === selectedUserToReply);
-        
+        const targetUser = messages.find(
+          (m) => m.userId === selectedUserToReply || m.email === selectedUserToReply
+        );
         await addDoc(collection(db, "contactMessages"), {
           userId: targetUser ? targetUser.userId : selectedUserToReply,
           name: ADMIN_NAME,
@@ -888,8 +893,7 @@ const LiveChatSection = () => {
           isAdminReply: true,
           createdAt: serverTimestamp(),
         });
-      } 
-      else if (isAdmin && composeMode === "broadcast") {
+      } else if (isAdmin && composeMode === "broadcast") {
         await addDoc(collection(db, "contactMessages"), {
           userId: "all",
           name: ADMIN_NAME,
@@ -903,8 +907,7 @@ const LiveChatSection = () => {
           isBroadcast: true,
           createdAt: serverTimestamp(),
         });
-      }
-      else if (isAdmin && composeMode === "announcement") {
+      } else if (isAdmin && composeMode === "announcement") {
         await addDoc(collection(db, "contactMessages"), {
           userId: "all",
           name: ADMIN_NAME,
@@ -918,8 +921,7 @@ const LiveChatSection = () => {
           isAnnouncement: true,
           createdAt: serverTimestamp(),
         });
-      }
-      else {
+      } else {
         await addDoc(collection(db, "contactMessages"), {
           userId: user.uid,
           name: user.displayName || user.email?.split("@")[0] || "Anonymous",
@@ -933,7 +935,6 @@ const LiveChatSection = () => {
           createdAt: serverTimestamp(),
         });
       }
-
       setFormSubject("");
       setFormMessage("");
       setSubmitStatus("success");
@@ -956,7 +957,7 @@ const LiveChatSection = () => {
     setComposeMode(mode);
     setFormSubject("");
     setFormMessage("");
-    if (mode === "reply" && !isAdmin && selected) {
+    if (mode === "reply" && selected) {
       setSelectedUserToReply(selected.userId);
     }
     setShowCompose(true);
@@ -964,12 +965,22 @@ const LiveChatSection = () => {
 
   const selected = messages.find((m) => m.id === selectedId) || null;
   const isAdmin = user?.email === ADMIN_EMAIL;
-
+  
   const uniqueUsers = useMemo(() => {
     const map = new Map();
-    messages.forEach(m => {
-      if (m.userId && m.userId !== "all" && !m.isAdminReply && !m.isBroadcast && !m.isAnnouncement) {
-        map.set(m.userId, { id: m.userId, name: m.name, email: m.email });
+    messages.forEach((m) => {
+      if (
+        m.userId &&
+        m.userId !== "all" &&
+        !m.isAdminReply &&
+        !m.isBroadcast &&
+        !m.isAnnouncement
+      ) {
+        map.set(m.userId, {
+          id: m.userId,
+          name: m.name,
+          email: m.email,
+        });
       }
     });
     return Array.from(map.values());
@@ -986,6 +997,7 @@ const LiveChatSection = () => {
         gap: "20px",
       }}
     >
+      {/* Header Actions */}
       <div
         style={{
           display: "flex",
@@ -1016,9 +1028,12 @@ const LiveChatSection = () => {
             }}
           >
             <SendIcon size={20} color={BLUE} />
-            {!user ? "Sign in to Send" : isAdmin ? "Balas User" : "Kirim Pesan"}
+            {!user
+              ? "Sign in to Send"
+              : isAdmin
+              ? "Balas User"
+              : "Kirim Pesan"}
           </button>
-
           {isAdmin && (
             <>
               <button
@@ -1065,6 +1080,7 @@ const LiveChatSection = () => {
           )}
         </div>
 
+        {/* Auth/User Profile */}
         {!user ? (
           <div style={{ display: "flex", gap: "12px" }}>
             <button
@@ -1138,7 +1154,13 @@ const LiveChatSection = () => {
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               ) : (
-                <span style={{ color: WHITE, fontSize: "16px", fontWeight: 800 }}>
+                <span
+                  style={{
+                    color: WHITE,
+                    fontSize: "16px",
+                    fontWeight: 800,
+                  }}
+                >
                   {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
                 </span>
               )}
@@ -1155,6 +1177,7 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
+                {/* PERBAIKAN: Badge hanya muncul jika isAdmin */}
                 {isAdmin && <InstagramVerifiedBadge size={14} color={BLUE} />}
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
@@ -1181,6 +1204,7 @@ const LiveChatSection = () => {
         )}
       </div>
 
+      {/* Compose Form */}
       <AnimatePresence>
         {showCompose && user && (
           <motion.div
@@ -1197,9 +1221,12 @@ const LiveChatSection = () => {
           >
             <div
               style={{
-                backgroundColor: 
-                  composeMode === "broadcast" ? "#F59E0B" : 
-                  composeMode === "announcement" ? "#10B981" : BLUE,
+                backgroundColor:
+                  composeMode === "broadcast"
+                    ? "#F59E0B"
+                    : composeMode === "announcement"
+                    ? "#10B981"
+                    : BLUE,
                 padding: "20px 28px",
                 display: "flex",
                 alignItems: "center",
@@ -1210,9 +1237,13 @@ const LiveChatSection = () => {
             >
               <SendIcon size={22} color={WHITE} />
               <span style={{ fontSize: "20px", fontWeight: 700, color: WHITE }}>
-                {composeMode === "broadcast" ? "Kirim Broadcast ke Semua" :
-                 composeMode === "announcement" ? "Kirim Pengumuman ke Semua" :
-                 isAdmin ? `Balas Pesan` : "Kirim Pesan ke Admin"}
+                {composeMode === "broadcast"
+                  ? "Kirim Broadcast ke Semua"
+                  : composeMode === "announcement"
+                  ? "Kirim Pengumuman ke Semua"
+                  : isAdmin
+                  ? `Balas Pesan`
+                  : "Kirim Pesan ke Admin"}
               </span>
             </div>
             <form
@@ -1225,8 +1256,14 @@ const LiveChatSection = () => {
               }}
             >
               {isAdmin && composeMode === "reply" ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontSize: "14px", fontWeight: 700, color: BLUE }}>Pilih User Tujuan:</label>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+                >
+                  <label
+                    style={{ fontSize: "14px", fontWeight: 700, color: BLUE }}
+                  >
+                    Pilih User Tujuan:
+                  </label>
                   <select
                     value={selectedUserToReply}
                     onChange={(e) => setSelectedUserToReply(e.target.value)}
@@ -1266,15 +1303,23 @@ const LiveChatSection = () => {
                   }}
                 >
                   <span>To:</span>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                    {composeMode === "broadcast" || composeMode === "announcement" 
-                      ? "Semua User" 
-                      : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    {composeMode === "broadcast" || composeMode === "announcement"
+                      ? "Semua User"
+                      : isAdmin
+                      ? selected?.email || "User"
+                      : ADMIN_EMAIL}
+                    {/* Badge di form hanya jika Admin mengirim */}
                     {isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
                   </span>
                 </div>
               )}
-
               <input
                 type="text"
                 placeholder="Subject"
@@ -1293,7 +1338,6 @@ const LiveChatSection = () => {
                   fontFamily: FONT_FAMILY,
                 }}
               />
-
               <textarea
                 placeholder="Write your message..."
                 value={formMessage}
@@ -1313,7 +1357,6 @@ const LiveChatSection = () => {
                   fontFamily: FONT_FAMILY,
                 }}
               />
-
               {submitStatus === "success" && (
                 <div
                   style={{
@@ -1342,14 +1385,7 @@ const LiveChatSection = () => {
                   Gagal. Pastikan semua field terisi.
                 </div>
               )}
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "12px",
-                }}
-              >
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
                 <button
                   type="button"
                   onClick={() => setShowCompose(false)}
@@ -1392,6 +1428,7 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
+      {/* Main Chat Area */}
       {!user ? (
         <div
           style={{
@@ -1425,7 +1462,6 @@ const LiveChatSection = () => {
             Silakan login menggunakan akun Google atau Email Anda terlebih
             dahulu untuk melihat pesan dan mengirim pesan ke Farid Ardiansyah.
           </p>
-
           <div
             style={{
               backgroundColor: WHITE,
@@ -1439,7 +1475,10 @@ const LiveChatSection = () => {
           >
             <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
               <button
-                onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                onClick={() => {
+                  setAuthMode("login");
+                  setAuthError("");
+                }}
                 style={{
                   flex: 1,
                   padding: "12px",
@@ -1455,11 +1494,15 @@ const LiveChatSection = () => {
                 Masuk
               </button>
               <button
-                onClick={() => { setAuthMode("register"); setAuthError(""); }}
+                onClick={() => {
+                  setAuthMode("register");
+                  setAuthError("");
+                }}
                 style={{
                   flex: 1,
                   padding: "12px",
-                  backgroundColor: authMode === "register" ? BLUE : "transparent",
+                  backgroundColor:
+                    authMode === "register" ? BLUE : "transparent",
                   color: authMode === "register" ? WHITE : BLUE,
                   border: `1.5px solid ${BLUE}`,
                   borderRadius: "10px",
@@ -1471,15 +1514,26 @@ const LiveChatSection = () => {
                 Daftar
               </button>
             </div>
-
-            <form onSubmit={handleManualAuth} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <form
+              onSubmit={handleManualAuth}
+              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+            >
               {authMode === "register" && (
                 <input
                   type="text"
                   placeholder="Nama Lengkap"
                   value={authName}
                   onChange={(e) => setAuthName(e.target.value)}
-                  style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+                  style={{
+                    width: "100%",
+                    padding: "14px",
+                    border: `1.5px solid ${BLUE}30`,
+                    borderRadius: "10px",
+                    outline: "none",
+                    fontSize: "15px",
+                    color: BLUE,
+                    fontFamily: FONT_FAMILY,
+                  }}
                 />
               )}
               <input
@@ -1487,27 +1541,80 @@ const LiveChatSection = () => {
                 placeholder="Email"
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
-                style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  border: `1.5px solid ${BLUE}30`,
+                  borderRadius: "10px",
+                  outline: "none",
+                  fontSize: "15px",
+                  color: BLUE,
+                  fontFamily: FONT_FAMILY,
+                }}
               />
               <input
                 type="password"
                 placeholder="Password (min. 6 karakter)"
                 value={authPassword}
                 onChange={(e) => setAuthPassword(e.target.value)}
-                style={{ width: "100%", padding: "14px", border: `1.5px solid ${BLUE}30`, borderRadius: "10px", outline: "none", fontSize: "15px", color: BLUE, fontFamily: FONT_FAMILY }}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  border: `1.5px solid ${BLUE}30`,
+                  borderRadius: "10px",
+                  outline: "none",
+                  fontSize: "15px",
+                  color: BLUE,
+                  fontFamily: FONT_FAMILY,
+                }}
               />
-              {authError && <div style={{ color: RED, fontSize: "13px", fontWeight: 600 }}>{authError}</div>}
-              <button type="submit" style={{ padding: "14px", backgroundColor: BLUE, color: WHITE, border: "none", borderRadius: "10px", fontSize: "16px", fontWeight: 700, cursor: "pointer", fontFamily: FONT_FAMILY }}>
+              {authError && (
+                <div style={{ color: RED, fontSize: "13px", fontWeight: 600 }}>
+                  {authError}
+                </div>
+              )}
+              <button
+                type="submit"
+                style={{
+                  padding: "14px",
+                  backgroundColor: BLUE,
+                  color: WHITE,
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  fontFamily: FONT_FAMILY,
+                }}
+              >
                 {authMode === "login" ? "Masuk" : "Daftar"}
               </button>
             </form>
-            
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "20px 0" }}>
-              <div style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }} />
-              <span style={{ fontSize: "12px", color: BLUE, opacity: 0.6, fontWeight: 600 }}>ATAU</span>
-              <div style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }} />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                margin: "20px 0",
+              }}
+            >
+              <div
+                style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: BLUE,
+                  opacity: 0.6,
+                  fontWeight: 600,
+                }}
+              >
+                ATAU
+              </span>
+              <div
+                style={{ flex: 1, height: "1px", backgroundColor: `${BLUE}20` }}
+              />
             </div>
-
             <button
               onClick={handleGoogleSignIn}
               style={{
@@ -1548,6 +1655,7 @@ const LiveChatSection = () => {
             minHeight: "900px",
           }}
         >
+          {/* Left Sidebar: Message List */}
           <div
             style={{
               flex: "0 0 440px",
@@ -1597,7 +1705,6 @@ const LiveChatSection = () => {
                 {messages.length}
               </span>
             </div>
-
             <div
               style={{
                 flex: 1,
@@ -1627,10 +1734,8 @@ const LiveChatSection = () => {
                   const isActive = m.id === selectedId;
                   const isBroadcast = m.isBroadcast;
                   const isAnnouncement = m.isAnnouncement;
-                  
                   let bgColor = isActive ? BLUE : `${BLUE}08`;
                   let textColor = isActive ? WHITE : BLUE;
-                  
                   if (isBroadcast && !isActive) {
                     bgColor = "#FEF3C7";
                     textColor = "#92400E";
@@ -1639,7 +1744,6 @@ const LiveChatSection = () => {
                     bgColor = "#D1FAE5";
                     textColor = "#065F46";
                   }
-
                   return (
                     <motion.button
                       key={m.id}
@@ -1668,7 +1772,14 @@ const LiveChatSection = () => {
                           "background-color 0.25s ease, color 0.25s ease",
                       }}
                     >
-                      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "100%" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "14px",
+                          width: "100%",
+                        }}
+                      >
                         <div
                           style={{
                             width: "48px",
@@ -1687,7 +1798,6 @@ const LiveChatSection = () => {
                             open={isActive}
                           />
                         </div>
-
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div
                             style={{
@@ -1703,8 +1813,12 @@ const LiveChatSection = () => {
                             }}
                           >
                             {m.name || "Anonymous"}
+                            {/* PERBAIKAN: Badge hanya muncul jika pengirim adalah Admin */}
                             {(m.email === ADMIN_EMAIL || m.isAdminReply) && (
-                              <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />
+                              <InstagramVerifiedBadge
+                                size={14}
+                                color={isActive ? WHITE : BLUE}
+                              />
                             )}
                           </div>
                           <div
@@ -1719,7 +1833,6 @@ const LiveChatSection = () => {
                           </div>
                         </div>
                       </div>
-                      
                       <div
                         style={{
                           fontSize: "24px",
@@ -1732,7 +1845,6 @@ const LiveChatSection = () => {
                       >
                         {m.subject || "(no subject)"}
                       </div>
-
                       <div
                         style={{
                           fontSize: "16px",
@@ -1757,6 +1869,7 @@ const LiveChatSection = () => {
             </div>
           </div>
 
+          {/* Right Detail View */}
           <div
             ref={detailRef}
             style={{
@@ -1801,6 +1914,7 @@ const LiveChatSection = () => {
               </div>
             ) : (
               <>
+                {/* Status Banner */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1824,6 +1938,7 @@ const LiveChatSection = () => {
                       letterSpacing: "0.08em",
                     }}
                   >
+                    {/* LOGIKA STATUS REAL-TIME */}
                     {selected.status === "read"
                       ? "di kirimkan pesan"
                       : "mengirimkan pesan"}
@@ -1840,6 +1955,7 @@ const LiveChatSection = () => {
                   </span>
                 </div>
 
+                {/* Sender Info */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1864,7 +1980,6 @@ const LiveChatSection = () => {
                   >
                     {selected.subject || "(no subject)"}
                   </span>
-
                   <div
                     style={{
                       display: "flex",
@@ -1930,7 +2045,9 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.name || "Anonymous"}
-                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
+                        {/* PERBAIKAN: Badge hanya muncul jika pengirim/penerima adalah Admin */}
+                        {(selected.email === ADMIN_EMAIL ||
+                          selected.isAdminReply) && (
                           <InstagramVerifiedBadge size={16} color={BLUE} />
                         )}
                       </span>
@@ -1946,13 +2063,13 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.email || selected.name}
-                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
+                        {(selected.email === ADMIN_EMAIL ||
+                          selected.isAdminReply) && (
                           <InstagramVerifiedBadge size={14} color={BLUE} />
                         )}
                       </span>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -1990,8 +2107,17 @@ const LiveChatSection = () => {
                           gap: "4px",
                         }}
                       >
-                        {selected.isBroadcast || selected.isAnnouncement ? "Semua User" : (isAdmin ? selected.name : ADMIN_NAME)}
-                        <InstagramVerifiedBadge size={16} color={BLUE} />
+                        {selected.isBroadcast || selected.isAnnouncement
+                          ? "Semua User"
+                          : isAdmin
+                          ? selected.name
+                          : ADMIN_NAME}
+                        {/* PERBAIKAN: Badge di penerima juga hanya jika Admin */}
+                        {(selected.isBroadcast ||
+                          selected.isAnnouncement ||
+                          (isAdmin && selected.email !== ADMIN_EMAIL)) && (
+                          <InstagramVerifiedBadge size={16} color={BLUE} />
+                        )}
                       </span>
                       <span
                         style={{
@@ -2001,12 +2127,17 @@ const LiveChatSection = () => {
                           opacity: 0.7,
                         }}
                       >
-                        {selected.isBroadcast || selected.isAnnouncement ? "Global" : (isAdmin ? selected.email : ADMIN_EMAIL)}
+                        {selected.isBroadcast || selected.isAnnouncement
+                          ? "Global"
+                          : isAdmin
+                          ? selected.email
+                          : ADMIN_EMAIL}
                       </span>
                     </div>
                   </div>
                 </div>
 
+                {/* Message Content Container */}
                 <div
                   style={{
                     backgroundColor: BLUE,
@@ -2050,7 +2181,6 @@ const LiveChatSection = () => {
                     </span>
                   </div>
                 </div>
-
                 <div
                   style={{
                     backgroundColor: BLUE,
@@ -2081,7 +2211,6 @@ const LiveChatSection = () => {
                     }}
                   >
                     <div>{selected.message || "(empty message)"}</div>
-                    
                     <div
                       style={{
                         display: "flex",
@@ -2130,7 +2259,7 @@ const LiveChatSection = () => {
   );
 };
 
-// ===== CONTACT PAGE =====
+// ===== MAIN PAGE COMPONENT =====
 export default function ContactPage() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
@@ -2142,7 +2271,6 @@ export default function ContactPage() {
   const panelBgRef = useRef<HTMLDivElement>(null);
   const panelInnerRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
@@ -2179,7 +2307,6 @@ export default function ContactPage() {
     } catch {}
     setShowCookies(false);
   };
-
   const handleDeclineCookies = () => {
     try {
       localStorage.setItem("cookies-consent", "declined");
@@ -2201,7 +2328,13 @@ export default function ContactPage() {
     const tl = gsap.timeline();
     tl.to(
       [leftText, rightText],
-      { xPercent: 0, opacity: 1, duration: 2.2, ease: "power2.out", stagger: 0 },
+      {
+        xPercent: 0,
+        opacity: 1,
+        duration: 2.2,
+        ease: "power2.out",
+        stagger: 0,
+      },
       0
     )
       .to({}, { duration: 1 })
@@ -2213,7 +2346,12 @@ export default function ContactPage() {
       })
       .to(
         rightText,
-        { xPercent: 220, opacity: 0, duration: 2.4, ease: "power2.inOut" },
+        {
+          xPercent: 220,
+          opacity: 0,
+          duration: 2.4,
+          ease: "power2.inOut",
+        },
         "<"
       )
       .to(preloader, {
@@ -2252,7 +2390,13 @@ export default function ContactPage() {
       ).fromTo(
         label,
         { opacity: 0, y: 20, scale: 0.85 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
         "-=0.5"
       );
     } else {
@@ -2268,7 +2412,13 @@ export default function ContactPage() {
       }).fromTo(
         label,
         { opacity: 0, y: 20, scale: 0.85 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        },
         "-=0.4"
       );
     }
@@ -2309,7 +2459,11 @@ export default function ContactPage() {
           ease: "power2.out",
         });
       if (plusIcon)
-        gsap.to(plusIcon, { rotation: 45, duration: 0.5, ease: "power3.out" });
+        gsap.to(plusIcon, {
+          rotation: 45,
+          duration: 0.5,
+          ease: "power3.out",
+        });
     } else {
       gsap.to(panelBg, {
         height: 0,
@@ -2323,7 +2477,11 @@ export default function ContactPage() {
       if (panelInner)
         gsap.to(panelInner, { opacity: 0, duration: 0.3, ease: "power2.in" });
       if (plusIcon)
-        gsap.to(plusIcon, { rotation: 0, duration: 0.4, ease: "power3.inOut" });
+        gsap.to(plusIcon, {
+          rotation: 0,
+          duration: 0.4,
+          ease: "power3.inOut",
+        });
     }
   }, [expandOpen]);
 
@@ -2371,7 +2529,7 @@ export default function ContactPage() {
         </span>
       </div>
 
-      {/* Top Banner Biru Navbar */}
+      {/* Top Banner Blue Navbar */}
       <div
         style={{
           position: "fixed",
@@ -2401,7 +2559,6 @@ export default function ContactPage() {
         >
           <RealtimeMessageTicker messages={tickerMessages} />
         </div>
-
         <span
           style={{
             display: "inline-flex",
@@ -2414,7 +2571,11 @@ export default function ContactPage() {
         >
           <span style={{ color: BLACK, fontWeight: 600 }}>Bersponsor</span>
           <span
-            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
           >
             Kunjungi website{" "}
             <a
@@ -2458,7 +2619,6 @@ export default function ContactPage() {
               Farid Ardiansyah
             </span>
           </Link>
-
           <button
             onClick={() => setMenuOpen((v) => !v)}
             style={{
@@ -2536,7 +2696,6 @@ export default function ContactPage() {
               </Link>
             ))}
           </div>
-
           <div
             style={{
               position: "fixed",
@@ -2606,7 +2765,6 @@ export default function ContactPage() {
           >
             Contact
           </span>
-
           <span
             style={{
               fontSize: "90px",
@@ -2620,10 +2778,8 @@ export default function ContactPage() {
           >
             Messages
           </span>
-
           <LiveChatSection />
         </div>
-
         <FooterSection refreshKey="contact" />
       </div>
 
@@ -2681,7 +2837,6 @@ export default function ContactPage() {
                 }}
               />
             </div>
-
             <div
               ref={buttonBgRef}
               style={{
@@ -2752,7 +2907,6 @@ export default function ContactPage() {
 
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
-
         html,
         body {
           overflow-x: hidden !important;
