@@ -216,7 +216,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (ANIMASI AMBLOP BUKA TUTUP OTOMATIS & ALUR PRESISI) =====
+// ===== REAL-TIME TICKER BANNER (DUA ARAH: PEMILIK & USER) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -225,22 +225,20 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   useEffect(() => {
     if (!messages || messages.length === 0) return;
 
-    // Interval gonta-ganti pesan & animasi amplop buka-tutup
     const interval = setInterval(() => {
-      setIsOpen(true); // Amplop membuka saat berganti
+      setIsOpen(true); // Buka amplop
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % messages.length);
       }, 300);
 
       setTimeout(() => {
-        setIsOpen(false); // Amplop menutup kembali
+        setIsOpen(false); // Tutup amplop kembali
       }, 1500);
     }, 4500);
 
     return () => clearInterval(interval);
   }, [messages]);
 
-  // Efek GSAP halus saat komponen tampil
   useEffect(() => {
     if (tickerContainerRef.current) {
       gsap.fromTo(
@@ -271,16 +269,25 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   }
 
   const currentMsg = messages[index];
-  const senderName = currentMsg?.name || "Anonymous";
+  const userName = currentMsg?.name || "Anonymous";
 
-  // Penentuan alur pesan: Mengirimkan atau Dikirimkan
+  // Penentuan alur dua arah:
+  // 1. Jika admin/pemilik yang membalas/mengirim: "Farid Ardiansyah mengirimkan pesan ke [User]"
+  // 2. Jika user yang mengirim: "Farid Ardiansyah dikirimkan pesan oleh [User]" (atau sesuai format: "[User] mengirimkan pesan ke Farid Ardiansyah" / "Farid Ardiansyah dikirimkan pesan [User]")
   const isFromAdmin =
     currentMsg?.isAdminReply ||
     currentMsg?.isBroadcast ||
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
-  
-  const actionText = isFromAdmin ? "mengirimkan pesan" : "dikirimkan pesan";
+
+  let textDisplay = "";
+  if (isFromAdmin) {
+    // Pemilik mengirimkan pesan ke user
+    textDisplay = `${ADMIN_NAME} mengirimkan pesan ke ${userName}`;
+  } else {
+    // User mengirimkan pesan ke pemilik -> Pemilik dikirimkan pesan oleh user
+    textDisplay = `${ADMIN_NAME} dikirimkan pesan oleh ${userName}`;
+  }
 
   return (
     <div
@@ -312,11 +319,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           }}
         >
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
-            {ADMIN_NAME}
-          </span>
-          <span style={{ opacity: 0.9 }}>{actionText}</span>
-          <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
-            {senderName}
+            {textDisplay}
           </span>
         </motion.div>
       </AnimatePresence>
@@ -2129,7 +2132,6 @@ export default function ContactPage() {
   const [showCookies, setShowCookies] = useState(false);
   const [tickerMessages, setTickerMessages] = useState<any[]>([]);
 
-  // Realtime Firestore Listener untuk Banner Pesan Atas
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const q = query(
@@ -2371,7 +2373,6 @@ export default function ContactPage() {
           boxSizing: "border-box",
         }}
       >
-        {/* Sisi Kiri: Realtime Ticker Pesan Alur + Icon Email Animasi Buka/Tutup */}
         <div
           style={{
             display: "flex",
@@ -2384,7 +2385,6 @@ export default function ContactPage() {
           <RealtimeMessageTicker messages={tickerMessages} />
         </div>
 
-        {/* Sisi Kanan: Bersponsor */}
         <span
           style={{
             display: "inline-flex",
