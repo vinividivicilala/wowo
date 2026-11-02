@@ -289,9 +289,6 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
     currentMsg?.isAnnouncement ||
     currentMsg?.email === ADMIN_EMAIL;
 
-  // LOGIKA STATUS:
-  // Jika status 'read' -> "di kirimkan pesan" (Passive)
-  // Jika status lain -> "mengirimkan pesan" (Active)
   const isRead = currentMsg?.status === "read";
   
   let firstEntity = isFromAdmin ? ADMIN_NAME : userName;
@@ -330,7 +327,6 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
-          {/* Badge hanya muncul jika pengirimnya Admin */}
           {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
@@ -761,13 +757,11 @@ const LiveChatSection = () => {
   const [authError, setAuthError] = useState("");
   const detailRef = useRef<HTMLDivElement>(null);
 
-  // Auth State Listener
   useEffect(() => {
     if (!auth) return;
     return onAuthStateChanged(auth, (u) => setUser(u));
   }, []);
 
-  // Fetch Messages
   useEffect(() => {
     if (typeof window === "undefined" || !db) return;
     const isAdmin = user?.email === ADMIN_EMAIL;
@@ -797,7 +791,6 @@ const LiveChatSection = () => {
     return () => unsub();
   }, [user]);
 
-  // Auto Mark as Read Logic
   useEffect(() => {
     if (!db || !selectedId || !user) return;
     const msgRef = doc(db, "contactMessages", selectedId);
@@ -806,9 +799,6 @@ const LiveChatSection = () => {
 
     const isAdmin = user?.email === ADMIN_EMAIL;
     
-    // Update status to 'read' if:
-    // 1. Admin reads a user message (!isAdminReply)
-    // 2. User reads an admin reply (isAdminReply)
     if (
       (isAdmin && !selectedMsg.isAdminReply) ||
       (!isAdmin && selectedMsg.isAdminReply)
@@ -1006,7 +996,6 @@ const LiveChatSection = () => {
         gap: "20px",
       }}
     >
-      {/* Header Actions */}
       <div
         style={{
           display: "flex",
@@ -1089,7 +1078,6 @@ const LiveChatSection = () => {
           )}
         </div>
 
-        {/* Auth/User Profile */}
         {!user ? (
           <div style={{ display: "flex", gap: "12px" }}>
             <button
@@ -1186,7 +1174,6 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                {/* PERBAIKAN: Badge hanya muncul jika isAdmin */}
                 {isAdmin && <InstagramVerifiedBadge size={14} color={BLUE} />}
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
@@ -1213,7 +1200,6 @@ const LiveChatSection = () => {
         )}
       </div>
 
-      {/* Compose Form */}
       <AnimatePresence>
         {showCompose && user && (
           <motion.div
@@ -1324,7 +1310,6 @@ const LiveChatSection = () => {
                       : isAdmin
                       ? selected?.email || "User"
                       : ADMIN_EMAIL}
-                    {/* Badge di form hanya jika Admin mengirim */}
                     {isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
                   </span>
                 </div>
@@ -1437,7 +1422,6 @@ const LiveChatSection = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Chat Area */}
       {!user ? (
         <div
           style={{
@@ -1664,7 +1648,6 @@ const LiveChatSection = () => {
             minHeight: "900px",
           }}
         >
-          {/* Left Sidebar: Message List */}
           <div
             style={{
               flex: "0 0 440px",
@@ -1822,7 +1805,6 @@ const LiveChatSection = () => {
                             }}
                           >
                             {m.name || "Anonymous"}
-                            {/* PERBAIKAN: Badge hanya muncul jika pengirim adalah Admin */}
                             {(m.email === ADMIN_EMAIL || m.isAdminReply) && (
                               <InstagramVerifiedBadge
                                 size={14}
@@ -1878,7 +1860,6 @@ const LiveChatSection = () => {
             </div>
           </div>
 
-          {/* Right Detail View */}
           <div
             ref={detailRef}
             style={{
@@ -1923,7 +1904,6 @@ const LiveChatSection = () => {
               </div>
             ) : (
               <>
-                {/* Status Banner */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -1947,7 +1927,6 @@ const LiveChatSection = () => {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {/* LOGIKA STATUS REAL-TIME */}
                     {selected.status === "read"
                       ? "di kirimkan pesan"
                       : "mengirimkan pesan"}
@@ -1964,7 +1943,6 @@ const LiveChatSection = () => {
                   </span>
                 </div>
 
-                {/* Sender Info */}
                 <div
                   style={{
                     backgroundColor: WHITE,
@@ -2054,7 +2032,6 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.name || "Anonymous"}
-                        {/* PERBAIKAN: Badge hanya muncul jika pengirim/penerima adalah Admin */}
                         {(selected.email === ADMIN_EMAIL ||
                           selected.isAdminReply) && (
                           <InstagramVerifiedBadge size={16} color={BLUE} />
@@ -2121,7 +2098,6 @@ const LiveChatSection = () => {
                           : isAdmin
                           ? selected.name
                           : ADMIN_NAME}
-                        {/* PERBAIKAN: Badge di penerima juga hanya jika Admin */}
                         {(selected.isBroadcast ||
                           selected.isAnnouncement ||
                           (isAdmin && selected.email !== ADMIN_EMAIL)) && (
@@ -2146,7 +2122,6 @@ const LiveChatSection = () => {
                   </div>
                 </div>
 
-                {/* Message Content Container */}
                 <div
                   style={{
                     backgroundColor: BLUE,
@@ -2268,7 +2243,6 @@ const LiveChatSection = () => {
   );
 };
 
-// ===== MAIN PAGE COMPONENT =====
 export default function ContactPage() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
@@ -2538,7 +2512,6 @@ export default function ContactPage() {
         </span>
       </div>
 
-      {/* Top Banner Blue Navbar */}
       <div
         style={{
           position: "fixed",
@@ -2836,15 +2809,51 @@ export default function ContactPage() {
               <div
                 ref={panelInnerRef}
                 style={{
-                  padding: 0,
+                  padding: "24px",
                   display: "flex",
                   flexDirection: "column",
+                  justifyContent: "space-between",
                   opacity: 0,
                   boxSizing: "border-box",
                   height: "100%",
                   overflowY: "auto",
                 }}
-              />
+              >
+                {/* TAMBAHAN KONTEN DI DALAM EXPAND PANEL BG BIRU */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      color: WHITE,
+                      fontFamily: FONT_FAMILY,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    Farid Ardiansyah
+                    <InstagramVerifiedBadge size={16} color={WHITE} />
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      color: WHITE,
+                      fontFamily: FONT_FAMILY,
+                    }}
+                  >
+                    Menuru
+                  </span>
+                </div>
+              </div>
             </div>
             <div
               ref={buttonBgRef}
@@ -2866,7 +2875,6 @@ export default function ContactPage() {
                 transition: "border-radius 0.4s ease",
               }}
             >
-              {/* PERBAIKAN: Teks Kiri dan Kanan Putih */}
               <span
                 style={{
                   fontSize: "16px",
