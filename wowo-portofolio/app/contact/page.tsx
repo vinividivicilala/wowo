@@ -67,10 +67,10 @@ const ADMIN_EMAIL = "faridardiansyah061@gmail.com";
 const ADMIN_NAME = "Farid Ardiansyah";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
-// ===== VERIFIED =====
-const VerifiedBadge = ({
+// ===== REAL INSTAGRAM VERIFIED BADGE (Hanya untuk Pemilik) =====
+const InstagramVerifiedBadge = ({
   size = 16,
-  color = "#0D3CFC",
+  color = "#0095F6",
 }: {
   size?: number;
   color?: string;
@@ -84,6 +84,10 @@ const VerifiedBadge = ({
     <path
       fill={color}
       d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
+    />
+    <path
+      fill="#FFFFFF"
+      d="m15.5 24.5-4.5-4.5 2.12-2.12 2.38 2.38 8.88-8.88 2.12 2.12-11 11z"
     />
   </svg>
 );
@@ -165,7 +169,7 @@ const EmailIcon = ({
       strokeLinejoin="round"
       initial={false}
       animate={{ d: open ? "M2 5L12 2L22 5" : "M2 7L12 13L22 7" }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      transition={{ duration: 0.45, ease: "easeInOut" }}
     />
   </svg>
 );
@@ -216,7 +220,7 @@ const SendIcon = ({
   </svg>
 );
 
-// ===== REAL-TIME TICKER BANNER (SESUAI FORMAT DUA ARAH) =====
+// ===== REAL-TIME TICKER BANNER (DUA SISTEM: MENGIRIMKAN & DI KIRIMKAN PESAN) =====
 const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -225,16 +229,17 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   useEffect(() => {
     if (!messages || messages.length === 0) return;
 
+    // Durasi perlambatan (6.5 detik per pesan) agar nyaman dibaca
     const interval = setInterval(() => {
-      setIsOpen(true); // Amplop buka
+      setIsOpen(true); // Amplop membuka
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % messages.length);
-      }, 300);
+      }, 400);
 
       setTimeout(() => {
-        setIsOpen(false); // Amplop tutup kembali
-      }, 1500);
-    }, 4500);
+        setIsOpen(false); // Amplop menutup kembali
+      }, 2500);
+    }, 6500);
 
     return () => clearInterval(interval);
   }, [messages]);
@@ -244,7 +249,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
       gsap.fromTo(
         tickerContainerRef.current,
         { opacity: 0, x: -10 },
-        { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" }
       );
     }
   }, [index]);
@@ -271,11 +276,9 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
   const currentMsg = messages[index];
   const userName = currentMsg?.name || "Anonymous";
 
-  // Penentuan Format Alur:
-  // 1. Jika Pemilik mengirimkan pesan ke User:
-  //    Format: [Pemilik] di kirimkan pesan [User]
-  // 2. Jika User mengirimkan pesan ke Pemilik:
-  //    Format: [User] mengirimkan pesan [Pemilik]
+  // Membedakan kedua sistem alur pesan:
+  // 1. Jika Pemilik mengirim/membalas: sistem "di kirimkan pesan" kepada user
+  // 2. Jika User mengirim pesan ke Pemilik: sistem "mengirimkan pesan" kepada pemilik
   const isFromAdmin =
     currentMsg?.isAdminReply ||
     currentMsg?.isBroadcast ||
@@ -288,11 +291,11 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
 
   if (isFromAdmin) {
     firstEntity = ADMIN_NAME;
-    actionText = "di kirimkan pesan";
+    actionText = "di kirimkan pesan"; // Sistem kedua (pesan masuk di sisi user / dikirimkan oleh pemilik)
     secondEntity = userName;
   } else {
     firstEntity = userName;
-    actionText = "mengirimkan pesan";
+    actionText = "mengirimkan pesan"; // Sistem pertama (pesan dikirim dari user ke pemilik)
     secondEntity = ADMIN_NAME;
   }
 
@@ -315,7 +318,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -328,6 +331,7 @@ const RealtimeMessageTicker = ({ messages }: { messages: any[] }) => {
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {firstEntity}
           </span>
+          {isFromAdmin && <InstagramVerifiedBadge size={14} color="#FFFFFF" />}
           <span style={{ opacity: 0.9 }}>{actionText}</span>
           <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
             {secondEntity}
@@ -1163,7 +1167,7 @@ const LiveChatSection = () => {
                 }}
               >
                 {user.displayName || user.email?.split("@")[0]}
-                <VerifiedBadge size={14} color={BLUE} />
+                {user.email === ADMIN_EMAIL && <InstagramVerifiedBadge size={14} color={BLUE} />}
               </span>
               <span style={{ fontSize: "12px", color: BLUE, opacity: 0.7 }}>
                 {user.email}
@@ -1278,7 +1282,7 @@ const LiveChatSection = () => {
                     {composeMode === "broadcast" || composeMode === "announcement" 
                       ? "Semua User" 
                       : isAdmin ? selected?.email || "User" : ADMIN_EMAIL}
-                    <VerifiedBadge size={16} color={BLUE} />
+                    {isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
                   </span>
                 </div>
               )}
@@ -1634,6 +1638,7 @@ const LiveChatSection = () => {
                 messages.map((m) => {
                   const isActive = m.id === selectedId;
                   const isBroadcast = m.isBroadcast;
+                  const mIsAdmin = m.isAdminReply || m.isBroadcast || m.isAnnouncement || m.email === ADMIN_EMAIL;
                   const isAnnouncement = m.isAnnouncement;
                   
                   let bgColor = isActive ? BLUE : `${BLUE}08`;
@@ -1705,9 +1710,13 @@ const LiveChatSection = () => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               whiteSpace: "nowrap",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "4px",
                             }}
                           >
                             {m.name || "Anonymous"}
+                            {mIsAdmin && <InstagramVerifiedBadge size={14} color={isActive ? WHITE : BLUE} />}
                           </div>
                           <div
                             style={{
@@ -1924,9 +1933,15 @@ const LiveChatSection = () => {
                           fontWeight: 400,
                           color: BLUE,
                           letterSpacing: "-0.01em",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
                         }}
                       >
                         {selected.name || "Anonymous"}
+                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply || selected.isBroadcast || selected.isAnnouncement) && (
+                          <InstagramVerifiedBadge size={16} color={BLUE} />
+                        )}
                       </span>
                       <span
                         style={{
@@ -1940,7 +1955,9 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.email || selected.name}
-                        <VerifiedBadge size={16} color={BLUE} />
+                        {(selected.email === ADMIN_EMAIL || selected.isAdminReply) && (
+                          <InstagramVerifiedBadge size={14} color={BLUE} />
+                        )}
                       </span>
                     </div>
                   </div>
@@ -1983,7 +2000,7 @@ const LiveChatSection = () => {
                         }}
                       >
                         {selected.isBroadcast || selected.isAnnouncement ? "Semua User" : (isAdmin ? selected.name : ADMIN_NAME)}
-                        <VerifiedBadge size={16} color={BLUE} />
+                        {!isAdmin && <InstagramVerifiedBadge size={16} color={BLUE} />}
                       </span>
                       <span
                         style={{
@@ -2425,7 +2442,7 @@ export default function ContactPage() {
               }}
             >
               Menuru
-              <VerifiedBadge size={14} color={WHITE} />
+              <InstagramVerifiedBadge size={14} color={WHITE} />
             </a>
           </span>
         </span>
@@ -2706,9 +2723,13 @@ export default function ContactPage() {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
                 }}
               >
                 Farid Ardiansyah
+                <InstagramVerifiedBadge size={16} color={WHITE} />
               </span>
               <button
                 onClick={() => setExpandOpen((v) => !v)}
