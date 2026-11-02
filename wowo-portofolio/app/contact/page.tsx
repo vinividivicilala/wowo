@@ -70,7 +70,7 @@ const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // ===== ICONS =====
 
-// 1. REAL INSTAGRAM VERIFIED BADGE (Design Fix: Solid Blue Circle with White Check)
+// 1. REAL INSTAGRAM VERIFIED BADGE (Solid Blue Circle with White Check)
 const InstagramVerifiedBadge = ({
   size = 16,
   color = "#0095F6", // Instagram Blue
@@ -2866,6 +2866,7 @@ export default function ContactPage() {
                 transition: "border-radius 0.4s ease",
               }}
             >
+              {/* PERBAIKAN: Teks Kiri dan Kanan Putih */}
               <span
                 style={{
                   fontSize: "16px",
@@ -2879,11 +2880,27 @@ export default function ContactPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
+                  flex: 1,
                 }}
               >
                 Farid Ardiansyah
                 <InstagramVerifiedBadge size={16} color={WHITE} />
               </span>
+              
+              <span
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: WHITE,
+                  fontFamily: FONT_FAMILY,
+                  letterSpacing: "-0.02em",
+                  whiteSpace: "nowrap",
+                  marginRight: "12px",
+                }}
+              >
+                Menuru
+              </span>
+
               <button
                 onClick={() => setExpandOpen((v) => !v)}
                 style={{
