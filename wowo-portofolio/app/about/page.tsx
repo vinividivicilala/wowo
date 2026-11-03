@@ -1015,34 +1015,36 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* TEKS ( Introduction ) DI BAWAH TEKS ABOUT, FONT 50PX, WARNA BIRU */}
-          <span
-            style={{
-              fontSize: "50px",
-              fontWeight: 400,
-              color: BLUE,
-              marginTop: "16px",
-              display: "block",
-            }}
-          >
-            ( Introduction )
-          </span>
-
-          {/* TEKS FARID ARDIANSYAH DI SISI TENGAH, FONT 70PX, WARNA BIRU */}
+          {/* KONTROL SEJAJAR (ROW) UNTUK INTRODUCTION DAN FARID ARDIANSYAH */}
           <div
             style={{
-              width: "100%",
               display: "flex",
-              justifyContent: "center",
-              marginTop: "80px",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              width: "100%",
+              marginTop: "24px",
             }}
           >
+            {/* TEKS INTRODUCTION (Font 50px, warna biru) */}
+            <span
+              style={{
+                fontSize: "50px",
+                fontWeight: 400,
+                color: BLUE,
+                lineHeight: 1.1,
+              }}
+            >
+              ( Introduction )
+            </span>
+
+            {/* TEKS FARID ARDIANSYAH DI TENGAH/SISI KANAN SEJAJAR (Font 70px, tidak tebal, warna biru) */}
             <span
               style={{
                 fontSize: "70px",
-                fontWeight: 700,
+                fontWeight: 400,
                 color: BLUE,
-                textAlign: "center",
+                lineHeight: 1.1,
+                textAlign: "right",
               }}
             >
               Farid Ardiansyah
