@@ -773,7 +773,7 @@ export default function AboutPage() {
         </span>
       </div>
 
-      {/* TOP BANNER (Tanpa teks pesan, latar belakang biru) */}
+      {/* TOP BANNER (Teks pesan dihapus, latar belakang biru penuh) */}
       <div
         style={{
           position: "fixed",
@@ -993,20 +993,22 @@ export default function AboutPage() {
           style={{
             padding: "0 40px",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "flex-start",
             maxWidth: "1600px",
-            margin: 0,
+            margin: "0 auto",
             width: "100%",
             marginBottom: "200px",
+            flexWrap: "wrap",
+            gap: "40px",
           }}
         >
-          {/* Teks About: 450px, tanpa tebal (fontWeight 400) dan normal (fontStyle normal) */}
+          {/* Judul About di Sisi Kiri (450px, tanpa tebal / normal) */}
           <span
             style={{
               fontSize: "450px",
               fontWeight: 400,
-              fontStyle: "normal",
               color: BLUE,
               letterSpacing: "-0.05em",
               lineHeight: "0.85",
@@ -1018,45 +1020,21 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* Judul: Farid di sisi kiri (margin-left: 0), sampai Studio di sisi tengah */}
-          <div
+          {/* Teks Farid Ardiansyah & Menuru Studio di Sisi Kanan */}
+          <span
             style={{
-              display: "flex",
-              width: "100%",
-              maxWidth: "1200px",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "16px",
+              fontSize: "90px",
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+              display: "block",
+              maxWidth: "600px",
+              textAlign: "right",
             }}
           >
-            <span
-              style={{
-                fontSize: "90px",
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                display: "block",
-              }}
-            >
-              Farid
-            </span>
-
-            <span
-              style={{
-                fontSize: "90px",
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                display: "block",
-                marginRight: "auto",
-                marginLeft: "auto",
-              }}
-            >
-              Ardiansyah & Menuru Studio
-            </span>
-          </div>
+            Farid Ardiansyah & Menuru Studio
+          </span>
         </div>
 
         {/* FOOTER SECTION SAMA SEPERTI CONTACT */}
