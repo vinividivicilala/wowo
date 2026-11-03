@@ -1015,8 +1015,39 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* TEKS MURNI "( judul )" TANPA DESIGN TAMBAHAN */}
-          ( judul )
+          {/* TEKS ( Introduction ) DI BAWAH TEKS ABOUT, FONT 50PX, WARNA BIRU */}
+          <span
+            style={{
+              fontSize: "50px",
+              fontWeight: 400,
+              color: BLUE,
+              marginTop: "16px",
+              display: "block",
+            }}
+          >
+            ( Introduction )
+          </span>
+
+          {/* TEKS FARID ARDIANSYAH DI SISI TENGAH, FONT 70PX, WARNA BIRU */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "80px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "70px",
+                fontWeight: 700,
+                color: BLUE,
+                textAlign: "center",
+              }}
+            >
+              Farid Ardiansyah
+            </span>
+          </div>
         </div>
 
         {/* FOOTER SECTION SAMA SEPERTI CONTACT */}
