@@ -773,7 +773,7 @@ export default function AboutPage() {
         </span>
       </div>
 
-      {/* TOP BANNER (Teks pesan dihapus, latar belakang biru penuh) */}
+      {/* TOP BANNER (Tanpa teks pesan, latar belakang biru penuh) */}
       <div
         style={{
           position: "fixed",
@@ -801,9 +801,7 @@ export default function AboutPage() {
             maxWidth: "60%",
           }}
         >
-          <span style={{ fontSize: "13px", opacity: 0.9 }}>
-            Menuru Studio — Official About Page
-          </span>
+          {/* Teks pesan dihapus */}
         </div>
         <span
           style={{
@@ -993,18 +991,15 @@ export default function AboutPage() {
           style={{
             padding: "0 40px",
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: "column",
             alignItems: "flex-start",
             maxWidth: "1600px",
-            margin: "0 auto",
+            margin: 0,
             width: "100%",
             marginBottom: "200px",
-            flexWrap: "wrap",
-            gap: "40px",
           }}
         >
-          {/* Judul About di Sisi Kiri (450px, tanpa tebal / normal) */}
+          {/* TEKS ABOUT 450PX NORMAL (TANPA TEBAL) */}
           <span
             style={{
               fontSize: "450px",
@@ -1020,21 +1015,8 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* Teks Farid Ardiansyah & Menuru Studio di Sisi Kanan */}
-          <span
-            style={{
-              fontSize: "90px",
-              fontWeight: 400,
-              color: BLUE,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              display: "block",
-              maxWidth: "600px",
-              textAlign: "right",
-            }}
-          >
-            Farid Ardiansyah & Menuru Studio
-          </span>
+          {/* TEKS MURNI "( judul )" TANPA DESIGN TAMBAHAN */}
+          ( judul )
         </div>
 
         {/* FOOTER SECTION SAMA SEPERTI CONTACT */}
