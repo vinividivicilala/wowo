@@ -7,14 +7,9 @@ import { SplitText } from "gsap/SplitText";
 import { getApps, initializeApp } from "firebase/app";
 import {
   getAuth,
-  onAuthStateChanged,
 } from "firebase/auth";
 import {
   getFirestore,
-  collection,
-  onSnapshot,
-  query,
-  orderBy,
 } from "firebase/firestore";
 
 if (typeof window !== "undefined") {
@@ -778,7 +773,7 @@ export default function AboutPage() {
         </span>
       </div>
 
-      {/* TOP BANNER (Teks pesan dihapus, latar belakang biru penuh) */}
+      {/* TOP BANNER (Tanpa teks pesan, latar belakang biru) */}
       <div
         style={{
           position: "fixed",
@@ -806,7 +801,6 @@ export default function AboutPage() {
             maxWidth: "60%",
           }}
         >
-          {/* Teks pesan telah dihapus sesuai permintaan */}
           <span style={{ fontSize: "13px", opacity: 0.9 }}>
             Menuru Studio — Official About Page
           </span>
@@ -1007,10 +1001,12 @@ export default function AboutPage() {
             marginBottom: "200px",
           }}
         >
+          {/* Teks About: 450px, tanpa tebal (fontWeight 400) dan normal (fontStyle normal) */}
           <span
             style={{
               fontSize: "450px",
               fontWeight: 400,
+              fontStyle: "normal",
               color: BLUE,
               letterSpacing: "-0.05em",
               lineHeight: "0.85",
@@ -1021,34 +1017,45 @@ export default function AboutPage() {
           >
             About
           </span>
-          <span
+
+          {/* Judul: Farid di sisi kiri (margin-left: 0), sampai Studio di sisi tengah */}
+          <div
             style={{
-              fontSize: "90px",
-              fontWeight: 400,
-              color: BLUE,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              display: "block",
+              display: "flex",
+              width: "100%",
+              maxWidth: "1200px",
+              justifyContent: "space-between",
+              alignItems: "center",
               marginTop: "16px",
             }}
           >
-            Farid Ardiansyah & Menuru Studio
-          </span>
-          <div
-            style={{
-              marginTop: "40px",
-              fontSize: "24px",
-              color: BLACK,
-              lineHeight: 1.6,
-              maxWidth: "1000px",
-            }}
-          >
-            <p>
-              Halo! Saya Farid Ardiansyah, seorang Software Developer dan Web Designer yang berfokus pada pembuatan aplikasi web interaktif, antarmuka modern, serta pengalaman pengguna yang mulus.
-            </p>
-            <p style={{ marginTop: "20px" }}>
-              Melalui <strong>Menuru Studio</strong>, saya mendedikasikan diri untuk membangun perangkat lunak berkualitas tinggi, aplikasi lintas platform, serta solusi digital kreatif yang memadukan keindahan visual dengan performa teknis terbaik.
-            </p>
+            <span
+              style={{
+                fontSize: "90px",
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                display: "block",
+              }}
+            >
+              Farid
+            </span>
+
+            <span
+              style={{
+                fontSize: "90px",
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                display: "block",
+                marginRight: "auto",
+                marginLeft: "auto",
+              }}
+            >
+              Ardiansyah & Menuru Studio
+            </span>
           </div>
         </div>
 
