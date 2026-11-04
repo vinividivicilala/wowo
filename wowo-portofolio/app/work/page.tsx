@@ -104,6 +104,96 @@ const WindowsIcon = ({
   </svg>
 );
 
+// ===== ICON INDEX =====
+const IndexIcon = ({
+  size = 18,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="4" cy="6" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="6"
+      x2="21"
+      y2="6"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="4" cy="12" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="12"
+      x2="21"
+      y2="12"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="4" cy="18" r="1.5" fill={color} />
+    <line
+      x1="9"
+      y1="18"
+      x2="21"
+      y2="18"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+// ===== ICON GRIDS =====
+const GridsIcon = ({
+  size = 18,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect
+      x="3"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="3"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="3"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <rect
+      x="14"
+      y="14"
+      width="7"
+      height="7"
+      rx="1.2"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+  </svg>
+);
+
 // ===== FOOTER LINK DATA =====
 const footerColumns = [
   {
@@ -223,6 +313,19 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
     };
   }, [refreshKey]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+    const t1 = setTimeout(() => ScrollTrigger.refresh(), 600);
+    const t2 = setTimeout(() => ScrollTrigger.refresh(), 1500);
+    return () => {
+      window.removeEventListener("load", onLoad);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -238,6 +341,7 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         fontFamily: FONT_FAMILY,
       }}
     >
+      {/* ===== TOP: Link Kolom + Download Button ===== */}
       <div
         style={{
           maxWidth: "1400px",
@@ -503,6 +607,7 @@ const CookiesPopup = ({
         gap: "24px",
         flexWrap: "wrap",
         boxSizing: "border-box",
+        animation: "cookies-slide-up 0.4s ease-out",
       }}
     >
       <p
@@ -601,6 +706,20 @@ export default function WorkPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
+
+  const [activeView, setActiveView] = useState<"work" | "index">("work");
+
+  const [hoverImage, setHoverImage] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const hoverAreaRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
   const [showCookies, setShowCookies] = useState(false);
 
   useEffect(() => {
@@ -628,6 +747,14 @@ export default function WorkPage() {
     } catch {}
     setShowCookies(false);
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
+    return () => clearTimeout(t);
+  }, [activeView]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -823,6 +950,7 @@ export default function WorkPage() {
             letterSpacing: "-0.04em",
             lineHeight: 1,
             display: "inline-block",
+            willChange: "transform, opacity",
             whiteSpace: "nowrap",
           }}
         >
@@ -838,6 +966,7 @@ export default function WorkPage() {
             letterSpacing: "-0.04em",
             lineHeight: 1,
             display: "inline-block",
+            willChange: "transform, opacity",
             whiteSpace: "nowrap",
           }}
         >
@@ -878,6 +1007,7 @@ export default function WorkPage() {
               color: BLACK,
               fontWeight: 400,
               fontSize: "14px",
+              textTransform: "none",
               fontFamily: FONT_FAMILY,
             }}
           >
@@ -960,6 +1090,7 @@ export default function WorkPage() {
               ref={menuLabelRef}
               style={{
                 display: "inline-block",
+                willChange: "transform, opacity",
               }}
             >
               {menuOpen ? "Close" : "Menu"}
@@ -1056,7 +1187,7 @@ export default function WorkPage() {
 
       <div
         style={{
-          minHeight: "100vh",
+          minHeight: "300vh",
           backgroundColor: "#FFFFFF",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           padding: "200px 0 0 0",
@@ -1098,11 +1229,346 @@ export default function WorkPage() {
           >
             works
           </span>
+
+          {/* ===== SECTION SELECTED WORK ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              width: "100%",
+              marginTop: "120px",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "80px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Selected Work
+            </span>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "10px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "80px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                2026
+              </span>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "20px",
+                  marginTop: "4px",
+                }}
+              >
+                <button
+                  onClick={() => setActiveView("index")}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    opacity: activeView === "index" ? 1 : 0.55,
+                  }}
+                >
+                  <IndexIcon size={18} color={BLUE} />
+                  Index
+                </button>
+                <button
+                  onClick={() => setActiveView("work")}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    opacity: activeView === "work" ? 1 : 0.55,
+                  }}
+                >
+                  <GridsIcon size={18} color={BLUE} />
+                  Grids
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== KONDISI: WORK / INDEX ===== */}
+          {activeView === "work" ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                width: "100%",
+                marginTop: "80px",
+                gap: "24px",
+              }}
+            >
+              <img
+                src="/images/pjgff.JPG"
+                alt="Menuru Productivity"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                  borderRadius: "24px",
+                  objectFit: "cover",
+                  boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
+                }}
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Menuru
+                </span>
+                <span
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Productivity
+                </span>
+              </div>
+
+              {/* ===== TEKS PESAN + LINK /contact — 70px ===== */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  marginTop: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "70px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLACK,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Apakah kamu mengalami sesuatu?{" "}
+                  <a
+                    href="/contact"
+                    style={{
+                      color: BLUE,
+                      fontWeight: 700,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Hubungi saya
+                  </a>
+                  .
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div
+              ref={hoverAreaRef}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoverImage(null)}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                marginTop: "0px",
+                gap: "16px",
+                position: "relative",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "60px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Index
+              </span>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  width: "100%",
+                  gap: "40px",
+                  flexWrap: "nowrap",
+                  overflowX: "auto",
+                }}
+              >
+                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  01
+                </span>
+
+                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  Menuru
+                </span>
+
+                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    flexShrink: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  Productivity
+                </span>
+
+                <span
+                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
+                  onMouseLeave={() => setHoverImage(null)}
+                  style={{
+                    fontSize: "90px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1.05,
+                    marginLeft: "auto",
+                    flexShrink: 0,
+                    textAlign: "right",
+                    cursor: "pointer",
+                  }}
+                >
+                  2024 - Present
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ===== FOOTER ===== */}
-        <FooterSection refreshKey="work-page" />
+        <FooterSection refreshKey={activeView} />
       </div>
+
+      {/* ===== FOTO PREVIEW HOVER ===== */}
+      {hoverImage && (
+        <img
+          src={hoverImage}
+          alt="Preview"
+          style={{
+            position: "fixed",
+            left: `${mousePos.x + 24}px`,
+            top: `${mousePos.y + 24}px`,
+            width: "480px",
+            height: "auto",
+            borderRadius: "20px",
+            objectFit: "cover",
+            pointerEvents: "none",
+            zIndex: 100003,
+            boxShadow: "0 24px 64px rgba(13,60,252,0.4)",
+            transition: "opacity 0.2s ease",
+          }}
+        />
+      )}
 
       {/* ===== COOKIES POPUP ===== */}
       {showCookies && (
@@ -1221,6 +1687,7 @@ export default function WorkPage() {
                     fontWeight: 300,
                     lineHeight: 1,
                     color: "#FFFFFF",
+                    willChange: "transform",
                   }}
                 >
                   +
@@ -1233,6 +1700,17 @@ export default function WorkPage() {
 
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
+
+        @keyframes cookies-slide-up {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
 
         html,
         body {
