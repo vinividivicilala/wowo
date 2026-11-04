@@ -1200,7 +1200,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* BARIS KETIGA: (Capabilities) di Kiri, IOT, Arduino, Administration, System Security di Kanan dengan Line Patah2 Bergerak */}
+          {/* BARIS KETIGA: (Capabilities) di Kiri, IOT, Arduino, Administration, System Security di Kanan dengan Line Patah2 Bergerak Berurutan */}
           <div
             style={{
               display: "flex",
@@ -1227,7 +1227,7 @@ export default function AboutPage() {
               </span>
             </div>
 
-            {/* SISI KANAN: Daftar Capabilities dengan Animasi Garis Patah-patah Menghubungkan Item */}
+            {/* SISI KANAN: Daftar Capabilities dengan Animasi Garis Patah-patah Mengalir/Bergerak */}
             <div style={{ flex: "1 1 700px", maxWidth: "900px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
                 {["IOT", "Arduino", "Administration", "System Security"].map((capability, index) => (
@@ -1237,7 +1237,7 @@ export default function AboutPage() {
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.2 }}
+                      transition={{ duration: 0.4, delay: index * 0.25 }}
                       style={{
                         width: "12px",
                         height: "12px",
@@ -1248,19 +1248,31 @@ export default function AboutPage() {
                       }}
                     />
 
-                    {/* Animasi Garis Patah-patah Menyamping (Moving Dashed Line) */}
+                    {/* Animasi Garis Patah-patah Menyamping dengan Efek Berjalan (Moving Dashed Line) */}
                     {index < 3 && (
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: "120px" }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: index * 0.2 + 0.2, ease: "easeInOut" }}
+                      <div
                         style={{
-                          height: "2px",
-                          borderTop: `3px dashed ${BLUE}`,
+                          width: "120px",
+                          height: "3px",
+                          overflow: "hidden",
                           flexShrink: 0,
+                          position: "relative",
                         }}
-                      />
+                      >
+                        <motion.div
+                          initial={{ x: -120 }}
+                          whileInView={{ x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.7, delay: index * 0.25 + 0.1, ease: "easeInOut" }}
+                          style={{
+                            width: "240px",
+                            height: "3px",
+                            backgroundImage: `linear-gradient(to right, ${BLUE} 60%, transparent 40%)`,
+                            backgroundSize: "16px 3px",
+                            animation: "dashMove 1.5s linear infinite",
+                          }}
+                        />
+                      </div>
                     )}
 
                     {/* Label Capability dengan Blok Stabilo Warna-Warni */}
@@ -1268,7 +1280,7 @@ export default function AboutPage() {
                       initial={{ opacity: 0, x: 20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+                      transition={{ duration: 0.5, delay: index * 0.25 + 0.3 }}
                       style={{
                         fontSize: "28px",
                         fontWeight: 600,
@@ -1474,7 +1486,7 @@ export default function AboutPage() {
         </div>
       )}
 
-      {/* GLOBAL STYLES */}
+      {/* GLOBAL STYLES & ANIMATION KEYFRAMES */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
         html,
@@ -1495,6 +1507,14 @@ export default function AboutPage() {
           will-change: transform, opacity;
           color: #ffffff !important;
           transform-origin: 50% 100%;
+        }
+        @keyframes dashMove {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 32px 0;
+          }
         }
       `}</style>
     </>
