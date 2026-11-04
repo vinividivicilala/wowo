@@ -49,6 +49,12 @@ const RED = "#DC2626";
 const BLACK = "#000000";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
+// WARNA STABILO (HIGHLIGHT)
+const HIGHLIGHT_YELLOW = "#CCFF00"; // Yellow Stabilo
+const HIGHLIGHT_GREEN = "#00FF66";  // Green Stabilo
+const HIGHLIGHT_CYAN = "#00E5FF";   // Cyan Stabilo
+const HIGHLIGHT_PINK = "#FF007F";   // Pink Stabilo
+
 // ===== ICONS =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
   <span
@@ -1015,40 +1021,148 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* KONTROL SEJAJAR (ROW) UNTUK INTRODUCTION DAN FARID ARDIANSYAH */}
+          {/* TEKS ( Introduction ) DI BIKIN SAMA SEJAJAR DENGAN SISI KANAN */}
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "baseline",
+              alignItems: "flex-start",
               width: "100%",
               marginTop: "24px",
+              gap: "40px",
+              flexWrap: "wrap",
             }}
           >
-            {/* TEKS INTRODUCTION (Font 50px, warna biru) */}
-            <span
-              style={{
-                fontSize: "50px",
-                fontWeight: 400,
-                color: BLUE,
-                lineHeight: 1.1,
-              }}
-            >
-              ( Introduction )
-            </span>
+            {/* SISI KIRI: ( Introduction ) & DESKRIPSI PERTAMA */}
+            <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
+              <span
+                style={{
+                  fontSize: "50px",
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.1,
+                  display: "block",
+                  marginBottom: "20px",
+                }}
+              >
+                ( Introduction )
+              </span>
+              <p
+                style={{
+                  fontSize: "36px",
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  margin: 0,
+                }}
+              >
+                Hi, I'm{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_YELLOW,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Farid Ardiansyah
+                </mark>
+                , nickname Farid -{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_GREEN,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Developer
+                </mark>{" "}
+                and{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_CYAN,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Menuru Studio
+                </mark>{" "}
+                tools productivity is free.
+              </p>
+            </div>
 
-            {/* TEKS FARID ARDIANSYAH DI TENGAH/SISI KANAN SEJAJAR (Font 70px, tidak tebal, warna biru) */}
-            <span
-              style={{
-                fontSize: "70px",
-                fontWeight: 400,
-                color: BLUE,
-                lineHeight: 1.1,
-                textAlign: "right",
-              }}
-            >
-              Farid Ardiansyah
-            </span>
+            {/* SISI KANAN: KEALIAN & EXPERIENCE */}
+            <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
+              <p
+                style={{
+                  fontSize: "36px",
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  margin: 0,
+                  marginTop: "70px", // Penyesuaian agar sejajar vertikal dengan paragraf kiri
+                }}
+              >
+                I have knowledge about technology industry,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_PINK,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  system security
+                </mark>
+                ,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_YELLOW,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  IOT
+                </mark>
+                ,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_GREEN,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Arduino
+                </mark>
+                ,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_CYAN,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Robotic
+                </mark>
+                ,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_PINK,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Since 2019
+                </mark>
+                .
+              </p>
+            </div>
           </div>
         </div>
 
