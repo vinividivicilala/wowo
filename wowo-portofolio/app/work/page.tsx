@@ -194,6 +194,56 @@ const GridsIcon = ({
   </svg>
 );
 
+// ===== ARROW UP RIGHT SVG =====
+const ArrowUpRightIcon = ({
+  size = 20,
+  color = "#FFFFFF",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7 17L17 7M17 7H7M17 7V17"
+      stroke={color}
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+// ===== RELOAD ICON SVG =====
+const ReloadIcon = ({
+  size = 18,
+  color = "#0D3CFC",
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M19.9381 13.0001C19.4542 16.9645 16.0837 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C14.4965 4 16.723 5.14441 18.1884 6.93775M20 4V8H16"
+      stroke={color}
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 // ===== FOOTER LINK DATA =====
 const footerColumns = [
   {
@@ -703,6 +753,10 @@ export default function WorkPage() {
   const panelInnerRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLSpanElement>(null);
 
+  // ===== NEW REFS FOR GSAP LOADING & RELOAD =====
+  const loadingTextRef = useRef<HTMLSpanElement>(null);
+  const reloadIconRef = useRef<HTMLSpanElement>(null);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
@@ -714,10 +768,22 @@ export default function WorkPage() {
     x: 0,
     y: 0,
   });
+
+  // ===== STATE CURSOR "LOOKS" HOVER =====
+  const [showLooksBadge, setShowLooksBadge] = useState(false);
+  const [looksPos, setLooksPos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+
   const hoverAreaRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMenuruMouseMove = (e: React.MouseEvent) => {
+    setLooksPos({ x: e.clientX, y: e.clientY });
   };
 
   const [showCookies, setShowCookies] = useState(false);
@@ -746,6 +812,39 @@ export default function WorkPage() {
       localStorage.setItem("cookies-consent", "declined");
     } catch {}
     setShowCookies(false);
+  };
+
+  // ===== GSAP ANIMATION FOR LOADING TEXT =====
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!loadingTextRef.current) return;
+
+    const anim = gsap.to(loadingTextRef.current, {
+      opacity: 0.3,
+      y: -4,
+      duration: 0.8,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut",
+    });
+
+    return () => {
+      anim.kill();
+    };
+  }, []);
+
+  // ===== RELOAD ACTION =====
+  const handleReload = () => {
+    if (reloadIconRef.current) {
+      gsap.fromTo(
+        reloadIconRef.current,
+        { rotate: 0 },
+        { rotate: 360, duration: 0.6, ease: "power2.inOut" }
+      );
+    }
+    if (typeof window !== "undefined") {
+      ScrollTrigger.refresh();
+    }
   };
 
   useEffect(() => {
@@ -1370,7 +1469,12 @@ export default function WorkPage() {
                   gap: "20px",
                 }}
               >
-                <span
+                {/* ===== TEKS MENURU DENGAN LINK /menuru + CURSOR ANIMASI LOOKS ===== */}
+                <a
+                  href="/menuru"
+                  onMouseEnter={() => setShowLooksBadge(true)}
+                  onMouseLeave={() => setShowLooksBadge(false)}
+                  onMouseMove={handleMenuruMouseMove}
                   style={{
                     fontSize: "90px",
                     fontFamily: FONT_FAMILY,
@@ -1378,10 +1482,14 @@ export default function WorkPage() {
                     color: BLUE,
                     letterSpacing: "-0.03em",
                     lineHeight: 1.1,
+                    textDecoration: "none",
+                    cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   Menuru
-                </span>
+                </a>
+
                 <span
                   style={{
                     fontSize: "90px",
@@ -1394,6 +1502,64 @@ export default function WorkPage() {
                 >
                   Productivity
                 </span>
+              </div>
+
+              {/* ===== ADDED: TEKS LOADING (GSAP) & TOMBOL RELOAD ===== */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "16px",
+                  marginTop: "40px",
+                }}
+              >
+                <span
+                  ref={loadingTextRef}
+                  style={{
+                    fontSize: "36px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 400,
+                    color: BLUE,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1,
+                    textTransform: "lowercase",
+                    display: "inline-block",
+                  }}
+                >
+                  loading...
+                </span>
+
+                <button
+                  onClick={handleReload}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    backgroundColor: "transparent",
+                    border: `1.5px solid ${BLUE}`,
+                    borderRadius: "100px",
+                    color: BLUE,
+                    fontSize: "14px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    transition: "background-color 0.2s ease",
+                  }}
+                >
+                  <span
+                    ref={reloadIconRef}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ReloadIcon size={16} color={BLUE} />
+                  </span>
+                  Reload
+                </button>
               </div>
 
               {/* ===== TEKS PESAN + LINK /contact — 70px ===== */}
@@ -1488,9 +1654,18 @@ export default function WorkPage() {
                   01
                 </span>
 
-                <span
-                  onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                  onMouseLeave={() => setHoverImage(null)}
+                {/* ===== INDEX LINK /menuru + HOVER LOOKS ===== */}
+                <a
+                  href="/menuru"
+                  onMouseEnter={() => {
+                    setHoverImage("/images/pjgff.JPG");
+                    setShowLooksBadge(true);
+                  }}
+                  onMouseLeave={() => {
+                    setHoverImage(null);
+                    setShowLooksBadge(false);
+                  }}
+                  onMouseMove={handleMenuruMouseMove}
                   style={{
                     fontSize: "90px",
                     fontFamily: FONT_FAMILY,
@@ -1500,10 +1675,11 @@ export default function WorkPage() {
                     lineHeight: 1.05,
                     flexShrink: 0,
                     cursor: "pointer",
+                    textDecoration: "none",
                   }}
                 >
                   Menuru
-                </span>
+                </a>
 
                 <span
                   onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
@@ -1548,6 +1724,35 @@ export default function WorkPage() {
         {/* ===== FOOTER ===== */}
         <FooterSection refreshKey={activeView} />
       </div>
+
+      {/* ===== BADGE CURSOR "LOOKS" (BG BIRU, TEKS PUTIH, PANAH SVG) ===== */}
+      {showLooksBadge && (
+        <div
+          style={{
+            position: "fixed",
+            left: `${looksPos.x + 16}px`,
+            top: `${looksPos.y + 16}px`,
+            backgroundColor: BLUE,
+            color: WHITE,
+            borderRadius: "100px",
+            padding: "8px 18px",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            pointerEvents: "none",
+            zIndex: 100005,
+            boxShadow: "0 8px 24px rgba(13,60,252,0.4)",
+            fontFamily: FONT_FAMILY,
+            fontSize: "16px",
+            fontWeight: 600,
+            letterSpacing: "-0.01em",
+            animation: "looks-fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        >
+          <span>looks</span>
+          <ArrowUpRightIcon size={16} color={WHITE} />
+        </div>
+      )}
 
       {/* ===== FOTO PREVIEW HOVER ===== */}
       {hoverImage && (
@@ -1709,6 +1914,17 @@ export default function WorkPage() {
           to {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+          }
+        }
+
+        @keyframes looks-fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.85);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
           }
         }
 
