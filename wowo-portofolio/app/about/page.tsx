@@ -50,10 +50,10 @@ const BLACK = "#000000";
 const PRIVACY_POLICY_URL = "/privacy-policy";
 
 // WARNA STABILO (HIGHLIGHT)
-const HIGHLIGHT_YELLOW = "#CCFF00"; // Yellow Stabilo
-const HIGHLIGHT_GREEN = "#00FF66";  // Green Stabilo
-const HIGHLIGHT_CYAN = "#00E5FF";   // Cyan Stabilo
-const HIGHLIGHT_PINK = "#FF007F";   // Pink Stabilo
+const HIGHLIGHT_YELLOW = "#CCFF00"; 
+const HIGHLIGHT_GREEN = "#00FF66";  
+const HIGHLIGHT_CYAN = "#00E5FF";   
+const HIGHLIGHT_PINK = "#FF007F";   
 
 // ===== ICONS =====
 const VerifiedBadgeWhite = ({ size = 16 }: { size?: number }) => (
@@ -1021,7 +1021,7 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* BAGIAN INTRODUCTION DAN EXPERIENCE */}
+          {/* BAGIAN INTRO & EXPERIENCE */}
           <div
             style={{
               display: "flex",
@@ -1033,7 +1033,7 @@ export default function AboutPage() {
               flexWrap: "wrap",
             }}
           >
-            {/* SISI KIRI: (Introduction) & DESKRIPSI PERTAMA */}
+            {/* SISI KIRI: (Introduction) & Nickname */}
             <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
               <span
                 style={{
@@ -1056,7 +1056,7 @@ export default function AboutPage() {
                   margin: 0,
                 }}
               >
-                Hi, I'm{" "}
+                nickname{" "}
                 <mark
                   style={{
                     backgroundColor: HIGHLIGHT_YELLOW,
@@ -1065,9 +1065,9 @@ export default function AboutPage() {
                     borderRadius: "6px",
                   }}
                 >
-                  Farid Ardiansyah
-                </mark>
-                , nickname Farid -{" "}
+                  Farid
+                </mark>{" "}
+                -{" "}
                 <mark
                   style={{
                     backgroundColor: HIGHLIGHT_GREEN,
@@ -1087,13 +1087,13 @@ export default function AboutPage() {
                     borderRadius: "6px",
                   }}
                 >
-                  Menuru Studio
-                </mark>{" "}
-                tools productivity is free.
+                  Founder The Menuru Studio
+                </mark>
+                .
               </p>
             </div>
 
-(Experience) Kanan: 2024 - Now & Menuru Studio, serta Line Patah-patah/Titik Bulat */}
+            {/* SISI KANAN: (Experience), 2024 - Now & Menuru Studio dengan Timeline Garis Patah-patah & Titik */}
             <div style={{ flex: "1 1 500px", maxWidth: "700px", position: "relative" }}>
               <span
                 style={{
@@ -1107,79 +1107,59 @@ export default function AboutPage() {
               >
                 (Experience)
               </span>
-
-              {/* TIMELINE CONTAINER DENGAN LINE & TITIK BULAT */}
-              <div style={{ position: "relative", paddingLeft: "30px", marginTop: "20px" }}>
-                {/* Line patah-patah lurus ke bawah & ke samping */}
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "10px",
-                    bottom: "10px",
-                    width: "2px",
-                    borderLeft: `2px dashed ${BLUE}`,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "10px",
-                    width: "40px",
-                    height: "2px",
-                    borderTop: `2px dashed ${BLUE}`,
-                  }}
-                />
-
-                {/* Titik bulat biasa */}
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "1px",
-                    top: "5px",
-                    width: "12px",
-                    height: "12px",
-                    backgroundColor: BLUE,
-                    borderRadius: "50%",
-                  }}
-                />
-
-                {/* Konten Experience: 2024 - Now & Menuru Studio */}
-                <div style={{ paddingLeft: "20px" }}>
-                  <span
+              
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "20px", position: "relative" }}>
+                {/* Garis Patah-patah Lurus ke Bawah & Titik Bulat */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "8px" }}>
+                  <div
                     style={{
-                      fontSize: "28px",
+                      width: "12px",
+                      height: "12px",
+                      borderRadius: "50%",
+                      backgroundColor: BLUE,
+                      zIndex: 2,
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: "2px",
+                      height: "80px",
+                      borderLeft: `3px dashed ${BLUE}`,
+                      marginTop: "4px",
+                    }}
+                  />
+                </div>
+
+                {/* Konten Experience */}
+                <div>
+                  <div
+                    style={{
+                      fontSize: "30px",
                       fontWeight: 700,
                       color: BLUE,
-                      display: "block",
                       marginBottom: "6px",
-                    }}
-                  >
-                    2024 - Now
-                  </span>
-                  <p
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: 400,
-                      color: BLUE,
-                      margin: 0,
-                      lineHeight: 1.4,
                     }}
                   >
                     <mark
                       style={{
-                        backgroundColor: HIGHLIGHT_YELLOW,
+                        backgroundColor: HIGHLIGHT_PINK,
                         color: BLUE,
                         padding: "2px 8px",
                         borderRadius: "6px",
-                        fontWeight: 700,
                       }}
                     >
-                      Menuru Studio
-                    </mark>{" "}
-                    - Building and scaling productivity tools, web application features, and cross-platform architecture.
-                  </p>
+                      2024 - Now
+                    </mark>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "32px",
+                      fontWeight: 400,
+                      color: BLUE,
+                    }}
+                  >
+                    Menuru Studio
+                  </div>
                 </div>
               </div>
             </div>
