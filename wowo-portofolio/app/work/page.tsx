@@ -104,296 +104,6 @@ const WindowsIcon = ({
   </svg>
 );
 
-// ===== ICON INDEX =====
-const IndexIcon = ({
-  size = 18,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <circle cx="4" cy="6" r="1.5" fill={color} />
-    <line
-      x1="9"
-      y1="6"
-      x2="21"
-      y2="6"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <circle cx="4" cy="12" r="1.5" fill={color} />
-    <line
-      x1="9"
-      y1="12"
-      x2="21"
-      y2="12"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <circle cx="4" cy="18" r="1.5" fill={color} />
-    <line
-      x1="9"
-      y1="18"
-      x2="21"
-      y2="18"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-// ===== ICON GRIDS =====
-const GridsIcon = ({
-  size = 18,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect
-      x="3"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.2"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="14"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.2"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="3"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.2"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="14"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.2"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-  </svg>
-);
-
-// ===== PRODUCT DESIGN ICON =====
-const ProductDesignIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect
-      x="3"
-      y="3"
-      width="18"
-      height="18"
-      rx="3"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <path d="M3 9H21" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
-    <path d="M9 9V21" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
-    <circle cx="6" cy="6" r="1" fill={color} />
-    <circle cx="9" cy="6" r="1" fill={color} />
-  </svg>
-);
-
-// ===== DESIGN SYSTEM ICON =====
-const DesignSystemIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect
-      x="3"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="14"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="3"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <rect
-      x="14"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-  </svg>
-);
-
-// ===== RESEARCH ICON =====
-const ResearchIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <circle cx="10.5" cy="10.5" r="6.5" stroke={color} strokeWidth="1.8" />
-    <path
-      d="M15.5 15.5L21 21"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-    <path
-      d="M8 10.5L10 12.5L13.5 8.5"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-// ===== ENCRYPTION ICON =====
-const EncryptionIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect
-      x="4"
-      y="10"
-      width="16"
-      height="11"
-      rx="2"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <path
-      d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-    <circle cx="12" cy="15" r="1.6" fill={color} />
-    <path
-      d="M12 16.5V18"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-// ===== ANTI FRAUD ICON =====
-const AntiFraudIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 2.5L4.5 5.5V11.5C4.5 16 7.8 20.2 12 21.5C16.2 20.2 19.5 16 19.5 11.5V5.5L12 2.5Z"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M9 12L11 14L15.5 9.5"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-// ===== ANTI BOT ICON =====
-const AntiBotIcon = ({
-  size = 48,
-  color = "#0D3CFC",
-}: {
-  size?: number;
-  color?: string;
-}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <rect
-      x="4"
-      y="8"
-      width="16"
-      height="12"
-      rx="3"
-      stroke={color}
-      strokeWidth="1.8"
-    />
-    <circle cx="9" cy="14" r="1.4" fill={color} />
-    <circle cx="15" cy="14" r="1.4" fill={color} />
-    <path
-      d="M12 8V4.5"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-    <circle cx="12" cy="3" r="1.4" fill={color} />
-    <path
-      d="M2 13V15"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-    <path
-      d="M22 13V15"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
 // ===== FOOTER LINK DATA =====
 const footerColumns = [
   {
@@ -513,19 +223,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
     };
   }, [refreshKey]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const onLoad = () => ScrollTrigger.refresh();
-    window.addEventListener("load", onLoad);
-    const t1 = setTimeout(() => ScrollTrigger.refresh(), 600);
-    const t2 = setTimeout(() => ScrollTrigger.refresh(), 1500);
-    return () => {
-      window.removeEventListener("load", onLoad);
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
   return (
     <div
       ref={containerRef}
@@ -541,7 +238,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         fontFamily: FONT_FAMILY,
       }}
     >
-      {/* ===== TOP: Link Kolom + Download Button ===== */}
       <div
         style={{
           maxWidth: "1400px",
@@ -556,7 +252,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           gap: "40px",
         }}
       >
-        {/* Kolom Link — font 50px */}
         <div
           style={{
             display: "flex",
@@ -612,7 +307,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           ))}
         </div>
 
-        {/* Tombol Download for Windows */}
         <a
           href="#"
           target="_blank"
@@ -648,8 +342,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
           </span>
         </a>
       </div>
-
-      {/* ===== Terms DIHAPUS ===== */}
 
       <div
         style={{
@@ -714,8 +406,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
               lineHeight: "0.85",
               display: "block",
               textAlign: "left",
-              WebkitFontSmoothing: "antialiased",
-              MozOsxFontSmoothing: "grayscale",
               willChange: "transform, opacity",
               whiteSpace: "nowrap",
               margin: 0,
@@ -813,7 +503,6 @@ const CookiesPopup = ({
         gap: "24px",
         flexWrap: "wrap",
         boxSizing: "border-box",
-        animation: "cookies-slide-up 0.4s ease-out",
       }}
     >
       <p
@@ -894,7 +583,7 @@ const CookiesPopup = ({
   );
 };
 
-export default function Home() {
+export default function WorkPage() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLSpanElement>(null);
   const rightTextRef = useRef<HTMLSpanElement>(null);
@@ -912,21 +601,6 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
-
-  const [activeView, setActiveView] = useState<"work" | "index">("work");
-  const [currentPage, setCurrentPage] = useState<"home" | "work">("home");
-
-  const [hoverImage, setHoverImage] = useState<string | null>(null);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-  const hoverAreaRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
-  };
-
   const [showCookies, setShowCookies] = useState(false);
 
   useEffect(() => {
@@ -954,14 +628,6 @@ export default function Home() {
     } catch {}
     setShowCookies(false);
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const t = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 120);
-    return () => clearTimeout(t);
-  }, [activeView, currentPage]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1124,15 +790,6 @@ export default function Home() {
 
   const navFontSize = "50px";
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    page: "home" | "work"
-  ) => {
-    e.preventDefault();
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <>
       <div
@@ -1166,7 +823,6 @@ export default function Home() {
             letterSpacing: "-0.04em",
             lineHeight: 1,
             display: "inline-block",
-            willChange: "transform, opacity",
             whiteSpace: "nowrap",
           }}
         >
@@ -1182,7 +838,6 @@ export default function Home() {
             letterSpacing: "-0.04em",
             lineHeight: 1,
             display: "inline-block",
-            willChange: "transform, opacity",
             whiteSpace: "nowrap",
           }}
         >
@@ -1223,7 +878,6 @@ export default function Home() {
               color: BLACK,
               fontWeight: 400,
               fontSize: "14px",
-              textTransform: "none",
               fontFamily: FONT_FAMILY,
             }}
           >
@@ -1267,22 +921,17 @@ export default function Home() {
               transition: "color 0.3s ease",
             }}
           >
-            <a
-              href="#"
-              onClick={(e) => handleNavClick(e, "home")}
+            <span
               style={{
                 fontSize: navFontSize,
                 fontWeight: 400,
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
                 textTransform: "capitalize",
-                color: "inherit",
-                textDecoration: "none",
-                pointerEvents: "auto",
               }}
             >
               Farid Ardiansyah
-            </a>
+            </span>
           </div>
 
           <button
@@ -1311,7 +960,6 @@ export default function Home() {
               ref={menuLabelRef}
               style={{
                 display: "inline-block",
-                willChange: "transform, opacity",
               }}
             >
               {menuOpen ? "Close" : "Menu"}
@@ -1353,16 +1001,10 @@ export default function Home() {
               transition: "color 0.3s ease",
             }}
           >
-            {[
-              { label: "Work", target: "work" as const },
-              { label: "About", target: "home" as const },
-              { label: "Contact", target: "home" as const },
-              { label: "Post", target: "home" as const },
-            ].map((item) => (
+            {["Work", "About", "Contact", "Post"].map((txt) => (
               <a
-                key={item.label}
+                key={txt}
                 href="#"
-                onClick={(e) => handleNavClick(e, item.target)}
                 style={{
                   fontSize: navFontSize,
                   fontWeight: 400,
@@ -1374,7 +1016,7 @@ export default function Home() {
                   cursor: "pointer",
                 }}
               >
-                {item.label}
+                {txt}
               </a>
             ))}
           </div>
@@ -1412,871 +1054,55 @@ export default function Home() {
         </>
       )}
 
-      {/* ===== KONTEN HALAMAN MAIN ===== */}
-      {currentPage === "home" ? (
+      <div
+        style={{
+          minHeight: "100vh",
+          backgroundColor: "#FFFFFF",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          padding: "200px 0 0 0",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <div
           style={{
-            minHeight: "300vh",
-            backgroundColor: "#FFFFFF",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            padding: "200px 0 0 0",
-            boxSizing: "border-box",
-            overflow: "hidden",
+            padding: "0 40px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            position: "relative",
+            alignItems: "flex-start",
+            gap: "16px",
+            maxWidth: "1600px",
+            margin: "0 auto",
+            width: "100%",
+            marginBottom: "200px",
           }}
         >
-          <div
+          {/* ===== TEKS "works" 450px WARNA BIRU TANPA TEKS TEBAL ===== */}
+          <span
             style={{
-              padding: "0 40px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "16px",
-              maxWidth: "1600px",
-              margin: "0 auto",
-              width: "100%",
-              marginBottom: "200px",
+              fontSize: "450px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.85,
+              margin: 0,
+              padding: 0,
+              display: "block",
+              textTransform: "lowercase",
             }}
           >
-            {/* ===== Founder And Developer Brand ===== */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "12px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "50px",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  lineHeight: "1.1",
-                  color: "#0D3CFC",
-                  fontWeight: 400,
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                  textTransform: "capitalize",
-                }}
-              >
-                Founder And Developer Brand
-              </span>
-              <span
-                style={{
-                  backgroundColor: "#0D3CFC",
-                  padding: "10px 28px",
-                  borderRadius: "6px 28px 28px 28px",
-                  display: "inline-block",
-                  boxShadow: "0 8px 24px rgba(13,60,252,0.35)",
-                  border: "2px solid #0D3CFC",
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    padding: "6px 22px",
-                    borderRadius: "24px 4px 24px 24px",
-                    display: "inline-block",
-                    fontSize: "50px",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontWeight: 400,
-                    letterSpacing: "-0.02em",
-                    lineHeight: "1.1",
-                    color: "#0D3CFC",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  Menuru
-                </span>
-              </span>
-            </div>
-
-            {/* ===== Based In Indonesia ===== */}
-            <span
-              style={{
-                fontSize: "50px",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                lineHeight: "1.1",
-                color: "#0D3CFC",
-                fontWeight: 400,
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                textTransform: "capitalize",
-              }}
-            >
-              Based In Indonesia
-            </span>
-
-            {/* ===== JUDUL SECTION: Merancang Produk ===== */}
-            <span
-              style={{
-                fontSize: "64px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                marginTop: "100px",
-              }}
-            >
-              Merancang Produk
-            </span>
-
-            {/* ===== SECTION 3 KOLOM ===== */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-                gap: "60px",
-                flexWrap: "wrap",
-                marginTop: "30px",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  flex: "1 1 300px",
-                  minWidth: "260px",
-                  maxWidth: "380px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: "16px",
-                }}
-              >
-                <ProductDesignIcon size={56} color={BLUE} />
-                <span
-                  style={{
-                    fontSize: "32px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Product Design
-                </span>
-                <p
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLACK,
-                    lineHeight: 1.6,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Designing intuitive, functional, and user-centered product
-                  experiences — from concept to final prototype.
-                </p>
-              </div>
-
-              <div
-                style={{
-                  flex: "1 1 300px",
-                  minWidth: "260px",
-                  maxWidth: "380px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: "16px",
-                }}
-              >
-                <DesignSystemIcon size={56} color={BLUE} />
-                <span
-                  style={{
-                    fontSize: "32px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Design System
-                </span>
-                <p
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLACK,
-                    lineHeight: 1.6,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Building consistent, scalable, and easy-to-use design systems
-                  for the entire product team.
-                </p>
-              </div>
-
-              <div
-                style={{
-                  flex: "1 1 300px",
-                  minWidth: "260px",
-                  maxWidth: "380px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: "16px",
-                }}
-              >
-                <ResearchIcon size={56} color={BLUE} />
-                <span
-                  style={{
-                    fontSize: "32px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Research that changes decisions
-                </span>
-                <p
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLACK,
-                    lineHeight: 1.6,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Conducting deep research that generates real insights to shift
-                  product decisions for the better.
-                </p>
-              </div>
-            </div>
-
-            {/* ===== SECTION SECURITY ===== */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: "24px",
-                marginTop: "100px",
-                width: "100%",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "64px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
-                Security
-              </span>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  gap: "60px",
-                  flexWrap: "wrap",
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    flex: "1 1 300px",
-                    minWidth: "260px",
-                    maxWidth: "380px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "16px",
-                  }}
-                >
-                  <EncryptionIcon size={56} color={BLUE} />
-                  <span
-                    style={{
-                      fontSize: "32px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Encryption
-                  </span>
-                  <p
-                    style={{
-                      fontSize: "18px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLACK,
-                      lineHeight: 1.6,
-                      margin: 0,
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    User data is protected with end-to-end encryption, ensuring
-                    that only authorized users can access it.
-                  </p>
-                </div>
-
-                <div
-                  style={{
-                    flex: "1 1 300px",
-                    minWidth: "260px",
-                    maxWidth: "380px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "16px",
-                  }}
-                >
-                  <AntiFraudIcon size={56} color={BLUE} />
-                  <span
-                    style={{
-                      fontSize: "32px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Anti-Fraud System
-                  </span>
-                  <p
-                    style={{
-                      fontSize: "18px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLACK,
-                      lineHeight: 1.6,
-                      margin: 0,
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    Real-time detection of suspicious activity to prevent fraud
-                    and protect every user transaction.
-                  </p>
-                </div>
-
-                <div
-                  style={{
-                    flex: "1 1 300px",
-                    minWidth: "260px",
-                    maxWidth: "380px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "16px",
-                  }}
-                >
-                  <AntiBotIcon size={56} color={BLUE} />
-                  <span
-                    style={{
-                      fontSize: "32px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Anti-Bot
-                  </span>
-                  <p
-                    style={{
-                      fontSize: "18px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLACK,
-                      lineHeight: 1.6,
-                      margin: 0,
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    An automated protection system that blocks bots and fake
-                    traffic to keep the platform safe and fair.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ===== SECTION SELECTED WORK ===== */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "flex-start",
-                justifyContent: "space-between",
-                width: "100%",
-                marginTop: "120px",
-                flexWrap: "wrap",
-                gap: "20px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "80px",
-                  fontFamily: FONT_FAMILY,
-                  fontWeight: 400,
-                  color: BLUE,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
-                Selected Work
-              </span>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "80px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1.1,
-                  }}
-                >
-                  2026
-                </span>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "20px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <button
-                    onClick={() => setActiveView("index")}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontSize: "18px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.2,
-                      background: "transparent",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      opacity: activeView === "index" ? 1 : 0.55,
-                    }}
-                  >
-                    <IndexIcon size={18} color={BLUE} />
-                    Index
-                  </button>
-                  <button
-                    onClick={() => setActiveView("work")}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontSize: "18px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.2,
-                      background: "transparent",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      opacity: activeView === "work" ? 1 : 0.55,
-                    }}
-                  >
-                    <GridsIcon size={18} color={BLUE} />
-                    Grids
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* ===== KONDISI: WORK / INDEX ===== */}
-            {activeView === "work" ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "100%",
-                  marginTop: "80px",
-                  gap: "24px",
-                }}
-              >
-                <img
-                  src="/images/pjgff.JPG"
-                  alt="Menuru Productivity"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                    borderRadius: "24px",
-                    objectFit: "cover",
-                    boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
-                  }}
-                />
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    flexWrap: "wrap",
-                    gap: "20px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    Menuru
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    Productivity
-                  </span>
-                </div>
-
-                {/* ===== TEKS PESAN + LINK /contact — 70px ===== */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: "8px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "70px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLACK,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Apakah kamu mengalami sesuatu?{" "}
-                    <a
-                      href="/contact"
-                      style={{
-                        color: BLUE,
-                        fontWeight: 700,
-                        textDecoration: "underline",
-                      }}
-                    >
-                      Hubungi saya
-                    </a>
-                    .
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div
-                ref={hoverAreaRef}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={() => setHoverImage(null)}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                  marginTop: "0px",
-                  gap: "16px",
-                  position: "relative",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "60px",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 400,
-                    color: BLUE,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1.1,
-                  }}
-                >
-                  Index
-                </span>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    width: "100%",
-                    gap: "40px",
-                    flexWrap: "nowrap",
-                    overflowX: "auto",
-                  }}
-                >
-                  <span
-                    onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                    onMouseLeave={() => setHoverImage(null)}
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                      flexShrink: 0,
-                      cursor: "pointer",
-                    }}
-                  >
-                    01
-                  </span>
-
-                  <span
-                    onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                    onMouseLeave={() => setHoverImage(null)}
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                      flexShrink: 0,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Menuru
-                  </span>
-
-                  <span
-                    onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                    onMouseLeave={() => setHoverImage(null)}
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                      flexShrink: 0,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Productivity
-                  </span>
-
-                  <span
-                    onMouseEnter={() => setHoverImage("/images/pjgff.JPG")}
-                    onMouseLeave={() => setHoverImage(null)}
-                    style={{
-                      fontSize: "90px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                      marginLeft: "auto",
-                      flexShrink: 0,
-                      textAlign: "right",
-                      cursor: "pointer",
-                    }}
-                  >
-                    2024 - Present
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* ===== FOOTER ===== */}
-          <FooterSection refreshKey={activeView} />
+            works
+          </span>
         </div>
-      ) : (
-        /* ===== HALAMAN BARU: WORK PAGE ===== */
-        <div
-          style={{
-            minHeight: "100vh",
-            backgroundColor: "#FFFFFF",
-            fontFamily: FONT_FAMILY,
-            padding: "200px 0 0 0",
-            boxSizing: "border-box",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            position: "relative",
-          }}
-        >
-          <div
-            style={{
-              padding: "0 40px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              maxWidth: "1600px",
-              margin: "0 auto",
-              width: "100%",
-              marginBottom: "160px",
-            }}
-          >
-            {/* Teks "works" di bawah navbar: 450px, warna biru, tidak tebal */}
-            <h1
-              style={{
-                fontSize: "450px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.05em",
-                lineHeight: "0.85",
-                margin: 0,
-                padding: 0,
-                textTransform: "lowercase",
-                WebkitFontSmoothing: "antialiased",
-                MozOsxFontSmoothing: "grayscale",
-              }}
-            >
-              works
-            </h1>
 
-            {/* List Work Items / Project Section */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "80px",
-                width: "100%",
-                marginTop: "120px",
-              }}
-            >
-              {/* Card Work Item 1 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "24px",
-                  width: "100%",
-                }}
-              >
-                <img
-                  src="/images/pjgff.JPG"
-                  alt="Menuru Work"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                    borderRadius: "24px",
-                    objectFit: "cover",
-                    boxShadow: "0 12px 48px rgba(13,60,252,0.15)",
-                  }}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    flexWrap: "wrap",
-                    gap: "20px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "64px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    Menuru Studio
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "40px",
-                      fontFamily: FONT_FAMILY,
-                      fontWeight: 400,
-                      color: BLUE,
-                      letterSpacing: "-0.01em",
-                      opacity: 0.8,
-                    }}
-                  >
-                    2026
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ===== FOOTER UNTUK WORK PAGE ===== */}
-          <FooterSection refreshKey="work-page" />
-        </div>
-      )}
-
-      {/* ===== FOTO PREVIEW HOVER ===== */}
-      {hoverImage && (
-        <img
-          src={hoverImage}
-          alt="Preview"
-          style={{
-            position: "fixed",
-            left: `${mousePos.x + 24}px`,
-            top: `${mousePos.y + 24}px`,
-            width: "480px",
-            height: "auto",
-            borderRadius: "20px",
-            objectFit: "cover",
-            pointerEvents: "none",
-            zIndex: 100003,
-            boxShadow: "0 24px 64px rgba(13,60,252,0.4)",
-            transition: "opacity 0.2s ease",
-          }}
-        />
-      )}
+        {/* ===== FOOTER ===== */}
+        <FooterSection refreshKey="work-page" />
+      </div>
 
       {/* ===== COOKIES POPUP ===== */}
       {showCookies && (
@@ -2395,7 +1221,6 @@ export default function Home() {
                     fontWeight: 300,
                     lineHeight: 1,
                     color: "#FFFFFF",
-                    willChange: "transform",
                   }}
                 >
                   +
@@ -2408,17 +1233,6 @@ export default function Home() {
 
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=Anton&display=swap');
-
-        @keyframes cookies-slide-up {
-          from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-        }
 
         html,
         body {
