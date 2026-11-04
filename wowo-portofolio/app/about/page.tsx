@@ -1021,20 +1021,20 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* BAGIAN INTRO & EXPERIENCE */}
+          {/* BARIS PERTAMA: (Introduction) di Kiri, Teks Penjelasan di Kanan */}
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "flex-start",
               width: "100%",
-              marginTop: "24px",
+              marginTop: "40px",
               gap: "40px",
               flexWrap: "wrap",
             }}
           >
-            {/* SISI KIRI: (Introduction) & Nickname */}
-            <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
+            {/* SISI KIRI: (Introduction) */}
+            <div style={{ flex: "0 0 300px" }}>
               <span
                 style={{
                   fontSize: "50px",
@@ -1042,11 +1042,14 @@ export default function AboutPage() {
                   color: BLUE,
                   lineHeight: 1.1,
                   display: "block",
-                  marginBottom: "20px",
                 }}
               >
                 (Introduction)
               </span>
+            </div>
+
+            {/* SISI KANAN: Teks Intro Lengkap dengan Highlight Stabilo */}
+            <div style={{ flex: "1 1 700px", maxWidth: "900px" }}>
               <p
                 style={{
                   fontSize: "36px",
@@ -1056,7 +1059,7 @@ export default function AboutPage() {
                   margin: 0,
                 }}
               >
-                nickname{" "}
+                Hi, I'm{" "}
                 <mark
                   style={{
                     backgroundColor: HIGHLIGHT_YELLOW,
@@ -1065,9 +1068,9 @@ export default function AboutPage() {
                     borderRadius: "6px",
                   }}
                 >
-                  Farid
-                </mark>{" "}
-                -{" "}
+                  Farid Ardiansyah
+                </mark>
+                , nickname{" "}
                 <mark
                   style={{
                     backgroundColor: HIGHLIGHT_GREEN,
@@ -1076,9 +1079,9 @@ export default function AboutPage() {
                     borderRadius: "6px",
                   }}
                 >
-                  Developer
+                  Farid
                 </mark>{" "}
-                and{" "}
+                - Developer and{" "}
                 <mark
                   style={{
                     backgroundColor: HIGHLIGHT_CYAN,
@@ -1088,13 +1091,37 @@ export default function AboutPage() {
                   }}
                 >
                   Founder The Menuru Studio
+                </mark>{" "}
+                tools productivity is free. I have knowledge about technology industry,{" "}
+                <mark
+                  style={{
+                    backgroundColor: HIGHLIGHT_PINK,
+                    color: BLUE,
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  system security
                 </mark>
                 .
               </p>
             </div>
+          </div>
 
-            {/* SISI KANAN: (Experience), 2024 - Now & Menuru Studio dengan Timeline Garis Patah-patah & Titik */}
-            <div style={{ flex: "1 1 500px", maxWidth: "700px", position: "relative" }}>
+          {/* BARIS KEDUA: (Experience) di Kiri, Timeline Experience di Kanan */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              width: "100%",
+              marginTop: "80px",
+              gap: "40px",
+              flexWrap: "wrap",
+            }}
+          >
+            {/* SISI KIRI: (Experience) */}
+            <div style={{ flex: "0 0 300px" }}>
               <span
                 style={{
                   fontSize: "50px",
@@ -1102,19 +1129,21 @@ export default function AboutPage() {
                   color: BLUE,
                   lineHeight: 1.1,
                   display: "block",
-                  marginBottom: "20px",
                 }}
               >
                 (Experience)
               </span>
-              
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "20px", position: "relative" }}>
-                {/* Garis Patah-patah Lurus ke Bawah & Titik Bulat */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "8px" }}>
+            </div>
+
+            {/* SISI KANAN: Timeline dengan Garis Patah-patah & Titik Bulat */}
+            <div style={{ flex: "1 1 700px", maxWidth: "900px", position: "relative" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "24px", position: "relative" }}>
+                {/* Elemen Garis Patah-patah & Titik Bulat */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10px" }}>
                   <div
                     style={{
-                      width: "12px",
-                      height: "12px",
+                      width: "14px",
+                      height: "14px",
                       borderRadius: "50%",
                       backgroundColor: BLUE,
                       zIndex: 2,
@@ -1123,18 +1152,18 @@ export default function AboutPage() {
                   <div
                     style={{
                       width: "2px",
-                      height: "80px",
+                      height: "90px",
                       borderLeft: `3px dashed ${BLUE}`,
                       marginTop: "4px",
                     }}
                   />
                 </div>
 
-                {/* Konten Experience */}
+                {/* Konten Pengalaman */}
                 <div>
                   <div
                     style={{
-                      fontSize: "30px",
+                      fontSize: "32px",
                       fontWeight: 700,
                       color: BLUE,
                       marginBottom: "6px",
@@ -1142,7 +1171,7 @@ export default function AboutPage() {
                   >
                     <mark
                       style={{
-                        backgroundColor: HIGHLIGHT_PINK,
+                        backgroundColor: HIGHLIGHT_YELLOW,
                         color: BLUE,
                         padding: "2px 8px",
                         borderRadius: "6px",
