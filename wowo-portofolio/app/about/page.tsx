@@ -1021,7 +1021,7 @@ export default function AboutPage() {
             About
           </span>
 
-          {/* TEKS ( Introduction ) DI BIKIN SAMA SEJAJAR DENGAN SISI KANAN */}
+          {/* BAGIAN INTRODUCTION DAN EXPERIENCE */}
           <div
             style={{
               display: "flex",
@@ -1033,7 +1033,7 @@ export default function AboutPage() {
               flexWrap: "wrap",
             }}
           >
-            {/* SISI KIRI: ( Introduction ) & DESKRIPSI PERTAMA */}
+            {/* SISI KIRI: (Introduction) & DESKRIPSI PERTAMA */}
             <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
               <span
                 style={{
@@ -1045,7 +1045,7 @@ export default function AboutPage() {
                   marginBottom: "20px",
                 }}
               >
-                ( Introduction )
+                (Introduction)
               </span>
               <p
                 style={{
@@ -1093,75 +1093,95 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* SISI KANAN: KEALIAN & EXPERIENCE */}
-            <div style={{ flex: "1 1 500px", maxWidth: "700px" }}>
-              <p
+(Experience) Kanan: 2024 - Now & Menuru Studio, serta Line Patah-patah/Titik Bulat */}
+            <div style={{ flex: "1 1 500px", maxWidth: "700px", position: "relative" }}>
+              <span
                 style={{
-                  fontSize: "36px",
+                  fontSize: "50px",
                   fontWeight: 400,
                   color: BLUE,
-                  lineHeight: 1.4,
-                  margin: 0,
-                  marginTop: "70px", // Penyesuaian agar sejajar vertikal dengan paragraf kiri
+                  lineHeight: 1.1,
+                  display: "block",
+                  marginBottom: "20px",
                 }}
               >
-                I have knowledge about technology industry,{" "}
-                <mark
+                (Experience)
+              </span>
+
+              {/* TIMELINE CONTAINER DENGAN LINE & TITIK BULAT */}
+              <div style={{ position: "relative", paddingLeft: "30px", marginTop: "20px" }}>
+                {/* Line patah-patah lurus ke bawah & ke samping */}
+                <div
                   style={{
-                    backgroundColor: HIGHLIGHT_PINK,
-                    color: BLUE,
-                    padding: "2px 8px",
-                    borderRadius: "6px",
+                    position: "absolute",
+                    left: "6px",
+                    top: "10px",
+                    bottom: "10px",
+                    width: "2px",
+                    borderLeft: `2px dashed ${BLUE}`,
                   }}
-                >
-                  system security
-                </mark>
-                ,{" "}
-                <mark
+                />
+                <div
                   style={{
-                    backgroundColor: HIGHLIGHT_YELLOW,
-                    color: BLUE,
-                    padding: "2px 8px",
-                    borderRadius: "6px",
+                    position: "absolute",
+                    left: "6px",
+                    top: "10px",
+                    width: "40px",
+                    height: "2px",
+                    borderTop: `2px dashed ${BLUE}`,
                   }}
-                >
-                  IOT
-                </mark>
-                ,{" "}
-                <mark
+                />
+
+                {/* Titik bulat biasa */}
+                <div
                   style={{
-                    backgroundColor: HIGHLIGHT_GREEN,
-                    color: BLUE,
-                    padding: "2px 8px",
-                    borderRadius: "6px",
+                    position: "absolute",
+                    left: "1px",
+                    top: "5px",
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: BLUE,
+                    borderRadius: "50%",
                   }}
-                >
-                  Arduino
-                </mark>
-                ,{" "}
-                <mark
-                  style={{
-                    backgroundColor: HIGHLIGHT_CYAN,
-                    color: BLUE,
-                    padding: "2px 8px",
-                    borderRadius: "6px",
-                  }}
-                >
-                  Robotic
-                </mark>
-                ,{" "}
-                <mark
-                  style={{
-                    backgroundColor: HIGHLIGHT_PINK,
-                    color: BLUE,
-                    padding: "2px 8px",
-                    borderRadius: "6px",
-                  }}
-                >
-                  Since 2019
-                </mark>
-                .
-              </p>
+                />
+
+                {/* Konten Experience: 2024 - Now & Menuru Studio */}
+                <div style={{ paddingLeft: "20px" }}>
+                  <span
+                    style={{
+                      fontSize: "28px",
+                      fontWeight: 700,
+                      color: BLUE,
+                      display: "block",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    2024 - Now
+                  </span>
+                  <p
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: 400,
+                      color: BLUE,
+                      margin: 0,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    <mark
+                      style={{
+                        backgroundColor: HIGHLIGHT_YELLOW,
+                        color: BLUE,
+                        padding: "2px 8px",
+                        borderRadius: "6px",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Menuru Studio
+                    </mark>{" "}
+                    - Building and scaling productivity tools, web application features, and cross-platform architecture.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
