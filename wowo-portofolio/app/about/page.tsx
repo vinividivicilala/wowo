@@ -4,6 +4,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { motion } from "framer-motion";
 import { getApps, initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -1140,7 +1141,10 @@ export default function AboutPage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: "24px", position: "relative" }}>
                 {/* Elemen Garis Patah-patah & Titik Bulat */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10px" }}>
-                  <div
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5, ease: "backOut" }}
                     style={{
                       width: "14px",
                       height: "14px",
@@ -1149,10 +1153,12 @@ export default function AboutPage() {
                       zIndex: 2,
                     }}
                   />
-                  <div
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: "90px" }}
+                    transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
                     style={{
                       width: "2px",
-                      height: "90px",
                       borderLeft: `3px dashed ${BLUE}`,
                       marginTop: "4px",
                     }}
@@ -1190,6 +1196,100 @@ export default function AboutPage() {
                     Menuru Studio
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BARIS KETIGA: (Capabilities) di Kiri, IOT, Arduino, Administration, System Security di Kanan dengan Line Patah2 Bergerak */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              width: "100%",
+              marginTop: "80px",
+              gap: "40px",
+              flexWrap: "wrap",
+            }}
+          >
+            {/* SISI KIRI: (Capabilities) */}
+            <div style={{ flex: "0 0 300px" }}>
+              <span
+                style={{
+                  fontSize: "50px",
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.1,
+                  display: "block",
+                }}
+              >
+                (Capabilities)
+              </span>
+            </div>
+
+            {/* SISI KANAN: Daftar Capabilities dengan Animasi Garis Patah-patah Menghubungkan Item */}
+            <div style={{ flex: "1 1 700px", maxWidth: "900px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                {["IOT", "Arduino", "Administration", "System Security"].map((capability, index) => (
+                  <div key={capability} style={{ display: "flex", alignItems: "center", gap: "20px", position: "relative" }}>
+                    {/* Titik Bulat */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: index * 0.2 }}
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: BLUE,
+                        flexShrink: 0,
+                        zIndex: 2,
+                      }}
+                    />
+
+                    {/* Animasi Garis Patah-patah Menyamping (Moving Dashed Line) */}
+                    {index < 3 && (
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "120px" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: index * 0.2 + 0.2, ease: "easeInOut" }}
+                        style={{
+                          height: "2px",
+                          borderTop: `3px dashed ${BLUE}`,
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+
+                    {/* Label Capability dengan Blok Stabilo Warna-Warni */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+                      style={{
+                        fontSize: "28px",
+                        fontWeight: 600,
+                        color: BLUE,
+                        padding: "6px 16px",
+                        borderRadius: "8px",
+                        backgroundColor:
+                          index === 0
+                            ? HIGHLIGHT_YELLOW
+                            : index === 1
+                            ? HIGHLIGHT_GREEN
+                            : index === 2
+                            ? HIGHLIGHT_CYAN
+                            : HIGHLIGHT_PINK,
+                        display: "inline-block",
+                      }}
+                    >
+                      {capability}
+                    </motion.div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
