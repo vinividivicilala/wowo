@@ -1310,7 +1310,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Founder" & "Developer [me]" (Developer [me] tepat di bawah Team) ===== */}
+          {/* ===== BARIS "Founder", "Developer [me]", & "user research" ===== */}
           <div
             style={{
               display: "flex",
@@ -1353,12 +1353,171 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+              }}
+            >
+              user research
+            </span>
+          </div>
+
+          {/* ===== BARIS "developer", [kosong], & "design system" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              developer
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
               }}
             >
-              My contribution
+              Developer [me]
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              design system
+            </span>
+          </div>
+
+          {/* ===== BARIS [kosong], [kosong], & "system security" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                visibility: "hidden",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              developer
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                visibility: "hidden",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              Developer [me]
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              system security
+            </span>
+          </div>
+
+          {/* ===== BARIS [kosong], [kosong], & "interaction design" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                visibility: "hidden",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              developer
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                visibility: "hidden",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              Developer [me]
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              interaction design
             </span>
           </div>
         </div>
