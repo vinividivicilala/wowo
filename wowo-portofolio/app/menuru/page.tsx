@@ -1155,34 +1155,83 @@ export default function MenuruPage() {
             }}
           />
 
-          {/* ===== TEKS "type" 90px ===== */}
-          <span
+          {/* ===== BARIS "type" & "Maintenance" ===== */}
+          <div
             style={{
-              fontSize: "90px",
-              fontFamily: FONT_FAMILY,
-              fontWeight: 400,
-              color: BLUE,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              textTransform: "lowercase",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              maxWidth: "1200px",
+              flexWrap: "wrap",
+              gap: "20px",
             }}
           >
-            type
-          </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                textTransform: "lowercase",
+              }}
+            >
+              type
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Maintenance
+            </span>
+          </div>
 
-          {/* ===== TEKS "Productivity" 90px DI BAWAH "type" ===== */}
-          <span
+          {/* ===== BARIS "Productivity" & "real time" ===== */}
+          <div
             style={{
-              fontSize: "90px",
-              fontFamily: FONT_FAMILY,
-              fontWeight: 400,
-              color: BLUE,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              maxWidth: "1200px",
+              flexWrap: "wrap",
+              gap: "20px",
             }}
           >
-            Productivity
-          </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Productivity
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                textTransform: "lowercase",
+              }}
+            >
+              real time
+            </span>
+          </div>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
