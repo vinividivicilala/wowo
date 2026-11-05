@@ -1136,6 +1136,32 @@ export default function MenuruPage() {
           >
             Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost
           </p>
+
+          {/* ===== GARIS BAWAH WARNA BIRU ===== */}
+          <div
+            style={{
+              width: "100%",
+              height: "2px",
+              backgroundColor: BLUE,
+              marginTop: "20px",
+              marginBottom: "10px",
+            }}
+          />
+
+          {/* ===== TEKS "type" ===== */}
+          <span
+            style={{
+              fontSize: "24px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.2,
+              textTransform: "lowercase",
+            }}
+          >
+            type
+          </span>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
