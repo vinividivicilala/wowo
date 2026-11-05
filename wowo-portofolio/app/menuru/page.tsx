@@ -1120,7 +1120,7 @@ export default function MenuruPage() {
             Menuru
           </span>
 
-          {/* ===== DESKRIPSI 2 PARAGRAF ===== */}
+          {/* ===== DESKRIPSI 1 PARAGRAF ===== */}
           <div
             style={{
               display: "flex",
@@ -1142,19 +1142,6 @@ export default function MenuruPage() {
             >
               Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost.
             </p>
-            <p
-              style={{
-                fontSize: "24px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLACK,
-                lineHeight: 1.5,
-                letterSpacing: "-0.01em",
-                margin: 0,
-              }}
-            >
-              Dedicated to delivering accessible digital solutions and tools that empower communities everywhere.
-            </p>
           </div>
 
           {/* ===== GARIS BAWAH WARNA BIRU PUDAH (#0D3CFC35) ===== */}
@@ -1168,30 +1155,30 @@ export default function MenuruPage() {
             }}
           />
 
-          {/* ===== TEKS "type" ===== */}
+          {/* ===== TEKS "type" 90px ===== */}
           <span
             style={{
-              fontSize: "24px",
+              fontSize: "90px",
               fontFamily: FONT_FAMILY,
               fontWeight: 400,
               color: BLUE,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
               textTransform: "lowercase",
             }}
           >
             type
           </span>
 
-          {/* ===== TEKS "Productivity" DI BAWAH "type" ===== */}
+          {/* ===== TEKS "Productivity" 90px DI BAWAH "type" ===== */}
           <span
             style={{
-              fontSize: "24px",
+              fontSize: "90px",
               fontFamily: FONT_FAMILY,
               fontWeight: 400,
               color: BLUE,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
             }}
           >
             Productivity
