@@ -1120,6 +1120,8 @@ export default function MenuruPage() {
               margin: 0,
               padding: 0,
               display: "block",
+              textAlign: "left",
+              textTransform: "capitalize",
             }}
           >
             Menuru
@@ -1143,6 +1145,7 @@ export default function MenuruPage() {
                 lineHeight: 1.5,
                 letterSpacing: "-0.01em",
                 margin: 0,
+                textAlign: "left",
               }}
             >
               Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost.
@@ -1160,7 +1163,7 @@ export default function MenuruPage() {
             }}
           />
 
-          {/* ===== BARIS "type" & "Maintenance" ===== */}
+          {/* ===== BARIS "Type" & "Maintenance" ===== */}
           <div
             style={{
               display: "flex",
@@ -1179,10 +1182,11 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
-                textTransform: "lowercase",
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              type
+              Type
             </span>
             <span
               style={{
@@ -1192,13 +1196,15 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Maintenance
             </span>
           </div>
 
-          {/* ===== BARIS "Productivity" & "real time" ===== */}
+          {/* ===== BARIS "Productivity" & "Real Time" ===== */}
           <div
             style={{
               display: "flex",
@@ -1217,6 +1223,8 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Productivity
@@ -1229,10 +1237,11 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
-                textTransform: "lowercase",
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              real time
+              Real Time
             </span>
           </div>
 
@@ -1261,7 +1270,7 @@ export default function MenuruPage() {
             />
           </div>
 
-          {/* ===== BARIS "Role", "Team", & "My contribution" SEBARIS ===== */}
+          {/* ===== BARIS "Role", "Team", & "My Contribution" SEBARIS ===== */}
           <div
             style={{
               display: "flex",
@@ -1280,6 +1289,8 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Role
@@ -1292,6 +1303,8 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Team
@@ -1304,13 +1317,15 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              My contribution
+              My Contribution
             </span>
           </div>
 
-          {/* ===== BARIS "Founder", "Developer [me]", & "user research" ===== */}
+          {/* ===== BARIS "Founder", "Developer [me]", & "User Research" ===== */}
           <div
             style={{
               display: "flex",
@@ -1329,6 +1344,8 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Founder
@@ -1341,6 +1358,8 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
               Developer [me]
@@ -1353,13 +1372,15 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              user research
+              User Research
             </span>
           </div>
 
-          {/* ===== BARIS "developer", [kosong], & "design system" ===== */}
+          {/* ===== BARIS "Developer", [kosong], & "Design System" ===== */}
           <div
             style={{
               display: "flex",
@@ -1378,9 +1399,11 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              developer
+              Developer
             </span>
             <span
               style={{
@@ -1390,6 +1413,7 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
@@ -1405,13 +1429,15 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              design system
+              Design System
             </span>
           </div>
 
-          {/* ===== BARIS [kosong], [kosong], & "system security" ===== */}
+          {/* ===== BARIS [kosong], [kosong], & "System Security" ===== */}
           <div
             style={{
               display: "flex",
@@ -1430,12 +1456,13 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
               }}
             >
-              developer
+              Developer
             </span>
             <span
               style={{
@@ -1445,6 +1472,7 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
@@ -1460,13 +1488,15 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              system security
+              System Security
             </span>
           </div>
 
-          {/* ===== BARIS [kosong], [kosong], & "interaction design" ===== */}
+          {/* ===== BARIS [kosong], [kosong], & "Interaction Design" ===== */}
           <div
             style={{
               display: "flex",
@@ -1485,12 +1515,13 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
               }}
             >
-              developer
+              Developer
             </span>
             <span
               style={{
@@ -1500,6 +1531,7 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
                 userSelect: "none",
@@ -1515,9 +1547,11 @@ export default function MenuruPage() {
                 color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                textAlign: "left",
+                textTransform: "capitalize",
               }}
             >
-              interaction design
+              Interaction Design
             </span>
           </div>
         </div>
@@ -1622,6 +1656,7 @@ export default function MenuruPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "4px",
+                  textAlign: "left",
                 }}
               >
                 Farid Ardiansyah
