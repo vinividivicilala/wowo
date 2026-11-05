@@ -1092,21 +1092,21 @@ export default function MenuruPage() {
       >
         <div
           style={{
-            padding: "0 40px",
+            padding: "0 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "16px",
+            gap: "20px",
             maxWidth: "1600px",
-            margin: "0 auto",
+            margin: "0 auto 0 20px",
             width: "100%",
             marginBottom: "200px",
           }}
         >
-          {/* ===== TEKS "menuru" 60px DI SISI KIRI ATAS DI BAWAH JUDUL WEB ===== */}
+          {/* ===== TEKS "Menuru" 90px DI SISI KIRI ATAS DI BAWAH JUDUL WEB ===== */}
           <span
             style={{
-              fontSize: "60px",
+              fontSize: "90px",
               fontFamily: FONT_FAMILY,
               fontWeight: 400,
               color: BLUE,
@@ -1115,34 +1115,54 @@ export default function MenuruPage() {
               margin: 0,
               padding: 0,
               display: "block",
-              textTransform: "lowercase",
             }}
           >
-            menuru
+            Menuru
           </span>
 
-          {/* ===== DESKRIPSI DI BAWAH TEKS MENURU ===== */}
-          <p
+          {/* ===== DESKRIPSI 2 PARAGRAF ===== */}
+          <div
             style={{
-              fontSize: "24px",
-              fontFamily: FONT_FAMILY,
-              fontWeight: 400,
-              color: BLACK,
-              lineHeight: 1.5,
-              letterSpacing: "-0.01em",
-              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
               maxWidth: "800px",
             }}
           >
-            Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost
-          </p>
+            <p
+              style={{
+                fontSize: "24px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLACK,
+                lineHeight: 1.5,
+                letterSpacing: "-0.01em",
+                margin: 0,
+              }}
+            >
+              Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost.
+            </p>
+            <p
+              style={{
+                fontSize: "24px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLACK,
+                lineHeight: 1.5,
+                letterSpacing: "-0.01em",
+                margin: 0,
+              }}
+            >
+              Dedicated to delivering accessible digital solutions and tools that empower communities everywhere.
+            </p>
+          </div>
 
-          {/* ===== GARIS BAWAH WARNA BIRU ===== */}
+          {/* ===== GARIS BAWAH WARNA BIRU PUDAH (#0D3CFC35) ===== */}
           <div
             style={{
               width: "100%",
               height: "2px",
-              backgroundColor: BLUE,
+              backgroundColor: "#0D3CFC35",
               marginTop: "20px",
               marginBottom: "10px",
             }}
@@ -1161,6 +1181,20 @@ export default function MenuruPage() {
             }}
           >
             type
+          </span>
+
+          {/* ===== TEKS "Productivity" DI BAWAH "type" ===== */}
+          <span
+            style={{
+              fontSize: "24px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLUE,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.2,
+            }}
+          >
+            Productivity
           </span>
         </div>
 
