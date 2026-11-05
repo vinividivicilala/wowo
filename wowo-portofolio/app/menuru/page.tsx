@@ -1233,7 +1233,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== GAMBAR "images/jhhg.JPG" DI BAWAH PRODUCTIVITY (UKURAN BESAR & BERBORDER) ===== */}
+          {/* ===== GAMBAR "images/jhhg.JPG" ===== */}
           <div
             style={{
               width: "100%",
@@ -1255,6 +1255,109 @@ export default function MenuruPage() {
                 boxShadow: "0 12px 40px rgba(13,60,252,0.15)",
               }}
             />
+          </div>
+
+          {/* ===== BARIS "Role" & "Team" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              maxWidth: "1200px",
+              flexWrap: "wrap",
+              gap: "20px",
+              marginTop: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Role
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Team
+            </span>
+          </div>
+
+          {/* ===== BARIS "Founder" & "My contribution" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              maxWidth: "1200px",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Founder
+            </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              My contribution
+            </span>
+          </div>
+
+          {/* ===== TEKS "Developer" DI BAWAH "Founder" ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              maxWidth: "1200px",
+              flexWrap: "wrap",
+              gap: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Developer
+            </span>
           </div>
         </div>
 
