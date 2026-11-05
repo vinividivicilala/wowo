@@ -1232,6 +1232,30 @@ export default function MenuruPage() {
               real time
             </span>
           </div>
+
+          {/* ===== GAMBAR "images/jhhg.JPG" DI BAWAH PRODUCTIVITY (UKURAN BESAR & BERBORDER) ===== */}
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "1200px",
+              marginTop: "20px",
+            }}
+          >
+            <img
+              src="images/jhhg.JPG"
+              alt="Menuru Studio Gallery"
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "700px",
+                objectFit: "cover",
+                borderRadius: "16px",
+                border: `3px solid ${BLUE}`,
+                display: "block",
+                boxShadow: "0 12px 40px rgba(13,60,252,0.15)",
+              }}
+            />
+          </div>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
