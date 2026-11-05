@@ -1301,7 +1301,7 @@ export default function MenuruPage() {
                 fontSize: "90px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
-                color: BLUE,
+5                color: BLUE,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
               }}
@@ -1310,7 +1310,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Founder" & "Developer [me]" (Developer [me] di bawah Team) ===== */}
+          {/* ===== BARIS "Founder" & "Developer [me]" (Developer [me] tepat di bawah Team) ===== */}
           <div
             style={{
               display: "flex",
@@ -1333,18 +1333,21 @@ export default function MenuruPage() {
             >
               Founder
             </span>
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-              }}
-            >
-              Developer [me]
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Developer [me]
+              </span>
+            </div>
+            {spacerSpan}
           </div>
         </div>
 
@@ -1528,3 +1531,17 @@ export default function MenuruPage() {
     </>
   );
 }
+
+// Helper spacer to keep flex alignment for columns
+const spacerSpan = (
+  <span
+    style={{
+      fontSize: "90px",
+      visibility: "hidden",
+      pointerEvents: "none",
+      userSelect: "none",
+    }}
+  >
+    My contribution
+  </span>
+);
