@@ -391,9 +391,13 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
               color: WHITE,
               letterSpacing: "-0.02em",
               lineHeight: 1.2,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
             }}
           >
             Unduh Menuru
+            <VerifiedBadgeWhite size={20} />
           </span>
         </a>
       </div>
@@ -1441,9 +1445,13 @@ export default function MenuruPage() {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
                 }}
               >
                 Farid Ardiansyah
+                <VerifiedBadgeWhite size={16} />
               </span>
               <button
                 onClick={() => setExpandOpen((prev) => !prev)}
