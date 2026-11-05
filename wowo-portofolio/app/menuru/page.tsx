@@ -251,7 +251,6 @@ const FooterSection = ({ refreshKey }: { refreshKey?: string }) => {
         fontFamily: FONT_FAMILY,
       }}
     >
-      {/* ===== TOP: Link Kolom + Download Button ===== */}
       <div
         style={{
           maxWidth: "1400px",
@@ -1104,15 +1103,15 @@ export default function MenuruPage() {
             marginBottom: "200px",
           }}
         >
-          {/* ===== JUDUL HALAMAN MENURU ===== */}
+          {/* ===== TEKS "menuru" 60px DI SISI KIRI ATAS DI BAWAH JUDUL WEB ===== */}
           <span
             style={{
-              fontSize: "450px",
+              fontSize: "60px",
               fontFamily: FONT_FAMILY,
               fontWeight: 400,
               color: BLUE,
-              letterSpacing: "-0.04em",
-              lineHeight: 0.85,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
               margin: 0,
               padding: 0,
               display: "block",
@@ -1121,6 +1120,22 @@ export default function MenuruPage() {
           >
             menuru
           </span>
+
+          {/* ===== DESKRIPSI DI BAWAH TEKS MENURU ===== */}
+          <p
+            style={{
+              fontSize: "24px",
+              fontFamily: FONT_FAMILY,
+              fontWeight: 400,
+              color: BLACK,
+              lineHeight: 1.5,
+              letterSpacing: "-0.01em",
+              margin: 0,
+              maxWidth: "800px",
+            }}
+          >
+            Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost
+          </p>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
