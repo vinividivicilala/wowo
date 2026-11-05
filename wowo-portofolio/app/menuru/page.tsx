@@ -1097,10 +1097,11 @@ export default function MenuruPage() {
             flexDirection: "column",
             alignItems: "flex-start",
             gap: "20px",
-            maxWidth: "1600px",
-            margin: "0 auto 0 20px",
+            maxWidth: "100%",
+            margin: "0 auto",
             width: "100%",
             marginBottom: "200px",
+            boxSizing: "border-box",
           }}
         >
           {/* ===== TEKS "Menuru" 90px DI SISI KIRI ATAS DI BAWAH JUDUL WEB ===== */}
@@ -1162,7 +1163,6 @@ export default function MenuruPage() {
               flexDirection: "row",
               justifyContent: "space-between",
               width: "100%",
-              maxWidth: "1200px",
               flexWrap: "wrap",
               gap: "20px",
             }}
@@ -1201,7 +1201,6 @@ export default function MenuruPage() {
               flexDirection: "row",
               justifyContent: "space-between",
               width: "100%",
-              maxWidth: "1200px",
               flexWrap: "wrap",
               gap: "20px",
             }}
@@ -1233,12 +1232,14 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== GAMBAR "images/jhhg.JPG" ===== */}
+          {/* ===== GAMBAR "images/jhhg.JPG" (DIPERBESAR KE KANAN & TANPA BORDER BIRU) ===== */}
           <div
             style={{
-              width: "100%",
-              maxWidth: "1200px",
+              width: "100vw",
+              marginLeft: "calc(-50vw + 50%)",
+              marginRight: "calc(-50vw + 50%)",
               marginTop: "20px",
+              marginBottom: "20px",
             }}
           >
             <img
@@ -1247,27 +1248,24 @@ export default function MenuruPage() {
               style={{
                 width: "100%",
                 height: "auto",
-                maxHeight: "700px",
+                maxHeight: "850px",
                 objectFit: "cover",
-                borderRadius: "16px",
-                border: `3px solid ${BLUE}`,
                 display: "block",
-                boxShadow: "0 12px 40px rgba(13,60,252,0.15)",
+                border: "none",
+                boxShadow: "none",
               }}
             />
           </div>
 
-          {/* ===== BARIS "Role" & "Team" ===== */}
+          {/* ===== BARIS "Role", "Team", & "My contribution" SEBARIS ===== */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
               width: "100%",
-              maxWidth: "1200px",
               flexWrap: "wrap",
               gap: "20px",
-              marginTop: "20px",
             }}
           >
             <span
@@ -1294,16 +1292,27 @@ export default function MenuruPage() {
             >
               Team
             </span>
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              My contribution
+            </span>
           </div>
 
-          {/* ===== BARIS "Founder" & "My contribution" ===== */}
+          {/* ===== BARIS "Founder" & "Developer [me]" (Developer [me] di bawah Team) ===== */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
               width: "100%",
-              maxWidth: "1200px",
               flexWrap: "wrap",
               gap: "20px",
             }}
@@ -1330,33 +1339,7 @@ export default function MenuruPage() {
                 lineHeight: 1.1,
               }}
             >
-              My contribution
-            </span>
-          </div>
-
-          {/* ===== TEKS "Developer" DI BAWAH "Founder" ===== */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-              maxWidth: "1200px",
-              flexWrap: "wrap",
-              gap: "20px",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-              }}
-            >
-              Developer
+              Developer [me]
             </span>
           </div>
         </div>
