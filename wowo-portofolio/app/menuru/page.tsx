@@ -1174,37 +1174,41 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Type
-            </span>
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Maintenance
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Type
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Maintenance
+              </span>
+            </div>
           </div>
 
-          {/* ===== BARIS "Productivity" & "Real Time" (ISI UKURAN LEBIH KECIL & DI KIRI) ===== */}
+          {/* ===== BARIS "Productivity" & "Real Time" (RATA KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1215,7 +1219,7 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1231,7 +1235,7 @@ export default function MenuruPage() {
                 Productivity
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1285,51 +1289,57 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Role
-            </span>
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Team
-            </span>
-            <span
-              style={{
-                fontSize: "90px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              My Contribution
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Role
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Team
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                My Contribution
+              </span>
+            </div>
           </div>
 
-          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" (DI KIRI, UKURAN KECIL) ===== */}
+          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" (RATA KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1340,7 +1350,7 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1356,7 +1366,7 @@ export default function MenuruPage() {
                 Founder
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1372,7 +1382,7 @@ export default function MenuruPage() {
                 Developer [me]
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1390,7 +1400,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" (DI KIRI, UKURAN KECIL) ===== */}
+          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" (RATA KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1401,7 +1411,7 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1417,7 +1427,7 @@ export default function MenuruPage() {
                 Developer
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1435,7 +1445,7 @@ export default function MenuruPage() {
                 Developer [me]
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1453,7 +1463,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" (DI KIRI, UKURAN KECIL) ===== */}
+          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" (RATA KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1464,7 +1474,7 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1482,7 +1492,7 @@ export default function MenuruPage() {
                 Developer
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1500,7 +1510,7 @@ export default function MenuruPage() {
                 Developer [me]
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1518,7 +1528,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" (DI KIRI, UKURAN KECIL) ===== */}
+          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" (RATA KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1529,7 +1539,7 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1 }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1547,7 +1557,7 @@ export default function MenuruPage() {
                 Developer
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
@@ -1565,7 +1575,7 @@ export default function MenuruPage() {
                 Developer [me]
               </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, textAlign: "left" }}>
               <span
                 style={{
                   fontSize: "40px",
