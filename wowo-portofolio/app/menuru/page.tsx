@@ -1619,6 +1619,101 @@ export default function MenuruPage() {
               Solving note-taking and productivity challenges while helping the public completely free of charge since 2024.
             </p>
           </div>
+
+          {/* ===== BAGIAN GOAL & MY ROLE SEJAJAR DI BAWAH DESKRIPSI ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              flexWrap: "wrap",
+              gap: "40px",
+              marginTop: "60px",
+            }}
+          >
+            {/* Kolom Kiri: Goal & Deskripsinya */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                flex: 1,
+                minWidth: "280px",
+                gap: "12px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Goal
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                To provide accessible, free, and secure digital productivity tools for everyone without subscription barriers.
+              </p>
+            </div>
+
+            {/* Kolom Kanan: My Role & Deskripsinya */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                flex: 1,
+                minWidth: "280px",
+                gap: "12px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                My Role
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                Architecting the entire digital ecosystem, handling full-stack development, and implementing robust security frameworks.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
