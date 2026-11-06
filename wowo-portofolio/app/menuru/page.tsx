@@ -1100,7 +1100,7 @@ export default function MenuruPage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "20px",
+            gap: "8px",
             maxWidth: "100%",
             margin: "0 auto",
             width: "100%",
@@ -1116,7 +1116,7 @@ export default function MenuruPage() {
               fontWeight: 400,
               color: BLUE,
               letterSpacing: "-0.03em",
-              lineHeight: 1.1,
+              lineHeight: 1.05,
               margin: 0,
               padding: 0,
               display: "block",
@@ -1158,7 +1158,7 @@ export default function MenuruPage() {
               width: "100%",
               height: "2px",
               backgroundColor: "#0D3CFC35",
-              marginTop: "20px",
+              marginTop: "10px",
               marginBottom: "10px",
             }}
           />
@@ -1181,7 +1181,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1195,7 +1195,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1222,7 +1222,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1236,7 +1236,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1251,8 +1251,8 @@ export default function MenuruPage() {
               width: "100vw",
               marginLeft: "calc(-50vw + 50%)",
               marginRight: "calc(-50vw + 50%)",
-              marginTop: "20px",
-              marginBottom: "20px",
+              marginTop: "10px",
+              marginBottom: "10px",
             }}
           >
             <img
@@ -1288,7 +1288,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1302,7 +1302,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1316,7 +1316,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1325,7 +1325,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Founder", "Developer [me]", & "User Research" ===== */}
+          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" ===== */}
           <div
             style={{
               display: "flex",
@@ -1343,7 +1343,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1357,7 +1357,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1371,7 +1371,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1380,7 +1380,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Developer", [kosong], & "Design System" ===== */}
+          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" ===== */}
           <div
             style={{
               display: "flex",
@@ -1398,7 +1398,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1412,7 +1412,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1428,7 +1428,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1437,7 +1437,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS [kosong], [kosong], & "System Security" ===== */}
+          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" ===== */}
           <div
             style={{
               display: "flex",
@@ -1455,7 +1455,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1471,7 +1471,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1487,7 +1487,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1496,7 +1496,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS [kosong], [kosong], & "Interaction Design" ===== */}
+          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" ===== */}
           <div
             style={{
               display: "flex",
@@ -1514,7 +1514,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1530,7 +1530,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1546,7 +1546,7 @@ export default function MenuruPage() {
                 fontWeight: 400,
                 color: BLUE,
                 letterSpacing: "-0.03em",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
