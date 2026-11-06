@@ -1204,7 +1204,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Productivity" & "Real Time" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
+          {/* ===== BARIS "Productivity" & "Real Time" (ISI UKURAN LEBIH KECIL & DI KIRI) ===== */}
           <div
             style={{
               display: "flex",
@@ -1215,34 +1215,38 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Productivity
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Real Time
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Productivity
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Real Time
+              </span>
+            </div>
           </div>
 
           {/* ===== GAMBAR "images/jhhg.JPG" (DIPERBESAR KE KANAN & TANPA BORDER BIRU) ===== */}
@@ -1325,7 +1329,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
+          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" (DI KIRI, UKURAN KECIL) ===== */}
           <div
             style={{
               display: "flex",
@@ -1336,51 +1340,57 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Founder
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Developer [me]
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              User Research
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Founder
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Developer [me]
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                User Research
+              </span>
+            </div>
           </div>
 
-          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
+          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" (DI KIRI, UKURAN KECIL) ===== */}
           <div
             style={{
               display: "flex",
@@ -1391,53 +1401,59 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Developer
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                visibility: "hidden",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              Developer [me]
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Design System
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Developer
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  visibility: "hidden",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                Developer [me]
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Design System
+              </span>
+            </div>
           </div>
 
-          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
+          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" (DI KIRI, UKURAN KECIL) ===== */}
           <div
             style={{
               display: "flex",
@@ -1448,55 +1464,61 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                visibility: "hidden",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              Developer
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                visibility: "hidden",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              Developer [me]
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              System Security
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  visibility: "hidden",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                Developer
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  visibility: "hidden",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                Developer [me]
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                System Security
+              </span>
+            </div>
           </div>
 
-          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
+          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" (DI KIRI, UKURAN KECIL) ===== */}
           <div
             style={{
               display: "flex",
@@ -1507,52 +1529,58 @@ export default function MenuruPage() {
               gap: "20px",
             }}
           >
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                visibility: "hidden",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              Developer
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                visibility: "hidden",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              Developer [me]
-            </span>
-            <span
-              style={{
-                fontSize: "40px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLUE,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                textAlign: "left",
-                textTransform: "capitalize",
-              }}
-            >
-              Interaction Design
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  visibility: "hidden",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                Developer
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  visibility: "hidden",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                Developer [me]
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Interaction Design
+              </span>
+            </div>
           </div>
         </div>
 
