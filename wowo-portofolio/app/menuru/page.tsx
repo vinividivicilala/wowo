@@ -1714,6 +1714,177 @@ export default function MenuruPage() {
               </p>
             </div>
           </div>
+
+          {/* ===== BAGIAN TAMBAHAN: AUDIENCE, BRAND VOICE, FEEDBACK, FINAL DESIGN ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              gap: "60px",
+              marginTop: "60px",
+            }}
+          >
+            {/* Audience */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "12px",
+                maxWidth: "800px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Audience
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                Students, professionals, and everyday public users seeking fast, reliable, and distraction-free digital utilities.
+              </p>
+            </div>
+
+            {/* Brand voice */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "12px",
+                maxWidth: "800px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Brand voice
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                Friendly, transparent, community-driven, empowering, and uncompromisingly dedicated to public utility.
+              </p>
+            </div>
+
+            {/* Feedback */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "12px",
+                maxWidth: "800px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Feedback
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                Continuous community insights and direct user suggestions shape rapid feature iterations and interface improvements.
+              </p>
+            </div>
+
+            {/* Final design */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "12px",
+                maxWidth: "800px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "90px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                  textAlign: "left",
+                  textTransform: "capitalize",
+                }}
+              >
+                Final design
+              </span>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontFamily: FONT_FAMILY,
+                  fontWeight: 400,
+                  color: BLUE,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textAlign: "left",
+                }}
+              >
+                A clean, modern, high-contrast brutalist aesthetic optimized for performance, seamless cross-device compatibility, and accessibility.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* ===== CARD FOOTER ===== */}
