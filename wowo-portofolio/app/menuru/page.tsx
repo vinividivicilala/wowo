@@ -1204,7 +1204,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS "Productivity" & "Real Time" ===== */}
+          {/* ===== BARIS "Productivity" & "Real Time" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
           <div
             style={{
               display: "flex",
@@ -1217,12 +1217,12 @@ export default function MenuruPage() {
           >
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1231,12 +1231,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1325,7 +1325,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" ===== */}
+          {/* ===== BARIS 1: "Founder", "Developer [me]", & "User Research" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
           <div
             style={{
               display: "flex",
@@ -1338,12 +1338,12 @@ export default function MenuruPage() {
           >
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1352,12 +1352,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1366,12 +1366,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1380,7 +1380,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" ===== */}
+          {/* ===== BARIS 2: "Developer", [kosong], & "Design System" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
           <div
             style={{
               display: "flex",
@@ -1393,12 +1393,12 @@ export default function MenuruPage() {
           >
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1407,12 +1407,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1423,12 +1423,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1437,7 +1437,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" ===== */}
+          {/* ===== BARIS 3: [kosong], [kosong], & "System Security" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
           <div
             style={{
               display: "flex",
@@ -1450,12 +1450,12 @@ export default function MenuruPage() {
           >
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1466,12 +1466,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1482,12 +1482,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
@@ -1496,7 +1496,7 @@ export default function MenuruPage() {
             </span>
           </div>
 
-          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" ===== */}
+          {/* ===== BARIS 4: [kosong], [kosong], & "Interaction Design" (ISI UKURAN LEBIH KECIL / 40px) ===== */}
           <div
             style={{
               display: "flex",
@@ -1509,12 +1509,12 @@ export default function MenuruPage() {
           >
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1525,12 +1525,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 visibility: "hidden",
                 pointerEvents: "none",
@@ -1541,12 +1541,12 @@ export default function MenuruPage() {
             </span>
             <span
               style={{
-                fontSize: "90px",
+                fontSize: "40px",
                 fontFamily: FONT_FAMILY,
                 fontWeight: 400,
                 color: BLUE,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
                 textAlign: "left",
                 textTransform: "capitalize",
               }}
