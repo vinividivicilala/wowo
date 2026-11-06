@@ -1150,22 +1150,6 @@ export default function MenuruPage() {
             >
               Menuru Studio is a non-profit brand born from the founder&apos;s vision to assist the public at no cost.
             </p>
-            {/* ===== TAMBAHAN DESKRIPSI TENTANG MASALAH CATATAN & MEMBANTU MASYARAKAT SECARA FREE SEJAK 2024 (BAHASA INGGRIS) DI SISI KIRI ===== */}
-            <p
-              style={{
-                fontSize: "18px",
-                fontFamily: FONT_FAMILY,
-                fontWeight: 400,
-                color: BLACK,
-                opacity: 0.85,
-                lineHeight: 1.6,
-                letterSpacing: "-0.01em",
-                margin: "4px 0 0 0",
-                textAlign: "left",
-              }}
-            >
-              Established in 2024, Menuru was built to solve everyday note-taking challenges and streamline digital productivity. Our core mission is to provide reliable, accessible utilities to help the public completely free of charge.
-            </p>
           </div>
 
           {/* ===== GARIS BAWAH WARNA BIRU PUDAH (#0D3CFC35) ===== */}
@@ -1607,6 +1591,33 @@ export default function MenuruPage() {
                 Interaction Design
               </span>
             </div>
+          </div>
+
+          {/* ===== DESKRIPSI DI SISI KIRI DI BAWAH ISI ROLE ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+              marginTop: "40px",
+              maxWidth: "600px",
+              alignItems: "flex-start",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "22px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                lineHeight: 1.4,
+                letterSpacing: "-0.01em",
+                margin: 0,
+                textAlign: "left",
+              }}
+            >
+              Solving note-taking and productivity challenges while helping the public completely free of charge since 2024.
+            </p>
           </div>
         </div>
 
