@@ -624,7 +624,8 @@ export default function MenuruPage() {
   // Forum Diskusi State
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userName, setUserName] = useState("Farid Ardiansyah");
-  const [userAvatar, setUserAvatar] = useState("https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces");
+  // Menggunakan foto profil asli (real user avatar dari gravatar/placeholder otentik)
+  const [userAvatar, setUserAvatar] = useState("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y");
   const [forumTitle, setForumTitle] = useState("");
   const [forumDesc, setForumDesc] = useState("");
   const [discussions, setDiscussions] = useState<
@@ -635,7 +636,7 @@ export default function MenuruPage() {
       title: "How to maximize productivity using Menuru Notes?",
       desc: "Sharing tips on organizing daily tasks and real-time syncing features efficiently.",
       author: "Farid Ardiansyah",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces",
+      avatar: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
       date: "November 7, 2026",
     },
   ]);
@@ -1931,7 +1932,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== FORUM DISKUSI SECTION ===== */}
+          {/* ===== FORUM DISKUSI SECTION (Menyatu tanpa background tambahan) ===== */}
           <div
             style={{
               display: "flex",
@@ -2016,8 +2017,8 @@ export default function MenuruPage() {
                   src={userAvatar}
                   alt={userName}
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "44px",
+                    height: "44px",
                     borderRadius: "50%",
                     objectFit: "cover",
                     border: `2px solid ${BLUE}`,
@@ -2036,7 +2037,7 @@ export default function MenuruPage() {
               </div>
             )}
 
-            {/* Input Form Diskusi */}
+            {/* Input Form Diskusi (Tanpa box background kaku, menyatu langsung dengan halaman) */}
             {isSignedIn && (
               <form
                 onSubmit={handleForumSubmit}
@@ -2047,17 +2048,15 @@ export default function MenuruPage() {
                   maxWidth: "800px",
                   gap: "16px",
                   marginTop: "10px",
-                  backgroundColor: "#F8FAFC",
-                  padding: "24px",
-                  borderRadius: "20px",
-                  border: `1.5px solid ${BLUE}30`,
+                  background: "transparent",
+                  padding: 0,
                   boxSizing: "border-box",
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "flex-start", width: "100%" }}>
                   <label
                     style={{
-                      fontSize: "16px",
+                      fontSize: "18px",
                       fontFamily: FONT_FAMILY,
                       fontWeight: 700,
                       color: BLUE,
@@ -2074,11 +2073,11 @@ export default function MenuruPage() {
                     style={{
                       width: "100%",
                       padding: "14px 16px",
-                      fontSize: "16px",
+                      fontSize: "18px",
                       fontFamily: FONT_FAMILY,
                       color: BLACK,
                       backgroundColor: WHITE,
-                      border: `1.5px solid ${BLUE}50`,
+                      border: `1.5px solid ${BLUE}`,
                       borderRadius: "12px",
                       outline: "none",
                       boxSizing: "border-box",
@@ -2089,7 +2088,7 @@ export default function MenuruPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "flex-start", width: "100%" }}>
                   <label
                     style={{
-                      fontSize: "16px",
+                      fontSize: "18px",
                       fontFamily: FONT_FAMILY,
                       fontWeight: 700,
                       color: BLUE,
@@ -2106,11 +2105,11 @@ export default function MenuruPage() {
                     style={{
                       width: "100%",
                       padding: "14px 16px",
-                      fontSize: "16px",
+                      fontSize: "18px",
                       fontFamily: FONT_FAMILY,
                       color: BLACK,
                       backgroundColor: WHITE,
-                      border: `1.5px solid ${BLUE}50`,
+                      border: `1.5px solid ${BLUE}`,
                       borderRadius: "12px",
                       outline: "none",
                       resize: "vertical",
@@ -2140,14 +2139,14 @@ export default function MenuruPage() {
               </form>
             )}
 
-            {/* Design Hasil Submit Diskusi */}
+            {/* Design Hasil Submit Diskusi (Menyatu clean langsung di halaman) */}
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
                 maxWidth: "800px",
-                gap: "20px",
+                gap: "32px",
                 marginTop: "20px",
               }}
             >
@@ -2158,17 +2157,14 @@ export default function MenuruPage() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
-                    padding: "24px",
-                    backgroundColor: WHITE,
-                    borderRadius: "20px",
-                    border: `1.5px solid ${BLUE}30`,
-                    boxShadow: "0 8px 32px rgba(13,60,252,0.08)",
-                    gap: "12px",
+                    background: "transparent",
+                    padding: 0,
+                    gap: "10px",
                     width: "100%",
                     boxSizing: "border-box",
                   }}
                 >
-                  {/* User info row */}
+                  {/* User info row (FP user asli & nama user) */}
                   <div
                     style={{
                       display: "flex",
@@ -2201,9 +2197,10 @@ export default function MenuruPage() {
                         {item.author}
                       </span>
                     </div>
+                    {/* Tanggal Submit */}
                     <span
                       style={{
-                        fontSize: "14px",
+                        fontSize: "16px",
                         fontFamily: FONT_FAMILY,
                         fontWeight: 400,
                         color: BLUE,
@@ -2217,11 +2214,11 @@ export default function MenuruPage() {
                   {/* Judul Diskusi */}
                   <h3
                     style={{
-                      fontSize: "24px",
+                      fontSize: "26px",
                       fontFamily: FONT_FAMILY,
                       fontWeight: 700,
                       color: BLUE,
-                      margin: 0,
+                      margin: "4px 0 0 0",
                       textAlign: "left",
                       lineHeight: 1.3,
                     }}
@@ -2232,7 +2229,7 @@ export default function MenuruPage() {
                   {/* Deskripsi Diskusi */}
                   <p
                     style={{
-                      fontSize: "18px",
+                      fontSize: "20px",
                       fontFamily: FONT_FAMILY,
                       fontWeight: 400,
                       color: BLACK,
