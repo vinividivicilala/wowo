@@ -621,6 +621,51 @@ export default function MenuruPage() {
   const [expandOpen, setExpandOpen] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
 
+  // Forum Diskusi State
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userName, setUserName] = useState("Farid Ardiansyah");
+  const [userAvatar, setUserAvatar] = useState("https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces");
+  const [forumTitle, setForumTitle] = useState("");
+  const [forumDesc, setForumDesc] = useState("");
+  const [discussions, setDiscussions] = useState<
+    Array<{ id: number; title: string; desc: string; author: string; avatar: string; date: string }>
+  >([
+    {
+      id: 1,
+      title: "How to maximize productivity using Menuru Notes?",
+      desc: "Sharing tips on organizing daily tasks and real-time syncing features efficiently.",
+      author: "Farid Ardiansyah",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces",
+      date: "November 7, 2026",
+    },
+  ]);
+
+  const handleSignInEmail = () => {
+    setIsSignedIn(true);
+  };
+
+  const handleSignInGmail = () => {
+    setIsSignedIn(true);
+  };
+
+  const handleForumSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!forumTitle.trim() || !forumDesc.trim()) return;
+
+    const newDiscussion = {
+      id: Date.now(),
+      title: forumTitle,
+      desc: forumDesc,
+      author: userName,
+      avatar: userAvatar,
+      date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+    };
+
+    setDiscussions([newDiscussion, ...discussions]);
+    setForumTitle("");
+    setForumDesc("");
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
@@ -1883,6 +1928,323 @@ export default function MenuruPage() {
               >
                 A clean, modern, high-contrast brutalist aesthetic optimized for performance, seamless cross-device compatibility, and accessibility.
               </p>
+            </div>
+          </div>
+
+          {/* ===== FORUM DISKUSI SECTION ===== */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              marginTop: "80px",
+              alignItems: "flex-start",
+              gap: "24px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "90px",
+                fontFamily: FONT_FAMILY,
+                fontWeight: 400,
+                color: BLUE,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.05,
+                textAlign: "left",
+                textTransform: "capitalize",
+              }}
+            >
+              Forum diskusi
+            </span>
+
+            {/* Sign in buttons (Sign email & Gmail) */}
+            {!isSignedIn ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "16px",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  onClick={handleSignInEmail}
+                  style={{
+                    padding: "14px 28px",
+                    backgroundColor: BLUE,
+                    color: WHITE,
+                    border: `2px solid ${BLUE}`,
+                    borderRadius: "12px",
+                    fontFamily: FONT_FAMILY,
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    letterSpacing: "-0.01em",
+                    boxShadow: "0 4px 16px rgba(13,60,252,0.3)",
+                  }}
+                >
+                  Sign in Email
+                </button>
+                <button
+                  onClick={handleSignInGmail}
+                  style={{
+                    padding: "14px 28px",
+                    backgroundColor: WHITE,
+                    color: BLUE,
+                    border: `2px solid ${BLUE}`,
+                    borderRadius: "12px",
+                    fontFamily: FONT_FAMILY,
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Sign in Gmail
+                </button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+                <img
+                  src={userAvatar}
+                  alt={userName}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    border: `2px solid ${BLUE}`,
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 700,
+                    color: BLUE,
+                  }}
+                >
+                  Signed in as {userName}
+                </span>
+              </div>
+            )}
+
+            {/* Input Form Diskusi */}
+            {isSignedIn && (
+              <form
+                onSubmit={handleForumSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  maxWidth: "800px",
+                  gap: "16px",
+                  marginTop: "10px",
+                  backgroundColor: "#F8FAFC",
+                  padding: "24px",
+                  borderRadius: "20px",
+                  border: `1.5px solid ${BLUE}30`,
+                  boxSizing: "border-box",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "flex-start", width: "100%" }}>
+                  <label
+                    style={{
+                      fontSize: "16px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 700,
+                      color: BLUE,
+                    }}
+                  >
+                    Discussion Title
+                  </label>
+                  <input
+                    type="text"
+                    value={forumTitle}
+                    onChange={(e) => setForumTitle(e.target.value)}
+                    placeholder="Enter discussion title..."
+                    required
+                    style={{
+                      width: "100%",
+                      padding: "14px 16px",
+                      fontSize: "16px",
+                      fontFamily: FONT_FAMILY,
+                      color: BLACK,
+                      backgroundColor: WHITE,
+                      border: `1.5px solid ${BLUE}50`,
+                      borderRadius: "12px",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "flex-start", width: "100%" }}>
+                  <label
+                    style={{
+                      fontSize: "16px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 700,
+                      color: BLUE,
+                    }}
+                  >
+                    Description
+                  </label>
+                  <textarea
+                    value={forumDesc}
+                    onChange={(e) => setForumDesc(e.target.value)}
+                    placeholder="Write your discussion description here..."
+                    required
+                    rows={4}
+                    style={{
+                      width: "100%",
+                      padding: "14px 16px",
+                      fontSize: "16px",
+                      fontFamily: FONT_FAMILY,
+                      color: BLACK,
+                      backgroundColor: WHITE,
+                      border: `1.5px solid ${BLUE}50`,
+                      borderRadius: "12px",
+                      outline: "none",
+                      resize: "vertical",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  style={{
+                    padding: "14px 28px",
+                    backgroundColor: BLUE,
+                    color: WHITE,
+                    border: `2px solid ${BLUE}`,
+                    borderRadius: "12px",
+                    fontFamily: FONT_FAMILY,
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    alignSelf: "flex-start",
+                    boxShadow: "0 4px 16px rgba(13,60,252,0.3)",
+                  }}
+                >
+                  Submit Discussion
+                </button>
+              </form>
+            )}
+
+            {/* Design Hasil Submit Diskusi */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                maxWidth: "800px",
+                gap: "20px",
+                marginTop: "20px",
+              }}
+            >
+              {discussions.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    padding: "24px",
+                    backgroundColor: WHITE,
+                    borderRadius: "20px",
+                    border: `1.5px solid ${BLUE}30`,
+                    boxShadow: "0 8px 32px rgba(13,60,252,0.08)",
+                    gap: "12px",
+                    width: "100%",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  {/* User info row */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      width: "100%",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <img
+                        src={item.avatar}
+                        alt={item.author}
+                        style={{
+                          width: "48px",
+                          height: "48px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          border: `2px solid ${BLUE}`,
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          fontFamily: FONT_FAMILY,
+                          fontWeight: 700,
+                          color: BLUE,
+                        }}
+                      >
+                        {item.author}
+                      </span>
+                    </div>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontFamily: FONT_FAMILY,
+                        fontWeight: 400,
+                        color: BLUE,
+                        opacity: 0.8,
+                      }}
+                    >
+                      {item.date}
+                    </span>
+                  </div>
+
+                  {/* Judul Diskusi */}
+                  <h3
+                    style={{
+                      fontSize: "24px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 700,
+                      color: BLUE,
+                      margin: 0,
+                      textAlign: "left",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  {/* Deskripsi Diskusi */}
+                  <p
+                    style={{
+                      fontSize: "18px",
+                      fontFamily: FONT_FAMILY,
+                      fontWeight: 400,
+                      color: BLACK,
+                      margin: 0,
+                      textAlign: "left",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
