@@ -621,32 +621,28 @@ export default function MenuruPage() {
   const [expandOpen, setExpandOpen] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
 
-  // Forum Diskusi State
+  // Forum Diskusi State (Tanpa data awal/bawaan dari pemilik)
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [userName, setUserName] = useState("Farid Ardiansyah");
-  // Menggunakan foto profil asli (real user avatar dari gravatar/placeholder otentik)
-  const [userAvatar, setUserAvatar] = useState("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y");
+  const [userName, setUserName] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
   const [forumTitle, setForumTitle] = useState("");
   const [forumDesc, setForumDesc] = useState("");
   const [discussions, setDiscussions] = useState<
     Array<{ id: number; title: string; desc: string; author: string; avatar: string; date: string }>
-  >([
-    {
-      id: 1,
-      title: "How to maximize productivity using Menuru Notes?",
-      desc: "Sharing tips on organizing daily tasks and real-time syncing features efficiently.",
-      author: "Farid Ardiansyah",
-      avatar: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
-      date: "November 7, 2026",
-    },
-  ]);
+  >([]);
 
+  // Handler Login via Email
   const handleSignInEmail = () => {
     setIsSignedIn(true);
+    setUserName("User Email");
+    setUserAvatar("https://api.dicebear.com/7.x/identicon/svg?seed=EmailUser");
   };
 
+  // Handler Login via Gmail
   const handleSignInGmail = () => {
     setIsSignedIn(true);
+    setUserName("User Gmail");
+    setUserAvatar("https://api.dicebear.com/7.x/avataaars/svg?seed=GmailUser");
   };
 
   const handleForumSubmit = (e: React.FormEvent) => {
@@ -657,8 +653,8 @@ export default function MenuruPage() {
       id: Date.now(),
       title: forumTitle,
       desc: forumDesc,
-      author: userName,
-      avatar: userAvatar,
+      author: userName || "Anonymous",
+      avatar: userAvatar || "https://api.dicebear.com/7.x/identicon/svg?seed=User",
       date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
     };
 
@@ -1299,7 +1295,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== GAMBAR "images/jhhg.JPG" (DIPERBESAR KE KANAN & TANPA BORDER BIRU) ===== */}
+          {/* ===== GAMBAR "images/jhhg.JPG" ===== */}
           <div
             style={{
               width: "100vw",
@@ -1932,7 +1928,7 @@ export default function MenuruPage() {
             </div>
           </div>
 
-          {/* ===== FORUM DISKUSI SECTION (Menyatu tanpa background tambahan) ===== */}
+          {/* ===== FORUM DISKUSI SECTION (Menyatu tanpa background tambahan, tanpa testimoni pemilik) ===== */}
           <div
             style={{
               display: "flex",
@@ -1958,7 +1954,7 @@ export default function MenuruPage() {
               Forum diskusi
             </span>
 
-            {/* Sign in buttons (Sign email & Gmail) */}
+            {/* Tombol Login Sign in Email dan Sign in Gmail */}
             {!isSignedIn ? (
               <div
                 style={{
@@ -2013,6 +2009,7 @@ export default function MenuruPage() {
                   gap: "12px",
                 }}
               >
+                {/* FP User Asli tanpa border biru */}
                 <img
                   src={userAvatar}
                   alt={userName}
@@ -2021,7 +2018,7 @@ export default function MenuruPage() {
                     height: "44px",
                     borderRadius: "50%",
                     objectFit: "cover",
-                    border: `2px solid ${BLUE}`,
+                    border: "none",
                   }}
                 />
                 <span
@@ -2037,7 +2034,7 @@ export default function MenuruPage() {
               </div>
             )}
 
-            {/* Input Form Diskusi (Tanpa box background kaku, menyatu langsung dengan halaman) */}
+            {/* Input Form Diskusi */}
             {isSignedIn && (
               <form
                 onSubmit={handleForumSubmit}
@@ -2139,7 +2136,7 @@ export default function MenuruPage() {
               </form>
             )}
 
-            {/* Design Hasil Submit Diskusi (Menyatu clean langsung di halaman) */}
+            {/* Design Hasil Submit Semua User (Tanpa border/bulat biru di FP User) */}
             <div
               style={{
                 display: "flex",
@@ -2164,7 +2161,7 @@ export default function MenuruPage() {
                     boxSizing: "border-box",
                   }}
                 >
-                  {/* User info row (FP user asli & nama user) */}
+                  {/* User info row */}
                   <div
                     style={{
                       display: "flex",
@@ -2175,6 +2172,7 @@ export default function MenuruPage() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      {/* Real FP User tanpa garis/bulatan biru */}
                       <img
                         src={item.avatar}
                         alt={item.author}
@@ -2183,7 +2181,8 @@ export default function MenuruPage() {
                           height: "48px",
                           borderRadius: "50%",
                           objectFit: "cover",
-                          border: `2px solid ${BLUE}`,
+                          border: "none",
+                          boxShadow: "none",
                         }}
                       />
                       <span
